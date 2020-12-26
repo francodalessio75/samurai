@@ -1,0 +1,580 @@
+
+/* ALL */
+
+*
+{
+    margin: 0;/*The margin is the space around elements, outside of any defined borders.*/
+    padding: 0;/*The padding is the space around an element's content, inside of any defined borders.*/
+    font-size: 100%;/*Sets elements font-size as  100% of  them parent element's font size*/
+    box-sizing: border-box;/*Includes padding and border in the element's total width and height*/
+    font-family: sans-serif;
+}
+
+
+/*******************************************************************************/
+/********************************  BODY ***************************************/
+/******************************************************************************/
+
+
+body
+{
+    position: absolute;/*  positioned relative to the nearest positioned ancestor that in this case is the document. Make body an ancestor reference for absolute positioned elements   */
+    height: 100%;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: scroll;/*The overflow is clipped, and the rest of the content will be invisible*/
+}
+
+/*  Rule A */
+body > div  /*Selects all <div> elements where the parent is body*/
+{
+    position: absolute;/*all div elements in the body are positioned relative to the top-left corner of the body */
+}
+
+
+
+/******************************************************************************/
+/******************** HEADER **************************************************/
+/*******************************************************************************/
+
+
+
+.Header/* header position is absolute relative to the body because of the rule A */
+{
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3rem;
+    color: blue;
+    background-color: lightblue;
+}
+
+.Header > .SWName
+{
+    position: absolute;/*relative to Header element*/
+    top: 50%;/*middle height referred to the top of the title*/
+    left: 1rem;
+    transform: translate(0,-50%);/*translate y subtracting half title from the half of header container*/
+    font-size: 150%;/*150% of norma body letters elements*/
+    font-weight: 600;
+}
+
+.Header .PageTitle
+{
+    position: absolute;/*relative to Header element*/
+    top: 50%;/*middle height referred to the top of the title*/
+    left: 50%;
+    transform: translate(-50%,-50%);/*translate y subtracting half title from the half of header container*/
+    font-size: 150%;
+}
+
+/*******************************************************************************/
+/******************************** MENU BAR ************************************/
+/******************************************************************************/
+
+.Menu /* menu position is absolute relative to the body because of the rule A */
+{
+    top:3rem;/* 3 rem from the top of body container just below heder since it is high 3 rem */
+    height: 2rem;
+    overflow: hidden;/* necessary becouse not inherited from body*/
+    background-color: #333;
+    width: 100%;
+}
+
+                /**************  MENU BAR BUTTONS ********/
+
+        .Menu .Button
+        {
+            position: relative;/*its normal position is static in Menu container that is "inline" behaviour  */
+            left: 10rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: darkgray;
+            border: thin solid darkgray;
+            padding: .125rem  1rem;
+            margin-right: 2rem;
+            font-size: 90%;
+            color: white;
+            font-weight: 600;
+        }
+
+        .Menu .Button:hover
+        {
+            color: black;
+            background-color: white;
+        }
+        
+        /************* DROP DOWN MENU ************************/
+        
+        /* POSITION */
+        .Dropdown_registry {
+            position: absolute;
+            top: 3.3rem;
+            left:68rem;
+            z-index: 1;
+        }
+        
+        /* POSITION */
+        .Dropdown_tools {
+            position: absolute;
+            top: 3.3rem;
+            left:80rem;
+            z-index: 1;
+        }
+        
+        
+        /* BUTTON WIDTH */
+        .DropBtn {
+            background-color: darkgray;
+            border: thin solid darkgray;
+            padding: .125rem  .30rem;
+            margin-right: .5rem;
+            font-size: 90%;
+            color: white;
+            font-weight: 600;
+            border-radius: .125rem;
+            cursor: pointer;
+        }
+        
+        /* Dropdown Button */
+        .DropBtn.Tools {
+            padding: .125rem  2.4rem;
+        }
+        
+                /* Dropdown Button */
+        .DropBtn.Registry {
+            padding: .125rem  2.05rem;
+        }
+        
+        /* Dropdown button on hover & focus */
+        .DropBtn:hover, .DropBtn:focus {
+            color: black;
+            background-color: white;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .Dropdown_content{
+            display: none;
+            position: absolute;
+            background-color: darkgray;
+            /*min-width: 13rem;*/
+            z-index: 1;
+        }
+        
+        /* Dropdown Content (Hidden by Default) */
+        .Dropdown_content.Registry{
+            min-width: 10rem;
+        }
+        
+        /* Dropdown Content (Hidden by Default) */
+        .Dropdown_content.Tools{
+            min-width: 10rem;
+        }
+
+
+        /* Links inside the dropdown */
+        .Dropdown_content div {
+            background-color: darkgray;
+            padding: .5rem  .30rem;
+            margin-right: .5rem;
+            font-size: 90%;
+            color: white;
+            font-weight: 600;
+            border-radius: .125rem;
+            border-bottom: 1px solid black;
+            border-top: 1px solid #3c3c3c;
+            cursor: pointer;
+        }
+        
+        .Dropdown_content div:first-child {
+            border-top: none;
+        }
+ 
+        .Dropdown_content div:last-child {
+            border-bottom: none;
+        }
+        
+        /* Dropdown button on hover & focus */
+        .Dropdown_content div:hover {
+            color: black;
+            background-color: white;
+        }
+        
+        /* Show the dropdown menu (use JS to add this class to the
+        .dropdown-content container when the user clicks on the dropdown button) */
+        .Show {display:block;}
+        
+        
+/*******************************************************************************/
+/*****************   FILTER SECTION ON LEFT SIDE ******************************/
+/******************************************************************************/
+
+
+.Filters /* Filters section position is absolute relative to the body because of the rule A */
+{
+    display: inline-block;/* it follows the normal page content flow ( inline ) but dimensions poperties can be assigned to it*/
+    top: 5rem;/* the height of the header (3) plus the height of the menu (2) */
+    bottom: 3rem;/*the height of the footer*/
+    left: 0;
+    width: 14rem;
+    background-color: lightgray;
+}
+
+
+.Filters > *
+{
+    width: calc(100% - 1rem );
+    margin: .5rem;
+}
+
+.Filters_label
+{
+    font-size:120%;
+    text-align: center;
+    margin-bottom: 1REM;
+}
+
+.Filters_period_label
+{
+    font-size:90%;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.Filters_status_label
+{
+    font-size:90%;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.Filters #refresh
+{
+    position: absolute;
+    text-align:center;
+}
+
+/*******************************************************************************
+/************** CONTENT : ALL BETWEEN MENU  AND FOOTER *********************/
+/******************************************************************************/
+
+ /* Content section position is absolute relative to the body because of the rule A */
+.Content
+{
+    top: 5rem;/*header height plus menu height*/
+    bottom: 3rem;/*footer height*/
+    right: 0;
+    left: 0;
+    font-size: 100%;
+    color: black;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/*******  CONTENT WHEN THE PAGE HAS A FILTERING FUNCTION **********/
+
+/* RiGHT SIZE OF THE PAGE: FILTERED CONTENT*/
+.Content.WithFilter /* Content with filters position property is absolute relative to the body because of the rule A */
+{
+    left: 14rem;
+}
+
+/****************************************************************************************/
+/************************* GENERAL CONTENT TABLE E.G.:  orders.jsp **********************/
+/****************************************************************************************/
+
+
+.Table
+{
+    border-collapse: collapse;/* joins together cell and table margin */
+    width: 100%;
+}
+
+.Table th
+{
+    background-color: white;
+    padding-top: 1rem;
+    padding-bottom: .5rem;
+    
+}
+
+.Table td
+{
+    padding: .25rem;
+    border: thin solid grey;
+}
+
+.Table tr:hover
+{
+    background-color: lightblue;
+    cursor: pointer;
+}
+
+td.Code
+{
+    width: 5rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+td.Date
+{
+    width:7rem;
+    text-align: center;
+}
+
+/************************* DETAILS TABLE E.G. : customer_details.jsp **********/
+
+.Details_table
+{
+    border-collapse: collapse;
+    width: 100%;
+    left: 14rem;
+}
+
+.Details_table th
+{
+    padding: .5rem;
+    border: thin solid gray;
+    color: blue;
+    background-color: lightblue;
+    width:10rem;
+    font-weight: 700;
+}
+
+
+/**/
+.Details_table td 
+{
+    padding: .25rem;
+    border: thin solid grey;
+    font-weight: 500;
+}
+
+/**/
+.Details_table td input
+{
+    border: none;
+    width:100%;
+    font-weight: 500;
+}
+
+
+.Changed
+{
+    background-color: lightgreen;
+}
+
+/*************************  TEXT AND PASSWORD INPUTS ***************************/
+
+/*Credentials inputs*/
+input[type="text"],
+input[type="password"]
+{
+    outline: none;
+    border: none;
+    border-bottom: 1px solid black;
+}
+
+/**************************   BUTTONS *****************************************/
+
+/* All buttons */
+input[type="button"]
+{
+    outline: none;/* without any line out of the border*/
+}
+
+.Button
+{
+    display: inline-block;
+    padding: .25rem;
+    color: white;
+    background-color: blue;
+    border: thin solid blue;
+    border-radius: .250rem;
+    cursor: pointer;
+}
+
+
+.Button:hover
+{
+    color: blue;
+    background-color: white;
+}
+
+/* log out button in the menu bar */
+#logoutButton.Button
+{
+    position: absolute;
+    right: .25rem;
+    left: auto;
+}
+
+/* change password button in the menu bar */
+#changePasswordButton.Button
+{
+    position: absolute;
+    right: 5.5rem;
+    /*right: .rem;*/
+    left: auto;
+}
+/************  OPERATIONS BUTTONS IN THE FOOTER *******/
+.Button.Operation
+{
+    margin-top: 2rem;
+    
+}
+
+.Button.Operation.Update
+{
+    display:none;
+    
+}
+
+.Button.Operation.Update.Visible
+{
+    display:inline-block;
+}
+
+/*********** CONFIRMATION BUTTONS *******************/
+
+.Button.Accept
+{
+    background-color: green;
+    border: thin solid green;
+    margin-right: 7rem;
+    margin-left: 9rem;
+}
+
+.Button.Accept:hover
+{
+    color: green;
+    background-color: white;
+}
+
+/********** DISCARD BUTTONS ***************************/
+
+.Button.Cancel
+{
+    background-color: red;
+    border: thin solid red;
+}
+
+.Button.Cancel:hover
+{
+    color: red;
+    background-color: white;
+    
+}
+
+/*********************** Label Buttons****************************************
+.TableLable
+{
+    padding: .25rem;
+    color: blue;
+    background-color: lightblue;
+    border: thin solid blue;
+    border-radius: .125rem;
+}
+/**************************** Footer***************************************** */
+
+.Footer
+{
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3rem;
+    color: blue;
+    background-color: lightblue;
+    text-align: right;
+    padding: .5rem;
+}
+
+/*Message in the footer */
+.Footer .Footer_message
+{
+    position: absolute;
+    top: 50%;
+    left: 85%;
+    transform: translate(-50%,-50%);
+}
+
+/*user name in the footer */
+.Footer .User_name
+{
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    transform: translateY(-50%);
+    font-size: 120%;
+    color: blue;
+}
+
+
+/*-------------------- MODAL SCREEN  --------------------*/
+
+/* the div containing the screen */
+.Modal_screen
+{
+    display: none;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    background-color: rgba(0,0,0,.25);
+}
+/*input fields of new record*/
+.Modal_screen input
+{
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+/* makes the modal screen visible*/
+.Modal_screen.Visible
+{
+    display: inline-block;
+}
+/* form for creating a new record in the database*/
+.New_record
+{
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    padding: 1rem;
+    min-height: 10rem;
+}
+
+/* form for creating a new record in the database*/
+.New_record input, .New_record SELECT, .New_record textArea
+{
+    min-width: 40rem;
+    padding-bottom: .5rem;
+}
+
+/* form for creating a new record in the database*/
+.New_record span
+{
+    position:relative;
+    top:4rem;
+    margin-left: 3rem;
+}
+
+/*--------------------------------------------*/
+
+/*tasks in order_details page*/
+.Tasks
+{
+    position:absolute;
+    top:20rem;
+    width:100%;
+    overflow-y: auto;
+}
+
+/* ICONS*/
+
+#searchIcon
+{
+    margin-right: 1rem;
+}

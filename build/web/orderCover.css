@@ -1,0 +1,245 @@
+
+*
+{
+    box-sizing: border-box;/*Includes padding and border in the element's total width and height*/
+    font-family: sans-serif;
+    
+}
+#mainContainer
+{
+    position: relative;
+    border-collapse: collapse;
+    width: 700px;
+    height: 1050px;
+    display: inline-block;
+    top: 1rem;
+    left: 830px;
+    border: .3rem solid black;
+    border-radius: 1rem;
+
+}
+
+    #banner
+    {
+        position: absolute;
+        top:-.3rem;
+        left: 50%;
+        transform: translateX(-50%);
+        border: .3rem solid black;
+        border-radius: 1rem;
+        width: 700px;
+        height: 180px;
+    }
+
+    #jobTypeContainer
+    {
+        display: inline-block;
+        position: absolute;
+        top: 11rem;
+        left: 0.5rem;
+        height: 190px;
+        width: 670px;
+    }
+
+        #jobTypeLabel
+        {
+            position:absolute;
+            top: .5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            height:2rem;
+            width: 20rem;
+            text-align: center;
+            font-size: 100%;
+            font-family: Times New Roman;
+            font-weight: bold;
+        }
+
+        #jobTypeText
+        {
+            position:absolute;
+            width:41rem;
+            height: 8rem;
+            top: 3.4rem;
+            left: .3rem;
+            font-size: 250%;
+            font-weight: bold;
+            text-align: center;
+            border-bottom:.1rem solid black;
+        }
+    
+    #machinaryModelContainer
+    {
+        display: inline-block;
+        position: absolute;
+        top: 23rem;
+        left: 50%;
+        height: 200px;
+        transform: translateX(-50%);
+        width: 690px;
+        
+       
+    }
+
+    #machinaryModelLabel
+    {
+        position:absolute;
+        top: .3rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20rem;
+        text-align: center;
+        font-size: 100%;
+        font-weight: bold;
+        font-family: Times New Roman;
+        
+    }
+
+    #machinaryModelText
+    {
+        display: inline-block;
+        position: absolute;
+        top: 2.5rem;
+        left: 50%;
+        height: 9.5rem;
+        transform: translateX(-50%);
+        width: 41rem;
+        font-size: 250%;
+        font-weight: bold;
+        text-align: center;
+        border-bottom: .1rem solid black;
+        
+    }
+    
+    #notesContainer
+    {
+        display: inline-block;
+        position: absolute;
+        top: 35rem;
+        left: 50%;
+        height: 200px;
+        transform: translateX(-50%);
+        width: 690px;
+    }
+
+    #notesLabel
+    {
+        position:absolute;
+        top: .3rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20rem;
+        text-align: center;
+        font-size: 130%;
+        font-weight: bold;
+        font-family: Times New Roman;
+    }
+
+    #notesText
+    {
+        display: inline-block;
+        position: absolute;
+        top: 2.5rem;
+        left: 50%;
+        height: 9.5rem;
+        width:41rem;
+        transform: translateX(-50%);
+        font-size: 250%;
+        font-weight: bold;
+        text-align: center;
+        border-bottom: .1rem solid black;
+    }   
+    
+    #orderCodeContainer
+    {
+        display: inline-block;
+        position: absolute;
+        top: 45.6rem;
+        left: 50%;
+        height: 10rem;
+        transform: translateX(-50%);
+        width: 43rem;
+    }
+
+        #orderCodeLabel
+        {
+            position:absolute;
+            top: 4rem;
+            left: 3rem;
+            font-size: 160%;
+            font-weight: 700;
+            font-family: Times New Roman;
+        }
+        
+        #orderCode
+        {
+            position:absolute;
+            top: 1.5rem;
+            left: 23rem;
+            width:18rem;
+            height: 7rem;
+            /*color : white;*/
+            /*background-color: black;*/
+            font-size: 500%;
+            font-weight: 800;
+            text-align: center;
+            /*border-radius: 25px;*/
+        }
+        
+    #orderDateContainer
+    {
+        display: inline-block;
+        position: absolute;
+        top: 53.5rem;
+        left: 50%;
+        height: 10rem;
+        transform: translateX(-50%);
+        width: 43rem;
+    }
+        
+        #orderOpeningDateLabel
+        {
+            position:absolute;
+            top: 2rem;
+            left: 3rem;
+            font-size: 160%;
+            font-weight: 700;
+            font-family: Tomes New Roman;
+        }
+        
+        #orderOpeningDate
+        {
+            position:absolute;
+            top: 1rem;
+            left: 22rem;
+            width:18rem;
+            height:4rem;
+            font-size: 280%;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        #orderClosingDateLabel
+        {
+            position:absolute;
+            top: 6rem;
+            left: 3rem;
+            font-size: 160%;
+            font-weight: 700;
+            font-family: Tomes New Roman;
+        }
+        
+        #orderClosingDate
+        {
+            position:absolute;
+            top: 5rem;
+            left: 23rem;
+            width:18rem;
+            height:4rem;
+            font-size: 280%;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+
+@page { size: auto;  margin-left: 1px; margin-top: 0px; margin-bottom: 0px; }

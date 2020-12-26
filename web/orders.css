@@ -1,0 +1,88 @@
+#Filters_status_label{
+    
+}
+
+#search_order_description{
+    
+}
+
+#period
+{
+    position:absolute;
+    top:30rem;
+    text-align: center;
+}
+
+#new_order_button{
+    position: absolute;
+    text-align: center;
+    left:0rem;
+   top:38rem;
+   
+}
+
+#dates{
+    
+}
+
+#status_label{
+    
+}
+
+#status{
+    
+}
+
+
+#refresh{
+    top:30rem;
+    left:0.1rem;
+}
+
+
+
+#suggested_checkbox
+{
+    width: 5rem;
+    
+}
+
+/* not editables inputs*/
+#code_label,#date_label,#customer_label,#creator_label,#totals_label,#title_label
+{
+    font-weight: 600;
+    color: darkblue;
+}
+
+#confirm_label
+{
+    position:absolute;
+    top:36rem;
+    text-align: center;
+    font-size: 100%;
+    font-weight: 600;
+}
+
+
+td.CompletionState
+{
+    width:9rem;
+    text-align: center;
+    font-weight : 500;
+}
+
+#dataOrdine_input
+{
+    width: 15rem;
+    font-size:1.3rem;
+}
+
+#story_data_input
+{
+    width:93%;
+}
+
+
+
+
+

@@ -1,0 +1,50 @@
+/*-------------------- VAT CODE  --------------------*/
+
+.Foreign_vatcode, .Italian_vatcode
+{
+    display: none;
+
+}
+
+
+.Foreign_vatcode.Visible, .Italian_vatcode.Visible
+{
+    display: inline-block;
+}
+
+.Foreign_vatcode_button, .Italian_vatcode_button
+{
+    display: none;
+
+}
+
+#logo_file
+{
+    display: inline-block;
+    width: calc(100% - 18.5rem);
+}
+
+#logo_upload
+{
+    display: inline-block;
+    width: 16rem;
+    position:absolute;
+    left:29rem
+}
+
+#logo_download
+{
+    display: inline-block;
+    width: 11rem;
+    text-decoration: none;
+    text-align: center;
+    position:absolute;
+    left:49rem
+}
+
+#logo_upload:hover,
+#logo_download:hover
+{
+    background-color: lightblue;
+}
+

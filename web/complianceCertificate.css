@@ -1,0 +1,194 @@
+::-webkit-input-placeholder {
+   color: gray;
+   font-weight: 500;
+   text-align: left;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: black;
+   font-weight: 400;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    color: black;
+   font-weight: 400;
+}
+
+:-ms-input-placeholder {  
+    color: black;
+   font-weight: 400;
+}
+
+/*********************** Label Buttons****************************************/
+
+.TableLable
+{
+    margin-right: 1rem;
+    margin-left: 1rem;
+    color: black;
+    font-weight: 700;
+}
+
+.Button.Show
+{
+    display:inline-block;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: 6rem;
+    text-decoration: none;
+}
+
+/********************  TABLES *********************************/
+
+.ThList
+{
+    font-size:120%;
+    font-weight:  bolder;
+    text-align: center;
+}
+
+.Table thead
+{
+    font-size:120%;
+    font-weight:  bolder;
+    text-align: center;
+}
+
+.Table td
+{
+    font-size:130%;
+    font-weight:  bold;
+}
+
+.Table tr:hover
+{
+    /*background-color: lightblue;*/
+    cursor: default;
+}
+
+.Table td.Pdf:hover
+{
+    color: white;
+    background-color: blue;
+
+}
+
+/**************** INPUTS ***********************/
+
+#customerOrderCode
+{
+    text-align: left;
+    
+}
+
+.Detail_header
+{
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+#firstForAttention_input,#secondForAttention_input
+{
+   display:inline-block;
+   width:35rem;
+   border:thin solid black;
+   font-size: 1.5rem;
+}
+
+#firstTitle_select_options, #secondTitle_select_options
+{
+    font-size: 1.5rem;
+}
+
+#number_input, #date_input
+{
+   width : 12rem;
+   padding: 0rem;
+   font-weight: bold;
+   font-size: 1.5rem;
+}
+
+/************* Buttons ************************/
+.Button.Delete
+{
+    display:inline-block;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+.Date
+{
+    width:10rem; 
+}
+
+#confirm_label
+{
+    position:absolute;
+    top: 2rem;
+    font-size: 100%;
+    font-weight: 600;
+}
+
+#certificateConfirmedButton
+{
+    position:absolute;
+    top: 10rem;
+    text-align: center;
+    
+}
+
+/* not editables inputs*/
+#certificate
+{
+    font-weight: 600;
+    color: darkblue;
+}
+
+
+/*makes bigger the checkbox*/
+input[type=checkbox] {
+  transform: scale(1.5);
+}
+
+input[type=text]
+{
+    border: none;
+    width:100%;
+}
+
+#pdfButton
+{
+    position:absolute;
+    top:18rem;
+    text-align: center;
+    
+}
+
+#newCertificateButton
+{
+    position:absolute;
+    top:35rem;
+    text-align: center;   
+}
+
+#orderDescription_input
+{
+    width:100%;
+    height: 10rem;
+}
+
+.Details_table th
+{
+    width:14rem;
+}
+
+.Details_table td
+{
+    font-size : 1.5rem;
+}
+
+#orderCode_input,#customerOrderCode_input
+{
+    font-size : 1.5rem;
+    font-weight: bold;
+}
+

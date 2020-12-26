@@ -1,0 +1,75 @@
+USERS POLICY
+An user is always created by an administrator by firstName, LastName and fiscalCode.
+Then the user on access can change his username and password.
+
+
+ORDERS UPDATING POLICY
+
+What's appropriate to be updated on an order?
+On creation are setted these fields:
+creator_id ( an user, administrator only?  ), code ( identity on database ), date ( automatic on current date but editable on creation ), 
+customer, machinary model ( datalist ), jobtype ( datalist ), completionState( InCorso default on creation ), notes, closingReason.
+
+creator_id ? no, it doesn't make any sense.
+
+Date ? no, creation date is important, think about there are related tasks the will have a date preceding the order !
+
+Customer? It could, but about machinary models it has been thougth to relates them to the customer to populate the datalist on creation. this means
+          that after update it culd be a machinary model in the record not belonging to customer. 
+          Say editable and it is better to discard the idea of implementing a relation beteween machinary models and customer.
+  
+Machinary model? Yes, different kinds of situations can happen, fo example if I want to add another machinary to the order becouse I'm 
+                 working to both instructions manuals at the same time.
+
+Job type ? It'is the same think of machinary model, this field can chenge during the task execution.
+
+Completion state? 
+Because of Paolo wants that completion state must be manged automatically in this way:
+on order creation -> 'In Corso', on order delivery -> 'Evaso'
+On delivery note creation, related to the choosen customer , pending ('In corso' ) orders must be suggested, so 
+susequent two cases must be faced:
+1) Setting as 'In corso' an order that has been delivered -> not possible 
+2) Setting as 'Evaso' an order not delivered : this case is contemplated by Paolo, so what can be done is
+    2.1) There'll be a field describing the completion state description that in case of 'Evaso' it could be of two types:
+        2.1.1) 'Evaso in date gg-mm-aaaa' -> without delivery notes;
+        2.1.2) 'Evaso in date gg-mm-aaaa' with document number of .... ->
+     So when a delivery note / immediate invoice is on creation on deletong a suggested row the user must confirm the completion state of the order
+     he can set it as 'Evaso' ( so it'll be 2.1.1) or ?in corso';
+     For rows not deleted relate orders will be set automatically 2.1.2;
+
+notes? yes.
+
+   
+DELIVERY NOTES AND INVOICES ISSUES
+
+
+Il giorno 30/gen/2018, alle ore 21:52, francodalessio@libero.it ha scritto:
+
+Ciao Paolo potresti rispondere alle seguenti domande:
+
+1) E' previsto che un ddt sia fatturato parzialmente, e quindi in più volte? SI
+
+2) E' previsto che ci siano voci ( righe ) di ddt che non saranno mai richiamate in fattura? SI ci possono essere anche dei DDT che nonvengono fatturati come ad esempio DDT di reso visione ecc..
+
+Inoltre volevo chiederti se i seguenti campi dei ddt devono essere mantenuti:
+
+rif. Vs ordine;
+data inizio trasporto;
+porto.
+
+SI Tutti e tre ci devono essere
+Se possibile magari ne parliamo a voce...
+
+Quando vuoi chiamarmi chiamami.
+
+Saluti Franco.
+
+
+23/02/2018
+Per la questione degli input assistiti e dei filtri si decide di fare in questo modo:
+ad esempio per i tipi lavoro ci sarà una tabella con tutti i tipi lavoro senza relazioni con nessuna altra tabella
+nei dettagli ordine in corrispondenza del tipo lavoro ci sarà una select con un campo di input associato, quindi una datalist 
+avente questo behaviour:
+on each digit in the input a JSfunction has called, this function reduces select options and if the user go away from the input without selecting 
+it suggest the first customer in the list, this by evaluating the value and if it does not corresponds to any value in the list it takes the first.
+In filters it must be different since I cuold need to filter all orders having as jotype a jobtype containing a certain word e.g. "Manuale".

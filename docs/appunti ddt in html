@@ -1,0 +1,44 @@
+            <tr>
+                <th colspan="3">
+                    <div class="PageHeader">
+					
+                        <img class="Logo" src="/Samurai/Resources/Logo/logoDuesse.jpg">
+                        <div class="CopyDestination">COPIA PER DUESSE<br>Mod. 07-07 Rev.1</div>
+
+                        <table class="DuesseContacts">
+                            <tr><td>DUESSE Service s.r.l.</td><td>Tel. +39 0331220913</td></tr>
+                            <tr><td>Via Agusta,51</td><td>Fax +39 0331220914 </td></tr>
+                            <tr><td>21017 Samarate (VA) Italy</td><td>Cod.Fisc. - P. IVA 02677820124</td></tr>
+                        </table>
+
+                        <div class="DPR">D.D.T.<br>( D.P.R. 14/08/96 N° 472 )</div>
+
+                        <div class="Date">N° <%=number%>  <%=year%><br>Del <%=date%></div>
+
+                        <table class="Recipient">
+                            <tr><td>Spett.</td><td><%=dbr_customer.getString("denomination")%></td></tr>
+                            <tr><td>Via.</td><td><%=dbr_customer.getString("address")%>, <%=dbr_customer.getString("houseNumber")%></td></tr>
+                            <tr><td>Città.</td><td><%=dbr_customer.getString("postalCode")%>, <%=dbr_customer.getString("city")%></td></tr>
+                        </table>
+
+                        <table class="Destination">
+                            <tr><td>Spett.</td><td><%=destDenomination%></td></tr>
+                            <tr><td>Via.</td><td><%=destAddress%></td></tr>
+                            <tr><td>Città.</td><td><%=destCity%></td></tr>
+                        </table>
+
+                        <table class="Transport1">
+                            <tr><td>Trasporto a cura del</td><td><%=transportResponsable%><</td></tr>
+                            <tr><td>Causale del Trasporto</td><td><%=transportReason%></td></tr>
+                            <tr><td>Aspetto esteriore dei beni</td><td><%=goodsExteriorAspect%></td></tr>
+                        </table>
+
+                        <table class="Transport2">
+                            <tr><td>Numero colli</td><td><%=packagesNumber == null ? "" : packagesNumber%></td></tr>
+                            <tr><td>Peso kg</td><td><%=weight == null ? "" : weight%></td></tr>
+                            <tr><td>Data inizio trasporto</td><td></td></tr>
+                        </table>
+
+                    </div>
+                </th>
+            </tr>

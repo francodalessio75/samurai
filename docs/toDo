@@ -1,0 +1,32 @@
+TO DO
+
+I) Shermata iniziale con le seguenti voci:
+    1) Clienti
+    2) Ordini
+    3) Attività
+    4) Trasportatori
+    5) Utenti
+
+II)e' opportuno inserire un pulsante "strumenti" per la gestione dei 
+dizionari : jobTypes e jobSubTypes?
+
+III) Come si fa a gestire una eccezione con mesaggio di notifica all'utente? come ad esempio la mancata unicità del codice fiscale?
+
+IV) Sistemare le voci del menu in funzione della pagina corrente
+
+V) Implementare la politica dei privilegi: chiedere a Paolo ed Angelo quali operazioni riservare agli amminstratori e quali agli operatori
+
+DONE
+
+I) VINCOLI DI UNICITA'
+    1) Tutti i codici fiscali;
+
+II) Test creazione e modifica trasportatore; 
+    Test creazione e modifica cliente;
+    Test creazione e modifica utente;
+        Implementazione funzionalità utenti attivi ed utenti non attivi;
+    Test creazione e modifica ordini; Il codice ordine si compone così: order_id-(ultime due cifre anno)
+
+
+DOMANDE
+E' opportuno consentire la creazione di una attività collegandola ad un ordine già chiuso? -> no

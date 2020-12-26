@@ -1,0 +1,49 @@
+==================== COSE DA FARE ====================
+
+- definizione del database - FATTO
+- implementare funzionalità di base del gate - FATTO
+    
+    GESTIONE UTENTI
+    - creazione nuovo utente da username/password -> user_id (insert su db) - FATTO
+    - modifica delle info utente user_id / lista proprietà -> SUCCESS | FAIL (update su db) - FATTO
+    - autenticazione da username/password -> SUCCESS+ info utente |FAIL - FATTO
+    
+    GESTIONE CLIENTI
+    - creazione nuovo cliente da denominazione -> customer_id (insert su db) - FATTO
+    - modifica delle info cliente da customer_id -> SUCCESS | FAIL (update su db) - FATTO
+    - lettura info cliente da customer_id -> info cliente  - FATTO
+    - lettura lista clienti da FILTRI - FATTO
+
+    GESTIONE COMMESSE
+    - creazione nuova commessa da customer_id / jobType_id / user_id -> order_id (insert su db) - FATTO
+    - modifica delle info commessa da order_id -> SUCCESS | FAIL (update su db) - FATTO
+    - creazione nuovo task da order_id / jobSubtype_id / user_id -> task_id (insert su db) - FATTO
+    - modifica delle info task da task_id + INFO -> SUCCESS | FAIL (update su db) - FATTO
+    - eliminazione task da task_id -> SUCCESS | FAIL (delete su db ) - FATTO
+    
+ROADMAP
+    - API UTENTI / CLIENTI / ORDINI+ATTIVITA'
+    - GUI UTENTI / CLIENTI / ORDINI+ATTIVITA'
+    - API DDT/FATTURAZIONE
+    - GUI DDT / FATTURAZIONE
+    - INGEGNERIZZAZIONE
+
+==================== STRUTTURA DEL SISTEMA ====================
+
+==================== DIARIO DI LAVORO ====================
+
+---------- 2018/01/31 ----------
+
+definizione piano di lavoro
+SVILUPPO API UTENTI
+
+---------- 2018/02/01 ----------
+
+sviluppate prime API e testate tutte con PostMan
+
+--------- 2018/02/02 -----------
+
+definizione struttura front-end :
+landing -> dashboard -> pagina di gestione generale -> pagine di consultazione dettagli
+
+

@@ -1,0 +1,661 @@
+
+*
+{
+    box-sizing: border-box;/*Includes padding and border in the element's total width and height*/
+    font-family: sans-serif;
+    
+}
+#mainContainer
+{
+    position: relative;
+    border-collapse: collapse;
+    width: 700px;
+    height: 1050px;
+    display: inline-block;
+    top: 1rem;
+    left: 830px;
+    border: .3rem solid black;
+    border-radius: 1rem;
+
+}
+
+    #banner
+    {
+        position: absolute;
+        /*
+        display: inline-block;
+        position: absolute;
+        top: -.5rem;
+        left: 50%;
+        transform: translateX(-50%);*/
+        
+        top:-.3rem;
+        left: 50%;
+        transform: translateX(-50%);
+        border: .3rem solid black;
+        border-radius: 1rem;
+        width: 700px;
+        height: 180px;
+    }
+
+    #jobTypeContainer
+    {
+        display: inline-block;
+        position: absolute;
+        top: 12rem;
+        left: 0rem;
+        height: 412px;
+        width: 348px;
+        border-right: .2rem solid black;
+    }
+
+        #jobTypeLabel
+        {
+            position:absolute;
+            top: 1rem;
+            left: 7rem;
+            font-size: 100%;
+            font-weight: 700;
+        }
+
+        #jobTypeText
+        {
+            position:absolute;
+            width:20rem;
+            height: 22rem;
+            top: 4rem;
+            left: 1rem;
+            font-size: 200%;
+            text-align: center;
+        }
+
+    #languagesContainer
+    {
+        display: inline-block;
+        position: absolute;
+        top: 12rem;
+        right: 0rem;
+        height: 412px;
+        width: 348px;
+        border-left: .2rem solid black;
+    }
+
+        #languagesLabel
+        {
+            position:absolute;
+            top: 1rem;
+            left: 7rem;
+            font-size: 100%;
+            font-weight: 700;
+        }
+
+        #languageCheckBox1
+        {
+            display: inline-block;
+            position:absolute;
+            width:1rem;
+            height: 1rem;
+            top: 4rem;
+            right: 19rem;
+            border: .2rem solid black;
+        }
+
+        #languageLine1
+        {
+            display: inline-block;
+            position:absolute;
+            width:5rem;
+            height: 1rem;
+            top: 4rem;
+            right: 13rem;
+            border-bottom: .2rem solid black;
+        }
+
+        #languageCheckBox2
+        {
+            display: inline-block;
+            position:absolute;
+            width:1rem;
+            height: 1rem;
+            top: 4rem;
+            right: 10rem;
+            border: .2rem solid black;
+        }
+
+        #languageLine2
+        {
+            display: inline-block;
+            position:absolute;
+            width:5rem;
+            height: 1rem;
+            top: 4rem;
+            right: 4rem;
+            border-bottom: .2rem solid black;
+        }
+
+        #languageCheckBox3
+        {
+            top: 7rem;
+            display: inline-block;
+            position:absolute;
+            width:1rem;
+            height: 1rem;
+            right: 19rem;
+            border: .2rem solid black;
+        }
+
+        #languageLine3
+        {
+            top: 7rem; 
+            display: inline-block;
+            position:absolute;
+            width:5rem;
+            height: 1rem;
+            right: 13rem;
+            border-bottom: .2rem solid black;
+        }
+
+        #languageCheckBox4
+        {
+            top: 7rem;
+            display: inline-block;
+            position:absolute;
+            width:1rem;
+            height: 1rem;
+            right: 10rem;
+            border: .2rem solid black;
+        }
+
+        #languageLine4
+        {
+            top: 7rem;
+            display: inline-block;
+            position:absolute;
+            width:5rem;
+            height: 1rem;
+            right: 4rem;
+            border-bottom: .2rem solid black;
+        }
+
+        #languageCheckBox5
+        {
+            top: 10rem;
+            display: inline-block;
+            position:absolute;
+            width:1rem;
+            height: 1rem;
+            right: 19rem;
+            border: .2rem solid black;
+        }
+
+        #languageLine5
+        {
+            top: 10rem; 
+            display: inline-block;
+            position:absolute;
+            width:5rem;
+            height: 1rem;
+            right: 13rem;
+            border-bottom: .2rem solid black;
+        }
+
+        #languageCheckBox6
+        {
+            top: 10rem;
+            display: inline-block;
+            position:absolute;
+            width:1rem;
+            height: 1rem;
+            right: 10rem;
+            border: .2rem solid black;
+        }
+
+        #languageLine6
+        {
+            top: 10rem;
+            display: inline-block;
+            position:absolute;
+            width:5rem;
+            height: 1rem;
+            right: 4rem;
+            border-bottom: .2rem solid black;
+        }
+
+        #languageCheckBox7
+        {
+            top: 13rem;
+            display: inline-block;
+            position:absolute;
+            width:1rem;
+            height: 1rem;
+            right: 19rem;
+            border: .2rem solid black;
+        }
+
+        #languageLine7
+        {
+            top: 13rem; 
+            display: inline-block;
+            position:absolute;
+            width:5rem;
+            height: 1rem;
+            right: 13rem;
+            border-bottom: .2rem solid black;
+        }
+
+        #languageCheckBox8
+        {
+            top: 13rem;
+            display: inline-block;
+            position:absolute;
+            width:1rem;
+            height: 1rem;
+            right: 10rem;
+            border: .2rem solid black;
+        }
+
+        #languageLine8
+        {
+            top: 13rem;
+            display: inline-block;
+            position:absolute;
+            width:5rem;
+            height: 1rem;
+            right: 4rem;
+            border-bottom: .2rem solid black;
+        }
+
+        #languageCheckBox9
+        {
+            top: 16rem;
+            display: inline-block;
+            position:absolute;
+            width:1rem;
+            height: 1rem;
+            right: 19rem;
+            border: .2rem solid black;
+        }
+
+        #languageLine9
+        {
+            top: 16rem; 
+            display: inline-block;
+            position:absolute;
+            width:5rem;
+            height: 1rem;
+            right: 13rem;
+            border-bottom: .2rem solid black;
+        }
+
+        #languageCheckBox10
+        {
+            top: 16rem;
+            display: inline-block;
+            position:absolute;
+            width:1rem;
+            height: 1rem;
+            right: 10rem;
+            border: .2rem solid black;
+        }
+
+        #languageLine10
+        {
+            top: 16rem;
+            display: inline-block;
+            position:absolute;
+            width:5rem;
+            height: 1rem;
+            right: 4rem;
+            border-bottom: .2rem solid black;
+        }
+
+        #languageCheckBox11
+        {
+            top: 19rem;
+            display: inline-block;
+            position:absolute;
+            width:1rem;
+            height: 1rem;
+            right: 19rem;
+            border: .2rem solid black;
+        }
+
+        #languageLine11
+        {
+            top: 19rem; 
+            display: inline-block;
+            position:absolute;
+            width:5rem;
+            height: 1rem;
+            right: 13rem;
+            border-bottom: .2rem solid black;
+        }
+
+        #languageCheckBox12
+        {
+            top: 19rem;
+            display: inline-block;
+            position:absolute;
+            width:1rem;
+            height: 1rem;
+            right: 10rem;
+            border: .2rem solid black;
+        }
+
+        #languageLine12
+        {
+            top: 19rem;
+            display: inline-block;
+            position:absolute;
+            width:5rem;
+            height: 1rem;
+            right: 4rem;
+            border-bottom: .2rem solid black;
+        }
+
+        #languageCheckBox13
+        {
+            top: 22rem;
+            display: inline-block;
+            position:absolute;
+            width:1rem;
+            height: 1rem;
+            right: 19rem;
+            border: .2rem solid black;
+        }
+
+        #languageLine13
+        {
+            top: 22rem; 
+            display: inline-block;
+            position:absolute;
+            width:5rem;
+            height: 1rem;
+            right: 13rem;
+            border-bottom: .2rem solid black;
+        }
+
+        #languageCheckBox14
+        {
+            top: 22rem;
+            display: inline-block;
+            position:absolute;
+            width:1rem;
+            height: 1rem;
+            right: 10rem;
+            border: .2rem solid black;
+        }
+
+        #languageLine14
+        {
+            top: 22rem;
+            display: inline-block;
+            position:absolute;
+            width:5rem;
+            height: 1rem;
+            right: 4rem;
+            border-bottom: .2rem solid black;
+        }
+
+        #languageCheckBox15
+        {
+            top: 25rem;
+            display: inline-block;
+            position:absolute;
+            width:1rem;
+            height: 1rem;
+            right: 19rem;
+            border: .2rem solid black;
+        }
+
+        #languageLine15
+        {
+            top: 25rem; 
+            display: inline-block;
+            position:absolute;
+            width:5rem;
+            height: 1rem;
+            right: 13rem;
+            border-bottom: .2rem solid black;
+        }
+
+        #languageCheckBox16
+        {
+            top: 25rem;
+            display: inline-block;
+            position:absolute;
+            width:1rem;
+            height: 1rem;
+            right: 10rem;
+            border: .2rem solid black;
+        }
+
+        #languageLine16
+        {
+            top: 25rem;
+            display: inline-block;
+            position:absolute;
+            width:5rem;
+            height: 1rem;
+            right: 4rem;
+            border-bottom: .2rem solid black;
+        }
+    
+    #machinaryModelContainer
+    {
+        display: inline-block;
+        position: absolute;
+        top: 40rem;
+        left: 50%;
+        height: 10rem;
+        transform: translateX(-50%);
+        width: 43rem;
+        border-top: .2rem solid black;
+        border-bottom: .2rem solid black;
+       
+    }
+
+    #machinaryModelLabel
+    {
+        position:absolute;
+        top: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 100%;
+        font-weight: 700;
+        
+    }
+
+    #machinaryModelText
+    {
+        display: inline-block;
+        position: absolute;
+        top: 4rem;
+        left: 50%;
+        height: 6rem;
+        width : 40rem;
+        transform: translateX(-50%);
+        width: 43rem;
+        font-size: 180%;
+        font-weight: bold;
+        text-align: center;
+        
+    }
+
+#orderOpeningDataContainer
+{
+    display: inline-block;
+        position: absolute;
+        top: 50rem;
+        left: 50%;
+        height: 5rem;
+        transform: translateX(-50%);
+        width: 43rem;
+        border-bottom: .2rem solid black;
+}
+
+    #orderOpeningDataLabel
+    {
+        position:absolute;
+        top: 1rem;
+        left: 1rem;
+        font-size: 120%;
+        font-weight: 700;
+        text-align: left;
+    }
+    
+    #verbalCheckBox
+    {
+        top: 1rem;
+        display: inline-block;
+        position:absolute;
+        width:1rem;
+        height: 1rem;
+        left: 9rem;
+        border: .2rem solid black;
+        
+
+    }
+    
+    #verbalLabel
+    {
+        top: 1rem;
+        display: inline-block;
+        position:absolute;
+        left: 11rem;
+    }
+    
+    #receivedFromLabel
+    {
+        top: 1rem;
+        display: inline-block;
+        position:absolute;
+        left: 17rem;
+    }   
+    
+    #receivedFromLine
+    {
+        top: 1rem;
+        display: inline-block;
+        position:absolute;
+        height: 1rem;
+        width: 19rem;
+        left: 23rem;
+        border-bottom: .1rem solid black;
+    }   
+    
+    
+    #writtenCheckBox
+    {
+        top: 3rem;
+        display: inline-block;
+        position:absolute;
+        width:1rem;
+        height: 1rem;
+        left: 9rem;
+        border: .2rem solid black;
+    } 
+    
+    
+    #writtenLabel
+    {
+        top: 3rem;
+        display: inline-block;
+        position:absolute;
+        left: 11rem;
+    }
+    
+    
+    #numberLabel
+    {
+        top: 3rem;
+        display: inline-block;
+        position:absolute;
+        left: 17rem;
+    }    
+    
+    #numberLine
+    {
+       top: 3rem;
+        display: inline-block;
+        position:absolute;
+        height: 1rem;
+        width: 10rem;
+        left: 23rem;
+        border-bottom: .1rem solid black;
+    }   
+    
+    #dateLabel
+    {
+        top: 3rem;
+        display: inline-block;
+        position:absolute;
+        left: 35rem;
+    }
+    
+    #dateLine
+    {
+       top: 3rem;
+        display: inline-block;
+        position:absolute;
+        height: 1rem;
+        width: 5rem;
+        left: 37rem;
+        border-bottom: .1rem solid black;
+    }   
+    
+    #orderContainer
+    {
+        display: inline-block;
+        position: absolute;
+        top: 55rem;
+        left: 50%;
+        height: 5rem;
+        transform: translateX(-50%);
+        width: 43rem;
+    }
+
+        #orderCodeLabel
+        {
+            position:absolute;
+            top: 1.5rem;
+            left: 8rem;
+            font-size: 160%;
+            font-weight: 700;
+        }
+        
+        #orderCode
+        {
+            position:absolute;
+            top: 1.3rem;
+            left: 31rem;
+            width:11rem;
+            height: 3rem;
+            font-size: 250%;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        #orderDateLabel
+        {
+            position:absolute;
+            top: 5rem;
+            left: 8rem;
+            font-size: 160%;
+            font-weight: 700;
+        }
+        
+        #orderDate
+        {
+            position:absolute;
+            top: 5rem;
+            left: 33rem;
+            width:9rem;
+            height: 2.5rem;
+            font-size: 170%;
+            font-weight: 500;
+            text-align: center;
+            
+        }
+
+@page { size: auto;  margin-left: 1px; margin-top: 0px; margin-bottom: 0px; }

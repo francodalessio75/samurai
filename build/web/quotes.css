@@ -1,0 +1,278 @@
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+::-webkit-input-placeholder {
+   color: gray;
+   font-weight: 500;
+   text-align: left;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: black;
+   font-weight: 400;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    color: black;
+   font-weight: 400;
+}
+
+:-ms-input-placeholder {  
+    color: black;
+   font-weight: 400;
+}
+
+/*********************** Label Buttons****************************************/
+
+.TableLable
+{
+    margin-right: 1rem;
+    margin-left: 1rem;
+    color: black;
+    font-weight: 700;
+}
+
+.Button.Show
+{
+    display:inline-block;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: 6rem;
+    text-decoration: none;
+}
+
+/********************  TABLES *********************************/
+
+.ThList
+{
+    font-size:120%;
+    font-weight:  bolder;
+    text-align: center;
+}
+
+.Table thead
+{
+    font-size:120%;
+    font-weight:  bolder;
+    text-align: center;
+}
+
+.Table td
+{
+    font-size:130%;
+    font-weight:  bold;
+}
+
+.Table tr:hover
+{
+    /*background-color: lightblue;*/
+    cursor: default;
+}
+
+.Table td.Pdf:hover
+{
+    color: white;
+    background-color: blue;
+
+}
+
+#quoteItemsTable
+{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.QuoteNumber, .QuoteDate, .Pdf, .Customer
+{
+    text-align: center;
+}
+
+.Taxable,.Progressive
+{
+    text-align: right;
+    font-weight: bold;
+}
+
+
+
+/**************** INPUTS ***********************/
+
+#address_input,#houseNumber_input,#postalCode_input,#city_input,#province_input,#denomination_select_options
+{
+    text-align: left;
+    font-size: 1.5rem;
+}
+
+.Detail_header
+{
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+#firstForAttention_input,#secondForAttention_input
+{
+   display:inline-block;
+   width:35rem;
+   border:thin solid black;
+   font-size: 1.5rem;
+}
+
+#firstTitle_select_options, #secondTitle_select_options, #subjectRow
+{
+    font-size: 1.5rem;
+}
+
+#amount_input
+{
+   width : 15rem;
+   border-style: solid;
+   border-width:thin;
+   padding: 0rem;
+   font-size: 1.5rem;
+   text-align: right;
+}
+
+#number_input, #date_input
+{
+   width : 12rem;
+   padding: 0rem;
+   font-weight: bold;
+   font-size: 1.5rem;
+}
+
+/************* Buttons ************************/
+.Button.Delete, .Button.Operation
+{
+    display:inline-block;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+.Date
+{
+    width:10rem; 
+}
+
+.Actions
+{
+    width:20rem; 
+}
+
+#confirm_label
+{
+    position:absolute;
+    top: 24rem;
+    font-size: 100%;
+    font-weight: 600;
+}
+
+#quoteConfirmedButton
+{
+    position:absolute;
+    top: 25rem;
+    text-align: center;
+    
+}
+
+/* not editables inputs*/
+#quote
+{
+    font-weight: 600;
+    color: darkblue;
+}
+
+
+/*makes bigger the checkbox*/
+input[type=checkbox] {
+  transform: scale(1.5);
+}
+
+input[type=text]
+{
+    border: none;
+    width:100%;
+}
+
+#pdfButton
+{
+    position:absolute;
+    top:30rem;
+    text-align: center;
+    
+}
+
+#mergedPdfButton
+{
+    position:absolute;
+    top:60rem;
+    text-align: center;
+}
+
+#newQuoteButton
+{
+    position:absolute;
+    top:35rem;
+    text-align: center;   
+}
+
+#mergedPdfButton
+{
+    position:absolute;
+    top:40rem;
+    text-align: center;
+    
+}
+
+#duplicateQuoteButton
+{
+    position:absolute;
+    top:40rem;
+    text-align: center;   
+}
+
+#singleAmount, #totalAmount, #rowAmount
+{
+    text-align: right;
+    width:10rem;
+}
+
+#description
+{
+    width:100%;
+}
+
+/*PDF ATTACHMENT*/
+#attachment_upload
+{
+    width:14rem;
+    
+}
+
+#attach_file
+{
+    width:50rem;
+}
+
+#attachment_upload:hover
+{
+    background-color: lightblue;
+}
+
+#quoteBodyHeader, #attachmentsTableHeader, #attachmentsTableInfo
+{
+    width : 100%;
+    text-align: center;
+    background-color: lightblue;
+    font-size: 1.5rem;
+    color : blue;
+}
+
+#submitAttach
+{
+    width : 10rem;
+    display : inline-block;
+    border: solid blue;
+    font-weight: bold;
+}

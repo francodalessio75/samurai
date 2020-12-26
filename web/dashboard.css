@@ -1,0 +1,17 @@
+.BigButton
+{
+    display: inline-block;
+    width: calc(33% - 1.25rem);
+    height: calc(50% - 1rem);
+    border: thin solid grey;
+    margin: .5rem;
+    cursor: pointer;
+    
+    color: black;
+}
+
+.BigButton:hover
+{
+    color: white;
+    background-color: blue;
+}

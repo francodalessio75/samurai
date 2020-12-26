@@ -1,0 +1,8 @@
+Since in many places inthe code there where a new creation DAO to call the database ( new DataAccessOject(). .... ) there where a lot of connections to the RDS server remaining open.
+To close automatically all connections after open has been inserted the command setting : " dbi.disconnectAfterExecute = true; " in the DataAccessObject.java constructor at line 47 
+
+Note: this solution has caused a prblem in the war 2018-12-09 : sine there where different functions using the same connection , some times the connection where closed during 
+      a request where still executing cousing the exception : "com.microsoft.sqlserver.jdbc.SQLServerException: Socket closed". Then the command   " dbi.disconnectAfterExecute = true; "
+      has been removed. Notice that the prblem of too many connections opened probably wasn't about to many instance of DAO initializing but becouse of an erroneouse recursive call in tasks.js
+
+

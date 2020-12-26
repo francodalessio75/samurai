@@ -1,0 +1,188 @@
+::-webkit-input-placeholder {
+   color: black;
+   font-weight: 600;
+   text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: black;
+   font-weight: 700;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    color: black;
+   font-weight: 700;
+}
+
+:-ms-input-placeholder {  
+    color: black;
+   font-weight: 700;
+}
+
+/* not editables inputs*/
+#customer,#status,#jobType,#machinaryModel,#operator
+{
+    font-weight: 600;
+    color: darkblue;
+}
+
+/*********************** Label Buttons****************************************/
+#translationsRow
+{
+  
+}
+.TableLable
+{
+    margin-right: 1rem;
+    margin-left: 1rem;
+    color: black;
+    font-weight: 700;
+}
+
+#translations_price_input,#translations_cost_input,#variouse_material_cost_input,#hours_input,#transfert_kms_input,#transfert_cost_input,#external_jobs_cost_input,#external_jobs_hours_input
+{
+   display:inline-block;
+   width:8rem;
+   border:thin solid black;
+}
+
+#variouse_material_desc_input
+{
+    width:70rem;
+}
+
+#external_jobs_desc_input
+{
+    width:57rem;
+}
+
+#notes_input
+{
+    width:100%;
+    height: 10rem;
+}
+
+
+
+#attachment_upload
+{
+    margin-top: 1rem;
+    width: 10rem;
+}
+
+#attachment_upload:hover
+{
+    color: black;
+    font-weight: 700;
+    background-color: lightblue;
+}
+#attachment_name_input
+{
+   display:inline-block;
+   width:30rem;
+   border:thin solid black;
+}
+
+/********************  ATTACHMENTS TABLE *********************************/
+
+.Table thead
+{
+    font-size:90%;
+    font-weight:  bolder;
+    text-align: center;
+}
+
+
+.TaskDate
+{
+    font-size:80%;
+    
+}
+
+.TaskRow
+{
+    text-align: center;
+}
+.Button.Show
+{
+    display:inline-block;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: 6rem;
+    text-decoration: none;
+}
+
+.Button.Delete
+{
+    display:inline-block;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+.Date
+{
+    width:10rem; 
+}
+
+.Actions
+{
+    width:20rem; 
+}
+
+#confirm_label
+{
+    position:absolute;
+    top: 30.5rem;
+    font-size: 100%;
+    font-weight: 600;
+}
+
+#taskConfirmedButton
+{
+    position:absolute;
+    top:31.5rem;
+    text-align: center;
+    
+}
+
+#creationRequestButton
+{
+    position:absolute;
+    top:34.5rem;
+    text-align: center;
+    
+}
+
+#jobSubtype, #code, #date
+{
+    color:green;
+}
+
+/**************** TASKS TABLE ********************/
+
+th
+{
+   border: 1px solid;
+}
+
+#submitAttach
+{
+    width : 10rem;
+    display : inline-block;
+    border: solid blue;
+    font-weight: bold;
+}
+
+#refresh{
+    top:26rem;
+    left:0.1rem;
+}
+
+#taskConfirmedButton{
+    top:32rem;
+    left:0.1rem;
+}
+
+#creationRequestButton{
+    top:40rem;
+    left:0.1rem;
+}

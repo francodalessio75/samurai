@@ -1,0 +1,41 @@
+table
+{
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 5rem;
+}
+
+tbody td, thead th
+{
+    border: thin solid black;
+    padding: 1rem;
+}
+
+tbody tr
+{
+    border: thin solid black;
+}
+
+table tfoot
+{
+}
+
+table tfoot td
+{
+    border: none;
+    height: 5rem;
+
+    border: thin dotted black;
+}
+
+#footer
+{
+    display: block; 
+    position: fixed; 
+    bottom: 0;
+    height: 5rem;
+    width: calc(100% - 1rem);
+    border: thin solid black;
+
+    display: none; 
+} 
