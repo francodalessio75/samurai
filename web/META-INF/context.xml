@@ -16,7 +16,7 @@
            maxWaitMillis="15000"
            username="workline"
            password="workline"
-           url="jdbc:sqlserver://127.0.0.1;databaseName=WorkLine;"
+           url="jdbc:sqlserver://dalessio02.cuoogivijdct.eu-west-1.rds.amazonaws.com;databaseName=WorkLine;"
            removeAbandonedOnBorrow="true"
            removeAbandonedTimeout="300"
            logAbandoned="true"
