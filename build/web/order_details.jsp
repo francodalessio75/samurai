@@ -188,7 +188,7 @@
                         <th class="Detail_header" id="title_label">CARTELLA LAVORO</th>
                         <td>
                             <span class="Button" onclick="window.open('titlepage.jsp?order_id=<%=order_id%>','_blank');">STAMPA CARTELLA</span>
-                            <span class="Button" onclick="window.open('orderCover.jsp?order_id=<%=order_id%>','_blank');">STAMPA CARTELLA 2</span>
+                            <!--span class="Button" onclick="window.open('orderCover.jsp?order_id=<%=order_id%>','_blank');">STAMPA CARTELLA 2</span-->
                         </td>
                     </tr>
                     

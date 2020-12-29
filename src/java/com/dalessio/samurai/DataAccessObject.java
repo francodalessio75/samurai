@@ -752,7 +752,7 @@ public class DataAccessObject
             .andWhere(order_id != null, "[order_id] = " + order_id )
             .andWhere( creator_id != null, "[creator_id] = " + creator_id )
             .andWhere( order_code != null && !order_code.equals("") , "[code] = '" + order_code+"'" )
-            .andWhere( order_description != null , "[machinaryModel] COLLATE SQL_Latin1_General_CP1_CI_AS LIKE '%" + order_description+"%'" )
+            .andWhere( order_description != null , "[machinaryModel] COLLATE SQL_Latin1_General_CP1_CI_AS LIKE \n'%" + order_description+"%'" )
             .andWhere( completion_state_id != null, "[completion_state_id] = " + completion_state_id )
             .andWhere( availability_id != null, "[availabilty_id] = " + availability_id )
             .andWhere(customer_id != null, " [customer_id] = " + customer_id)

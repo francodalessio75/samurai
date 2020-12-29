@@ -4,23 +4,23 @@
         <PostResources webAppMount="/resources" base="C:\AppResources\Samurai" className="org.apache.catalina.webresources.DirResourceSet"/>
     </Resources>
     
- <Resource name="jdbc/samurai"
-        auth="Container"
-        driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-        type="javax.sql.DataSource"
-        maxActive="20"
-        maxTotal="20"
-        initialSize="5"
-        minIdle="5"
-        maxIdle="10"
-        maxWaitMillis="15000"
-        username="workline"
-        password="workline"
-        url="jdbc:sqlserver://127.0.0.1;databaseName=WorkLine;"
-        removeAbandonedOnBorrow="true"
-        removeAbandonedTimeout="300"
-        logAbandoned="true"
-        validationQuery="select 1"/>         
+    <Resource name="jdbc/samurai"
+           auth="Container"
+           driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+           type="javax.sql.DataSource"
+           maxActive="20"
+           maxTotal="20"
+           initialSize="5"
+           minIdle="5"
+           maxIdle="10"
+           maxWaitMillis="15000"
+           username="workline"
+           password="workline"
+           url="jdbc:sqlserver://127.0.0.1;databaseName=WorkLine;"
+           removeAbandonedOnBorrow="true"
+           removeAbandonedTimeout="300"
+           logAbandoned="true"
+           validationQuery="select 1"/>     
 </Context>
 <!--
     PER DATABASE SU RDS

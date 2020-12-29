@@ -287,7 +287,7 @@ app.orderCodeChanged = function()
     var order_code = document.getElementById('order_code_input').value.trim();
     
     //order_id, creator_id, order_code, completion_state_id, availability_id, customer_idString, machinaryModelHint, jobType_idString, fromDate, toDate, successCallback, failCallback )
-    app.readOrders(null, null, order_code,  null, null, null, null, null,null,null, 
+    app.readOrders(null, null, order_code,  null, null, null, null, null, null,null,null, 
         function(orders)
         {
             if( orders.length === 1 )

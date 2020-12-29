@@ -48,7 +48,7 @@
         
         <link href="/Samurai/titlepage.css" rel="stylesheet">
     </head>
-    <body <!--onload="window.print(); window.close();">--> >
+    <body <!--onload="window.print(); window.close();"--> >
     <!--body-->
         <div id="mainContainer">
             

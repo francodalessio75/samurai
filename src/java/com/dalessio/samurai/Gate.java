@@ -41,7 +41,7 @@ import javax.xml.transform.TransformerException;
  *
  * @author Franco
  */
-@MultipartConfig(fileSizeThreshold = 1024*1024, maxFileSize = 1024*1024*10, maxRequestSize = 1024*1024*10*10)
+@MultipartConfig(fileSizeThreshold = 1024*1024, maxFileSize = 1024*1024*100, maxRequestSize = 1024*1024*10*10)
 public class Gate extends HttpServlet implements HttpSessionListener {
 
     
