@@ -16,7 +16,7 @@
            maxWaitMillis="15000"
            username="workline"
            password="workline"
-           url="jdbc:sqlserver://34.243.251.194;databaseName=WorkLine;"
+           url="jdbc:sqlserver://127.0.0.1;databaseName=WorkLine;"
            removeAbandonedOnBorrow="true"
            removeAbandonedTimeout="300"
            logAbandoned="true"
