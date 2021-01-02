@@ -2769,24 +2769,21 @@ public class DataAccessObject
     //AMOUNT SCHEDULE DATES
     public List<AmountSchedule> readAmountSchedules(
             Long customer_id, 
-            LocalDate fromDate, 
-            LocalDate toDate ) throws SQLException
+            String fromDate, 
+            String toDate ) throws SQLException
     {
         if( fromDate == null )
-            fromDate = LocalDate.of(1900,1,1);
+            fromDate = "19000101";
         
         if( toDate == null )
-            toDate = LocalDate.of(3000,1,1);
-        
-        String fromDateString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.of(fromDate, LocalTime.now()));
-        String toDateString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.of(toDate, LocalTime.now()));
+            toDate = "30001231";
        
         
         //gets quotes from db
         DbResult amountSchedules_dbr = dbi.read( "dyn_AmountSchedule_view" )
             .andWhere( customer_id != null, "customer_id = " + customer_id )
-            .andWhere( " amountDate >= '" + fromDateString + "'" )
-            .andWhere( " amountDate <= '" + toDateString + "'")
+            .andWhere( " amountDate >= '" + fromDate +"'" )
+            .andWhere( " amountDate <= '" + toDate +"'")
             .order("amountDate")
             .go();
         

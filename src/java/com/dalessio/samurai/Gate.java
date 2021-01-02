@@ -4182,9 +4182,9 @@ public class Gate extends HttpServlet implements HttpSessionListener {
             try{ customer_id = Long.parseLong( request.getParameter( "customer_id" ) );}
             catch( NumberFormatException Nex){}
             
-            LocalDate fromDate = request.getParameter( "fromDate" ) == null || request.getParameter( "fromDate" ).equals("")  ? null : LocalDate.parse( request.getParameter( "fromDate" ) );
+            String fromDate = request.getParameter( "fromDate" ) == null || request.getParameter( "fromDate" ).equals("")  ? null : request.getParameter( "fromDate" ).replace("-","") ;
             
-            LocalDate toDate = request.getParameter( "toDate" ) == null || request.getParameter( "toDate" ).equals("") ? null : LocalDate.parse( request.getParameter( "toDate" ) );
+            String toDate = request.getParameter( "toDate" ) == null || request.getParameter( "toDate" ).equals("") ? null :  request.getParameter( "toDate" ).replace("-","") ;
                                
             // asks DB for quotes
             List<AmountSchedule> amountSchedules = dao.readAmountSchedules( customer_id,  fromDate, toDate );
