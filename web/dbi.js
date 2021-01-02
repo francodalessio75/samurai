@@ -1392,3 +1392,28 @@ app.getCreditNoteXML = function( creditNote_id, successCallback, failCallback)
     })
     .catch(error=>alert(error)); 
 };
+
+//SCHEDULE DATES
+app.readScheduleDates = function( customer_id, fromDate, toDate, successCallback, failCallback )
+{
+     //all tasks
+    var url = encodeURI("/Samurai/gate?&op=read_amount_schedule_dates");
+    
+    if( customer_id !== null && customer_id !== undefined )
+        url = url + encodeURI( "&customer_id="+customer_id);
+    
+    if( fromDate !== null && fromDate !== ("") && fromDate !== undefined )  
+        url = url + encodeURI("&fromDate="+fromDate);
+    
+    if( toDate !== null && toDate !== ("") && toDate !== undefined )  
+        url = url + encodeURI("&toDate="+toDate);
+
+    fetch(url, {credentials: 'same-origin'})
+    .then(response=>response.json())
+    .then(jsonResponse=>
+    {
+        if(jsonResponse.success) successCallback(jsonResponse.amountSchedules);
+        else failCallback();
+    })
+    .catch(error=>alert(error)); 
+};

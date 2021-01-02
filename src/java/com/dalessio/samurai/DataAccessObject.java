@@ -1888,7 +1888,17 @@ public class DataAccessObject
             if( invoice.items.get(i).deliveryNoteRow_id != null)
                 setDeliveryNoteSuggested(invoice.items.get(i).deliveryNoteRow_id );
         }
+        
+        //creates the related three amount schedule dates
+        sql = "INSERT INTO dyn_AmountScheduleDates ( invoice_id, customer_id, ordinal, amount, amountDate ) " +
+              "SELECT invoice_id, customer_id, 1, firstAmount, firstAmountDate FROM dyn_Invoices WHERE invoice_id = " + invoice.invoice_id +
+              "INSERT INTO dyn_AmountScheduleDates ( invoice_id, customer_id, ordinal, amount, amountDate ) " +
+              "SELECT invoice_id, customer_id, 2, secondAmount, secondAmountDate FROM dyn_Invoices WHERE invoice_id = " + invoice.invoice_id +
+              "INSERT INTO dyn_AmountScheduleDates ( invoice_id, customer_id, ordinal, amount,amountDate ) " + 
+              "SELECT invoice_id, customer_id, 3, thirdAmount, thirdAmountDate FROM dyn_Invoices WHERE invoice_id = " + invoice.invoice_id  ;
        
+        dbi.execute(sql);
+        
         return readInvoices(invoice.invoice_id, null,null,null,null);
     }
     
@@ -1977,6 +1987,7 @@ public class DataAccessObject
             .andWhere( number != null && !number.equals(""), "year = " + year )
             .andWhere( " date >= '" + fromDateString + "'" )
             .andWhere( " date <= '" + toDateString + "'")
+            .order("year DESC,number DESC")
             .go();
 
         System.out.println("INVOICES READ [DataAccessObject.readInvoices] : elapsed msec "+(new Date().getTime()-start));
@@ -2084,6 +2095,26 @@ public class DataAccessObject
             //than creates new rows
             for(int i = 0; i < invoice.items.size(); i++)
                 addInvoiceRow(invoice.items.get(i),invoice.invoice_id, i+1);
+            
+            //updates related a amount schedule dates
+            dbi.update("dyn_AmountScheduleDates")
+                .andWhere( "invoice_id = " + invoice.invoice_id )
+                .andWhere( "ordinal = 1")
+                .value("amount", invoice.firstAmount)
+                .value("amountDate", invoice.firstAmountDate.replace("-","") )
+                .go();
+            dbi.update("dyn_AmountScheduleDates")
+                .andWhere( "invoice_id = " + invoice.invoice_id )
+                .andWhere( "ordinal = 2")
+                .value("amount", invoice.secondAmount)
+                .value("amountDate", invoice.secondAmountDate.replace("-","") )
+                .go();
+            dbi.update("dyn_AmountScheduleDates")
+                .andWhere( "invoice_id = " + invoice.invoice_id )
+                .andWhere( "ordinal = 3")
+                .value("amount", invoice.thirdAmount)
+                .value("amountDate", invoice.thirdAmountDate.replace("-","") )
+                .go();
           
         return invoice.invoice_id;
     }
@@ -2733,6 +2764,45 @@ public class DataAccessObject
         return dbi.read("view_CNCessionarioCommittente")
             .andWhere( "[creditNote_id] = " + creditNote_id )
             .go();
+    }
+    
+    //AMOUNT SCHEDULE DATES
+    public List<AmountSchedule> readAmountSchedules(
+            Long customer_id, 
+            LocalDate fromDate, 
+            LocalDate toDate ) throws SQLException
+    {
+        if( fromDate == null )
+            fromDate = LocalDate.of(1900,1,1);
+        
+        if( toDate == null )
+            toDate = LocalDate.of(3000,1,1);
+        
+        String fromDateString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.of(fromDate, LocalTime.now()));
+        String toDateString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.of(toDate, LocalTime.now()));
+       
+        
+        //gets quotes from db
+        DbResult amountSchedules_dbr = dbi.read( "dyn_AmountSchedule_view" )
+            .andWhere( customer_id != null, "customer_id = " + customer_id )
+            .andWhere( " amountDate >= '" + fromDateString + "'" )
+            .andWhere( " amountDate <= '" + toDateString + "'")
+            .order("amountDate")
+            .go();
+        
+        //List of amount schedules
+        List<AmountSchedule> amountSchedules = new ArrayList<>();
+        
+        //for each quotes record creates a Quote instance and put it in the collection
+        for( int i = 0; i < amountSchedules_dbr.rowsCount(); i++ )
+        {
+            //create the Quote instance
+            AmountSchedule amountSchedule = new AmountSchedule( amountSchedules_dbr.record(i));
+            
+            amountSchedules.add(amountSchedule);
+        }
+          
+        return amountSchedules;
     }
    
 }
