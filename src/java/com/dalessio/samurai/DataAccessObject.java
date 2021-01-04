@@ -1554,14 +1554,24 @@ public class DataAccessObject
         LocalDate fromDate, 
         LocalDate toDate ) throws SQLException
     {
+        String fromDateString = null;
+        String toDateString = null;
+        
         if( fromDate == null )
-            fromDate = LocalDate.of(1900,1,1);
+        {
+            fromDateString = "19000101";
+        }else
+        {
+            fromDateString = DateTimeFormatter.ISO_LOCAL_DATE.format(fromDate).replace("-","");
+        }
         
         if( toDate == null )
-            toDate = LocalDate.of(3000,1,1);
-        
-        String fromDateString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.of(fromDate, LocalTime.now()));
-        String toDateString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.of(toDate, LocalTime.now()));
+        {
+            toDateString = "30000101";
+        }else
+        {
+            toDateString = DateTimeFormatter.ISO_LOCAL_DATE.format(toDate).replace("-","");
+        }
         
         String num = number != null && !number.equals("") && number.contains("-") ? number.split("-")[0] : null;
         String year = number != null && !number.equals("") && number.contains("-") ? number.split("-")[1] : null;
@@ -1965,14 +1975,29 @@ public class DataAccessObject
         LocalDate fromDate, 
         LocalDate toDate ) throws SQLException
     {
+        String fromDateString = null;
+        String toDateString = null;
+        
         if( fromDate == null )
-            fromDate = LocalDate.of(1900,1,1);
+        {
+            fromDateString = "19000101";
+        }else
+        {
+            fromDateString = DateTimeFormatter.ISO_LOCAL_DATE.format(fromDate).replace("-","");
+        }
         
         if( toDate == null )
-            toDate = LocalDate.of(3000,1,1);
+        {
+            toDateString = "30000101";
+        }else
+        {
+            toDateString = DateTimeFormatter.ISO_LOCAL_DATE.format(toDate).replace("-","");
+        }
         
-        String fromDateString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.of(fromDate, LocalTime.now()));
-        String toDateString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.of(toDate, LocalTime.now()));
+//        if(fromDateString == null){
+//            fromDateString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.of(fromDate, LocalTime.now()));
+//        }
+//        String toDateString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.of(toDate, LocalTime.now()));
         
         String num = number != null && !number.equals("") && number.contains("-") ? number.split("-")[0] : null;
         String year = number != null && !number.equals("") && number.contains("-") ? number.split("-")[1] : null;
