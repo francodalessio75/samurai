@@ -1987,7 +1987,7 @@ public class DataAccessObject
             .andWhere( number != null && !number.equals(""), "year = " + year )
             .andWhere( " date >= '" + fromDateString + "'" )
             .andWhere( " date <= '" + toDateString + "'")
-            .order("year DESC,number DESC")
+            .order("year,number")
             .go();
 
         System.out.println("INVOICES READ [DataAccessObject.readInvoices] : elapsed msec "+(new Date().getTime()-start));
@@ -2011,7 +2011,6 @@ public class DataAccessObject
 
         DbResult out = dbi.read( "dyn_Invoices_view" ).order("number")
             .andWhere( customer_id != null, "customer_id = " + customer_id )
-            .orWhere(" am")
             .andWhere( " date >= '" + fromDateString + "'" )
             .andWhere( " date <= '" + toDateString + "'")
             .go();
