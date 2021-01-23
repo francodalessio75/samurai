@@ -115,9 +115,10 @@
             <div class="Content WithFilter">
                 <table class="Table" >
                     <col width="40%">
+                    <col width="10%">
                     <col width="15%">
-                    <col width="15%">
-                    <col width="15%">
+                    <col width="10%">
+                    <col width="10%">
                     <col width="15%">
                     <thead>
                         <th class="ThList">CLIENTE</th>
@@ -125,6 +126,7 @@
                         <th class="ThList">DATA</th>
                         <th class="ThList">IMPORTO</th>
                         <th class="ThList">PROGRESSIVO</th>
+                        <th class="ThList">PAGAMENTO</th>
                     </thead>
                     <tbody></tbody>
                 </table>   
@@ -144,12 +146,14 @@
                 <td class="ScheduleDate"></td>
                 <td class="Total"></td>
                 <td class="Progressive"></td>
+                <td class="PaymentTerms"></td>
             </tr>
         </template>
    
         <script src="/Samurai/dbi.js?<%=timestamp%>"></script>
         <script src="/Samurai/scheduleDates.js?<%=timestamp%>"></script>
         <script src="/Samurai/dropDown.js?<%=timestamp%>"></script>
+        <script src="/Samurai/scheduleDates.css?<%=timestamp%>"></script>
         <script>setInterval(function(){app.ping();},60000);</script>
         
         <script>

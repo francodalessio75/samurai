@@ -16,6 +16,7 @@ public class AmountSchedule
     public Integer ordinal;
     public Double amount;
     public LocalDate amountDate;
+    public String paymentTerms;
     
     public AmountSchedule(){}
     
@@ -33,6 +34,7 @@ public class AmountSchedule
         String day = dateString.substring(6);
         String date = year+"-"+month+"-"+day;
         this.amountDate = LocalDate.parse(date);
+        this.paymentTerms = dbr.getString("paymentConditions");
     }
     
     public static JsonObject getJson( AmountSchedule schedule)
@@ -46,6 +48,7 @@ public class AmountSchedule
         json.addProperty("ordinal", schedule.ordinal);
         json.addProperty("amount", schedule.amount);
         json.addProperty("amountDate", DateTimeFormatter.ISO_LOCAL_DATE.format(schedule.amountDate));
+        json.addProperty("paymentTerms", schedule.paymentTerms);
         
         return json;
     }
@@ -61,6 +64,7 @@ public class AmountSchedule
         json.addProperty("ordinal", dbr.getInteger("ordinal"));
         json.addProperty("amount", dbr.getDouble("amount"));
         json.addProperty("amountDate", dbr.getString("amountDate"));
+        json.addProperty("paymentTerms", dbr.getString("paymentConditions"));
         
         return json;
     }

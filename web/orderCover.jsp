@@ -51,7 +51,7 @@
         
         <link href="/Samurai/orderCover.css" rel="stylesheet">
     </head>
-    <body onload="window.print(); window.close();">
+    <body <!--onload="window.print(); window.close();"--> >
         <div id="mainContainer">
             
             <img  id="banner" src="resources/Logo/<%=banner%>">

@@ -76,6 +76,8 @@ app.fillAmountSchedulesTable = function( scheduleDates )
         
         templateContent.querySelector(".Total").innerHTML = scheduleDates[i].amount.toFixed(2);
         
+        templateContent.querySelector(".PaymentTerms").innerHTML = scheduleDates[i].paymentTerms;
+        
         progressiveAmount += parseFloat(scheduleDates[i].amount);
         
         templateContent.querySelector(".Progressive").innerHTML = progressiveAmount.toFixed(2);

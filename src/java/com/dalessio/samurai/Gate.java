@@ -4162,7 +4162,7 @@ public class Gate extends HttpServlet implements HttpSessionListener {
         }
     }
     
-    //Amount Schedule Dates
+    //AMOUNT SCHEDULE DATE
     
     private void readAmountScheduleDates( HttpServletRequest request, JsonObject jsonResponse ) throws SQLException
     {

@@ -11,13 +11,6 @@
         </group>
         <group name="my-first-app"/>
         <group name="Work"/>
-        <group>
-            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/src/java/com/dalessio/samurai/Config.java</file>
-            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/src/java/com/dalessio/samurai/Gate.java</file>
-            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/src/java/com/dalessio/samurai/DataAccessObject.java</file>
-            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/web/META-INF/context.xml</file>
-            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/src/java/com/dalessio/samurai/AmountSchedule.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
