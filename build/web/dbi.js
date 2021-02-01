@@ -876,24 +876,27 @@ app.readDeliveryNotes = function( deliveryNote_id, customer_id, transporter_id, 
 {
      //all tasks
     var url = encodeURI("/Samurai/gate?&op=read_delivery_notes");
-   
-    if( deliveryNote_id !== null && deliveryNote_id !== undefined )
-        url = url + encodeURI("&deliveryNote_id="+deliveryNote_id);
     
-    if( customer_id !== null && customer_id !== undefined )
-        url = url + encodeURI( "&customer_id="+customer_id);
-    
-    if( transporter_id !== null && transporter_id !== undefined )
-        url = url + encodeURI( "&transporter_id="+transporter_id);
-    
-    if( number !== null && number !== undefined )
+    //if number is not empty all other criteria must be ignored
+    if( number !== "" && number !== null && number !== undefined ){
         url = url + encodeURI( "&number="+number);
-  
-    if( fromDate !== null && fromDate !== ("") && fromDate !== undefined )  
-        url = url + encodeURI("&fromDate="+fromDate);
-    
-    if( toDate !== null && toDate !== ("") && toDate !== undefined )  
-        url = url + encodeURI("&toDate="+toDate);
+    }else{
+   
+        if( deliveryNote_id !== null && deliveryNote_id !== undefined )
+            url = url + encodeURI("&deliveryNote_id="+deliveryNote_id);
+
+        if( customer_id !== null && customer_id !== undefined )
+            url = url + encodeURI( "&customer_id="+customer_id);
+
+        if( transporter_id !== null && transporter_id !== undefined )
+            url = url + encodeURI( "&transporter_id="+transporter_id);
+
+        if( fromDate !== null && fromDate !== ("") && fromDate !== undefined )  
+            url = url + encodeURI("&fromDate="+fromDate);
+
+        if( toDate !== null && toDate !== ("") && toDate !== undefined )  
+            url = url + encodeURI("&toDate="+toDate);
+    }
 
     fetch(url, {credentials: 'same-origin'})
     .then(response=>response.json())
@@ -990,21 +993,23 @@ app.readInvoices = function( invoice_id, customer_id, number, fromDate, toDate, 
 {
      //all tasks
     var url = encodeURI("/Samurai/gate?&op=read_invoices");
-   
-    if( invoice_id !== null && invoice_id !== undefined )
-        url = url + encodeURI("&invoice_id="+invoice_id);
     
-    if( customer_id !== null && customer_id !== undefined )
-        url = url + encodeURI( "&customer_id="+customer_id);
-    
-    if( number !== null && number !== undefined )
+    if( number !== "" && number !== null && number !== undefined ){
         url = url + encodeURI( "&number="+number);
-    
-    if( fromDate !== null && fromDate !== ("") && fromDate !== undefined )  
-        url = url + encodeURI("&fromDate="+fromDate);
-    
-    if( toDate !== null && toDate !== ("") && toDate !== undefined )  
-        url = url + encodeURI("&toDate="+toDate);
+    }else{
+   
+        if( invoice_id !== null && invoice_id !== undefined )
+            url = url + encodeURI("&invoice_id="+invoice_id);
+
+        if( customer_id !== null && customer_id !== undefined )
+            url = url + encodeURI( "&customer_id="+customer_id);
+
+        if( fromDate !== null && fromDate !== ("") && fromDate !== undefined )  
+            url = url + encodeURI("&fromDate="+fromDate);
+
+        if( toDate !== null && toDate !== ("") && toDate !== undefined )  
+            url = url + encodeURI("&toDate="+toDate);
+    }
 
     fetch(url, {credentials: 'same-origin'})
     .then(response=>response.json())
@@ -1127,21 +1132,28 @@ app.readQuotes = function( quote_id, customer_id, number, fromDate, toDate, succ
 {
      //all tasks
     var url = encodeURI("/Samurai/gate?&op=read_quotes");
-   
-    if( quote_id !== null && quote_id !== undefined )
-        url = url + encodeURI("&quote_id="+quote_id);
     
-    if( customer_id !== null && customer_id !== undefined )
-        url = url + encodeURI( "&customer_id="+customer_id);
-    
-    if( number !== null && number !== undefined )
+    //if the search is by number all ather filters mus be ignored
+    if( number !== null && number !== undefined && number !== "" ){
         url = url + encodeURI( "&number="+number);
-    
-    if( fromDate !== null && fromDate !== ("") && fromDate !== undefined )  
-        url = url + encodeURI("&fromDate="+fromDate);
-    
-    if( toDate !== null && toDate !== ("") && toDate !== undefined )  
-        url = url + encodeURI("&toDate="+toDate);
+    }
+    else{
+   
+        if( quote_id !== null && quote_id !== undefined )
+            url = url + encodeURI("&quote_id="+quote_id);
+
+        if( customer_id !== null && customer_id !== undefined )
+            url = url + encodeURI( "&customer_id="+customer_id);
+
+        if( number !== null && number !== undefined )
+            url = url + encodeURI( "&number="+number);
+
+        if( fromDate !== null && fromDate !== ("") && fromDate !== undefined )  
+            url = url + encodeURI("&fromDate="+fromDate);
+
+        if( toDate !== null && toDate !== ("") && toDate !== undefined )  
+            url = url + encodeURI("&toDate="+toDate);
+    }
 
     fetch(url, {credentials: 'same-origin'})
     .then(response=>response.json())
