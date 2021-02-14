@@ -1296,7 +1296,9 @@ public class DataAccessObject
             catch(Exception ex){System.out.println("date conversion issues");}
         }
         
-        return dbi.read("dyn_Tasks_view").order("operator_id, taskDate DESC")
+        
+        
+        DbResult tasks_dbr =  dbi.read("dyn_Tasks_view").order("operator_id, taskDate DESC")
             .andWhere(getUserRole( user_id ).equals("operator"),"operator_id = " + user_id )
             .andWhere(task_id != null,"task_id = " + task_id )
             .andWhere( order_id != null,"order_id = " + order_id )
@@ -1310,6 +1312,8 @@ public class DataAccessObject
             .andWhere( toDate != null && !toDate.equals("")," taskDate <= " + toDate )
             .andWhere( completion_state_id != null && completion_state_id > 0,"completion_state_id = " + completion_state_id )
             .go();
+        
+        return tasks_dbr;
     }
     
     public DbResult readTask( Long task_id ) throws SQLException
@@ -1388,6 +1392,7 @@ public class DataAccessObject
             .go().getDeleteCount() == 1;
     }
     
+    
     //COMPLETION STATES
     public DbResult readCompletionStates() throws SQLException
     {
@@ -1411,16 +1416,31 @@ public class DataAccessObject
             .go();
     }
     
+    /**
+     * associates the file with the task and sets the task column hasAttachment to 1 
+     * @param task_id
+     * @param user_id
+     * @param originalFileName
+     * @return
+     * @throws SQLException 
+     */
     Long createTaskAttachment( Long task_id, Long user_id, String originalFileName ) throws SQLException
     {
         String   date = DTF.format(LocalDate.now()).replace("-", "");
         
-        return dbi.create("dyn_TasksAttachments")
+        Long result = dbi.create("dyn_TasksAttachments")
             .value("task_id", task_id)
             .value("user_id", user_id)
             .value("date", date)
             .value("originalFileName", originalFileName)
             .goAndGetId();
+        
+        dbi.update("dyn_Tasks")
+            .andWhere("task_id = " + task_id )
+            .value("hasAttachment", 1 )
+            .go();
+        
+        return result;
     }
     
     Boolean setTaskAttachmentName( String originalFileName, String currentFileName, Long taskAttachment_id ) throws SQLException
@@ -1468,13 +1488,27 @@ public class DataAccessObject
         }
     }
     
-    public void deleteTaskAttachments( Long attachment_id ) throws SQLException
+    /**
+     * deletes the attachment and if it is the last attachment of the task update the coulmnn 
+     * has attachment to 0
+     * @param attachment_id
+     * @throws SQLException 
+     */
+    public void deleteTaskAttachments( Long taskAttachment_id ) throws SQLException
     {
+        //gets task id
+        Long task_id = dbi.read("dyn_TasksAttachments")
+                .andWhere("taskAttachment_id = " + taskAttachment_id )
+                .go()
+                .getLong("task_id");
+        
+        
+        // dletes the fiel from the filesystem and from the DB 
         //Path of the attachment
         Path p1;
         //retrieves all attachments having null as task_id
         DbResult dbr_attachments =  dbi.read("dyn_TasksAttachments")
-            .andWhere("taskAttachment_id = " + attachment_id )
+            .andWhere("taskAttachment_id = " + taskAttachment_id )
             .go();
         
         for( int i = 0; i < dbr_attachments.rowsCount(); i++ )
@@ -1488,6 +1522,19 @@ public class DataAccessObject
             dbi.delete("dyn_TasksAttachments")
                 .andWhere("taskAttachment_id = " + dbr_attachments.getLong(i,"taskAttachment_id"))
                 .go();
+        }
+        
+        //reads all attachments having the same value as task_id
+        Integer attachmentsNumber = dbi.read("dyn_TasksAttachments")
+                .andWhere("task_id = " + task_id )
+                .go()
+                .rowsCount();
+        //if theere are no other attacments set to 0 the hasAttachment value of the task
+        if( attachmentsNumber == 0 ){
+            dbi.update("dyn_Tasks")
+            .andWhere("task_id = " + task_id )
+            .value("hasAttachment", 0 )
+            .go();
         }
     }
     

@@ -654,44 +654,44 @@ app.taskUpload = function( task_id, successCallback, failCallback )
 
 app.readTasks = function( task_id, user_id, order_id, operator_id, orderCode, jobType_id, jobSubtype_id, customer_id,  order_creator_id, fromDate, toDate, completion_state_id, successCallback, failCallback )
 {
-     //all tasks
+    //all tasks
     var url = encodeURI("/Samurai/gate?&op=read_tasks");
     //only one
     if( task_id !== null && task_id !== undefined )
         url = encodeURI("/Samurai/gate?&op=read_tasks&task_id="+task_id);
-    
+
     //only those related to the order
     if( user_id !== null && user_id !== undefined )
         url = encodeURI("/Samurai/gate?&op=read_tasks&user_id="+user_id);
-    
+
     //only those related to the order
     if( order_id !== null && order_id !== undefined )
         url = encodeURI("/Samurai/gate?&op=read_tasks&order_id="+order_id);
-    
+
     if( operator_id !== null && operator_id !== undefined )
         url = url + encodeURI("&operator_id="+operator_id);
-    
+
     if( orderCode !== null && orderCode !== undefined )
         url = url + encodeURI( "&orderCode="+orderCode);
-    
+
     if( jobType_id !== null && jobType_id !== undefined )
         url = url + encodeURI( "&jobType_id="+jobType_id);
-    
+
     if( jobSubtype_id !== null && jobSubtype_id !== undefined )
         url = url + encodeURI( "&jobSubtype_id="+jobSubtype_id);
-    
+
     if( customer_id !== null && customer_id !== undefined )
         url = url + encodeURI(  "&customer_id="+customer_id);
-  
+
     if( order_creator_id !== null && order_creator_id !== undefined )
         url = url + encodeURI("&order_creator_id="+order_creator_id);
-    
+
     if( fromDate !== null && fromDate !== ("") && fromDate !== undefined )  
         url = url + encodeURI("&fromDate="+fromDate);
-    
+
     if( toDate !== null && toDate !== ("") && toDate !== undefined )  
         url = url + encodeURI("&toDate="+toDate);
-    
+
     if( completion_state_id !== null && completion_state_id !== undefined )  
         url = url + encodeURI("&completion_state_id="+completion_state_id);
     

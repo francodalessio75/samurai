@@ -2364,12 +2364,14 @@ public class Gate extends HttpServlet implements HttpSessionListener {
                     record.add( new JsonPrimitive( 0.0 ) );
                 else
                     record.add( new JsonPrimitive( dbr.getDouble( i, "externalJobsHours" )));
-                
+                //31 Has Attachment:  calls DAO to know if the task has got unless one related attachment
+                record.add( new JsonPrimitive( dbr.getInteger(i, "hasAttachment") ));
+      
                 tasks.add(record);
             }
             
             jsonResponse.add("tasks", tasks);
-            
+            jsonResponse.addProperty("success",true);
         }
         else
         {
@@ -2459,7 +2461,6 @@ public class Gate extends HttpServlet implements HttpSessionListener {
             jsonResponse.addProperty("message","not authenticated");
         }
     }
-    
     
     private void deleteTask( HttpServletRequest request, JsonObject jsonResponse ) throws SQLException
     {

@@ -451,6 +451,7 @@ app.fillTasksTable = function(tasks)
         templateContent.querySelector(".OrderCode").innerHTML = tasks[i][21];
         templateContent.querySelector(".CustomerDenomination").innerHTML = tasks[i][23];
         templateContent.querySelector(".CompletionState").innerHTML = tasks[i][19];
+        templateContent.querySelector(".HasAttachment").innerHTML = tasks[i][31] !== 1 ? '':'<i  id="searchIcon" class="fa fa-paperclip fe-3x" aria-hidden="true"></i>';
         templateContent.querySelector(".MachinaryModel").innerHTML = tasks[i][22];
         templateContent.querySelector(".JobType").innerHTML = tasks[i][17];
         templateContent.querySelector(".JobSubtype").innerHTML = tasks[i][3];
@@ -552,7 +553,7 @@ app.fillTasksTable = function(tasks)
         //creates the last row
         let lastRow = document.createElement("tr");
 
-        let rowCells = 10;//row cells number
+        let rowCells = 11;//row cells number
 
         //adds cells and contents in the last row
         for( var i = 0; i < rowCells; i++)
@@ -562,7 +563,7 @@ app.fillTasksTable = function(tasks)
             //fills cell if necessary
             if( i === 0 )
                 cell.innerHTML = "Totale";
-            else if( i === 9 )
+            else if( i === 10 )
                 cell.innerHTML = totalHours;
 
             //adds cell in the row
@@ -579,7 +580,7 @@ app.fillTasksTable = function(tasks)
         let lastRow = document.createElement("tr");
 
 
-        let rowCells = 17;//row cells number
+        let rowCells = 18;//row cells number
 
         //adds cells and contents in the last row
         for( var i = 0; i < rowCells; i++)
@@ -589,19 +590,19 @@ app.fillTasksTable = function(tasks)
             //fills cell if necessary
             if( i === 0 )
                 cell.innerHTML = "Totale";
-            else if( i === 10 )
-                cell.innerHTML = totalHours;
             else if( i === 11 )
-                cell.innerHTML = Math.trunc(totalTranslationsCost).toFixed(2);     
+                cell.innerHTML = totalHours;
             else if( i === 12 )
-                cell.innerHTML = Math.trunc(totalTranslationsPrice).toFixed(2); 
+                cell.innerHTML = Math.trunc(totalTranslationsCost).toFixed(2);     
             else if( i === 13 )
-                cell.innerHTML = Math.trunc(totalExternalJobsHours).toFixed(2); 
+                cell.innerHTML = Math.trunc(totalTranslationsPrice).toFixed(2); 
             else if( i === 14 )
-                cell.innerHTML = Math.trunc(totalExternalJobsCost).toFixed(2); 
+                cell.innerHTML = Math.trunc(totalExternalJobsHours).toFixed(2); 
             else if( i === 15 )
-                cell.innerHTML = Math.trunc(totalMaterialCost).toFixed(2); 
+                cell.innerHTML = Math.trunc(totalExternalJobsCost).toFixed(2); 
             else if( i === 16 )
+                cell.innerHTML = Math.trunc(totalMaterialCost).toFixed(2); 
+            else if( i === 17 )
                 cell.innerHTML = Math.trunc(totalTransfertCost).toFixed(2); 
 
             //adds cell in the row
