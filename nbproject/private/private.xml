@@ -12,11 +12,12 @@
         <group name="my-first-app"/>
         <group name="Work"/>
         <group>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/src/java/com/dalessio/samurai/Config.java</file>
             <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/src/java/com/dalessio/samurai/Gate.java</file>
             <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/src/java/com/dalessio/samurai/DataAccessObject.java</file>
             <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/web/dbi.js</file>
-            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/web/invoices.jsp</file>
-            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/web/invoices.js</file>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/web/META-INF/context.xml</file>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/web/tasks.js</file>
         </group>
     </open-files>
 </project-private>

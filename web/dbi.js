@@ -387,7 +387,20 @@ app.createOrder = function( customer_id, user_id, jobType_id, date, machinaryMod
 /**
     Long order_id, Long creator_id, String order_code, Long completion_state_id, String customerDenominationHint, String machinaryModelHint, String jobTypeHint, String fromDate, String toDate
  */
- app.readOrders = function( order_id, creator_id, order_code, order_description, completion_state_id, availability_id, customer_idString, machinaryModelHint, jobType_idString, fromDate, toDate, successCallback, failCallback )
+ app.readOrders = function( 
+         order_id,
+        creator_id,
+        order_code,
+        order_description,
+        completion_state_id,
+        availability_id,
+        customer_idString,
+        machinaryModelHint,
+        jobType_idString,
+        fromDate,
+        toDate,
+        successCallback,
+        failCallback )
  {
     var url = encodeURI("/Samurai/gate?&op=read_orders");
     if( order_id !== null )

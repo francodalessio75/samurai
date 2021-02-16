@@ -788,7 +788,7 @@ app.validOrderCode = function()
     if(order_code !== "" && order_code !== undefined )
     {
         //order_id, creator_id, order_code, completion_state_id, customerDenominationHint, machinaryModelHint, jobTypeHint, fromDate, toDate, successCallback, failCallback )
-        app.readOrders(null, null, order_code,  null, null, null, null, null,null, 
+        app.readOrders(null, null, order_code,  null, null, null, null, null,null,null,null,
             function(orders)
             {
                 if( orders.length === 1 )
