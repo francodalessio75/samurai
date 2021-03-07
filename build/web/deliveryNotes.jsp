@@ -123,13 +123,15 @@
                 <table class="Table" >
                     <col width="10%">
                     <col width="10%">
-                    <col width="70%">
+                    <col width="60%">
+                    <col width="10%">
                     <col width="10%">
                     <thead>
                         <th class="ThList">NUMERO</th>
                         <th class="ThList">DATA</th>
                         <th class="ThList">CLIENTE</th>
                         <th class="ThList">PDF</th>
+                        <th class="ThList"><i class="fa fa-money" aria-hidden="true"></i></th>
                     </thead>
                     <tbody></tbody>
                 </table>   
@@ -148,6 +150,7 @@
                 <td class="DeliveryNoteDate"></td>
                 <td class="Customer">CLIENTE</td>
                 <td class="Pdf">FILE PDF</td>
+                <td class="Invoiced"></td>
             </tr>
         </template>
    

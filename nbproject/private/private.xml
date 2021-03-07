@@ -14,9 +14,12 @@
         <group>
             <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/src/java/com/dalessio/samurai/Config.java</file>
             <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/src/java/com/dalessio/samurai/Gate.java</file>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/src/java/com/dalessio/samurai/DeliveryNote.java</file>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/web/META-INF/context.xml</file>
             <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/src/java/com/dalessio/samurai/DataAccessObject.java</file>
             <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/web/dbi.js</file>
-            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/web/META-INF/context.xml</file>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/web/deliveryNotes.jsp</file>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/web/deliveryNotes.js</file>
             <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/Samurai/web/tasks.js</file>
         </group>
     </open-files>
