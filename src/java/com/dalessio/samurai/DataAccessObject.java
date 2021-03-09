@@ -1816,6 +1816,15 @@ public class DataAccessObject
             .value("suggested", suggest )
             .go();
     }
+    private void setDeliveryNoteInvoiced( Long deliveryNote_id, Boolean invoiced ) throws SQLException
+    {
+        Integer invoiced_ = invoiced ? 1 : 0 ;
+        
+        dbi.update("dyn_DeliveryNotes")
+            .andWhere("deliveryNote_id = " + deliveryNote_id )
+            .value("invoiced", invoiced_ )
+            .go();
+    }
     
     /**
      * returns the order_id related to the deliveryNoterow 
@@ -1878,7 +1887,7 @@ public class DataAccessObject
     
     public DbResult getDeliveryNoteByDeliveryNoteRowId( Long deliveryNoteRow_id ) throws SQLException
     {
-        Long deliveryNote_id = dbi.read("dyn_deliveryNotesRows")
+        Long deliveryNote_id = dbi.read("dyn_DeliveryNotesRows")
                 .where("deliveryNoteRow_id = " + deliveryNoteRow_id)
                 .go().getLong("deliveryNote_id");
         
@@ -1973,7 +1982,8 @@ public class DataAccessObject
             //then sets the deliveryNoteRow as invoiced and to be not suggested again
             setDeliveryNoteRowInvoiced(item.deliveryNoteRow_id, true);
             setDeliveryNoteRowSuggestion(item.deliveryNoteRow_id, false);
-            
+            //as requested by Paolo on march the 8th 2021 just one row is enough to set as invoiced all the delivery note
+            setDeliveryNoteInvoiced( getDeliveryNoteByDeliveryNoteRowId(item.deliveryNoteRow_id).getLong("deliveryNote_id"), true );
             
             //cheks if the deliveryNoteRow refers to an order
             if( getDeliveryNoteRowOrderId(item.deliveryNoteRow_id) != null )

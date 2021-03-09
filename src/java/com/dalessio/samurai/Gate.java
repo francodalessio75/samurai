@@ -2786,7 +2786,7 @@ public class Gate extends HttpServlet implements HttpSessionListener {
                         {
                             DeliveryNote.Item item;
                             item = deliveryNote.new Item( deliveryNotesRows_dbr, j  );
-                            items.add(item);
+                            items.add(item);    
                         }
                     }
 
