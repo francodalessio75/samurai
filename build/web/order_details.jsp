@@ -98,6 +98,7 @@
                 <div id="myDropdown_tools" class="Dropdown_content Tools">
                     <div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('changeCredentials.jsp','_self');">CAMBIA PASSWORD</div>
                     <%if( "admin".equals(user_role) ){%><div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('invoiceDateUpdating.jsp','_self');">CAMBIA DATA FATTURA</div><%}%>
+                    <%if( "admin".equals(user_role) ){%><div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('scheduleDates.jsp','_self');">SCADENZE</div><%}%>
                     <div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('landing.jsp','_self');">LOG-OUT</div>
                 </div>
             </div>
@@ -188,7 +189,7 @@
                         <th class="Detail_header" id="title_label">CARTELLA LAVORO</th>
                         <td>
                             <span class="Button" onclick="window.open('titlepage.jsp?order_id=<%=order_id%>','_blank');">STAMPA CARTELLA</span>
-                            <!--span class="Button" onclick="window.open('orderCover.jsp?order_id=<%=order_id%>','_blank');">STAMPA CARTELLA 2</span-->
+                            <span class="Button" onclick="window.open('orderCover.jsp?order_id=<%=order_id%>','_blank');">STAMPA CARTELLA 2</span>
                         </td>
                     </tr>
                     

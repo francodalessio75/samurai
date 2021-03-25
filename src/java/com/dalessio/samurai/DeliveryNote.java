@@ -29,6 +29,7 @@ public class DeliveryNote
     public Integer packagesNumber;
     public Double weight;
     public String notes;
+    public Boolean invoiced;
     
     public final List<Item> items = new ArrayList<>();
 
@@ -66,6 +67,7 @@ public class DeliveryNote
         packagesNumber = JSON.getInteger(json,"packagesNumber");
         weight = JSON.getDouble(json,"weight");
         notes = JSON.getString(json,"notes");
+        invoiced = JSON.getBoolean(json,"invoiced");
         
         items.clear();
         JsonArray rows = JSON.getJsonArray(json,"items");
@@ -97,6 +99,7 @@ public class DeliveryNote
         packagesNumber = dbr.getInteger("packagesNumber");
         weight = dbr.getDouble("weight");
         notes = dbr.getString("notes");
+        invoiced = dbr.getBoolean("invoiced");
         
         items.clear();
         
@@ -127,6 +130,7 @@ public class DeliveryNote
         packagesNumber = dbr.getInteger("packagesNumber");
         weight = dbr.getDouble("weight");
         notes = dbr.getString("notes");
+        invoiced = dbr.getBoolean("invoced");
         
         items.clear();
         
@@ -200,6 +204,7 @@ public class DeliveryNote
         jsonDN.addProperty("packagesNumber", dbr.getInteger("packagesNumber"));
         jsonDN.addProperty("weight", dbr.getDouble("weight"));
         jsonDN.addProperty("notes", dbr.getString("notes"));
+        jsonDN.addProperty("invoiced", dbr.getBoolean("invoiced"));
         
         //creates items array
         JsonArray items = new JsonArray();
@@ -253,6 +258,7 @@ public class DeliveryNote
         jsonDN.addProperty("packagesNumber", dbr.getInteger( index, "packagesNumber"));
         jsonDN.addProperty("weight", dbr.getDouble( index, "weight"));
         jsonDN.addProperty("notes", dbr.getString( index, "notes"));
+        jsonDN.addProperty("invoiced", dbr.getBoolean( index, "invoiced"));
         
         //creates items array
         JsonArray items = new JsonArray();

@@ -37,39 +37,39 @@
     String date = "";//DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now());
     
     //confirm button text
-    String confirmButtonText = "CONFERMA CREAZIONE";
+    String confirmButtonText = "";
     //if invoice_id is not null invoice details must be shown in the page
     try{
         quote_id = Long.parseLong(request.getParameter("quote_id"));
     }catch(NumberFormatException ex ){}
 
-    Boolean duplicate = false;
+    Boolean duplicate = Boolean.parseBoolean(request.getParameter("duplicate"));
 
     Boolean hasAttachments = false;
-    
-    //the page is requested by clicking on a quotes table row in quotes.jsp page
-    if( quote_id != 0L )
-    { 
+
+    //If it is an update
+    if( quote_id != 0L && !duplicate){
+
         quote = dao.readQuote(quote_id);
-        
-        duplicate = Boolean.parseBoolean(request.getParameter("duplicate"));
-          
         date = DateTimeFormatter.ISO_LOCAL_DATE.format(quote.date);
-
-        // amount = new BigDecimal(quote.amount).setScale(2, RoundingMode.HALF_UP)+""; Eliminated the 11th July 2019 becouse the total not always is correct, eg. when different versions of the same product are offered  
-
         number = quote.number +"-"+date.substring(2,4);
-
-        //UPDATE 
-        if( !duplicate )
-            confirmButtonText = "CONFERMA MODIFICHE";
-
         hasAttachments = dao.readQuoteAttachments( quote_id, user_id ).rowsCount() > 0;
-        
+        confirmButtonText = "CONFERMA MODIFICHE";
     }
-    //sets the taskdate to current day if task_id is null
-    else
+    //if it is a duplication
+    else if( quote_id != 0L && duplicate ){
+
+        quote = dao.readQuote(quote_id);
+        hasAttachments = dao.readQuoteAttachments( quote_id, user_id ).rowsCount() > 0;
+        confirmButtonText = "CONFERMA CREAZIONE";
         date = LocalDate.now().toString();
+
+    }
+    //if is a creation
+    else if( quote_id == 0L ){
+        confirmButtonText = "CONFERMA CREAZIONE";
+        date = LocalDate.now().toString();
+    }
     
     DbResult dbr_user = dao.readUsers( user_id);
     String user_role = dbr_user.getString("role");
@@ -119,6 +119,7 @@
                 <div id="myDropdown_tools" class="Dropdown_content Tools">
                     <div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('changeCredentials.jsp','_self');">CAMBIA PASSWORD</div>
                     <%if( "admin".equals(user_role) ){%><div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('invoiceDateUpdating.jsp','_self');">CAMBIA DATA FATTURA</div><%}%>
+                    <%if( "admin".equals(user_role) ){%><div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('scheduleDates.jsp','_self');">SCADENZE</div><%}%>
                     <div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('landing.jsp','_self');">LOG-OUT</div>
                 </div>
             </div>

@@ -191,6 +191,10 @@ public class Gate extends HttpServlet implements HttpSessionListener {
                     case "print_credit_note" : printCreditNote( request, jsonResponse ); break;
                     case "get_credit_note_xml" : getCreditNoteXML( request, jsonResponse ); break;
                     
+                    //Amount Schedule Dates
+                    case "fill_amount_schedule_dates" : fillAmountScheduleDates( request, jsonResponse ); break;
+                    case "read_amount_schedule_dates" : readAmountScheduleDates( request, jsonResponse ); break;
+                    
                     default:
                     {
                         jsonResponse.addProperty("success",false);
@@ -2360,12 +2364,14 @@ public class Gate extends HttpServlet implements HttpSessionListener {
                     record.add( new JsonPrimitive( 0.0 ) );
                 else
                     record.add( new JsonPrimitive( dbr.getDouble( i, "externalJobsHours" )));
-                
+                //31 Has Attachment:  calls DAO to know if the task has got unless one related attachment
+                record.add( new JsonPrimitive( dbr.getInteger(i, "hasAttachment") ));
+      
                 tasks.add(record);
             }
             
             jsonResponse.add("tasks", tasks);
-            
+            jsonResponse.addProperty("success",true);
         }
         else
         {
@@ -2455,7 +2461,6 @@ public class Gate extends HttpServlet implements HttpSessionListener {
             jsonResponse.addProperty("message","not authenticated");
         }
     }
-    
     
     private void deleteTask( HttpServletRequest request, JsonObject jsonResponse ) throws SQLException
     {
@@ -2781,7 +2786,7 @@ public class Gate extends HttpServlet implements HttpSessionListener {
                         {
                             DeliveryNote.Item item;
                             item = deliveryNote.new Item( deliveryNotesRows_dbr, j  );
-                            items.add(item);
+                            items.add(item);    
                         }
                     }
 
@@ -4156,6 +4161,104 @@ public class Gate extends HttpServlet implements HttpSessionListener {
             jsonResponse.addProperty("success",false);
             jsonResponse.addProperty("message","not authenticated");
         }
+    }
+    
+    //AMOUNT SCHEDULE DATE
+    
+    private void readAmountScheduleDates( HttpServletRequest request, JsonObject jsonResponse ) throws SQLException
+    {
+        /*ask for a session, if it doesn't exist, it won't be created. 
+        Note that this mechanism of session checking avoids malware attempts
+        to enter the system without executing log-in procedure*/
+        HttpSession session = request.getSession(false);
+        
+        if( session != null && session.getAttribute("user_id") != null )
+        {
+            // reads session data
+            DataAccessObject dao = (DataAccessObject) session.getAttribute("dao");
+            
+            
+            // reads operation parameters
+            Long customer_id = null;
+            try{ customer_id = Long.parseLong( request.getParameter( "customer_id" ) );}
+            catch( NumberFormatException Nex){}
+            
+            String fromDate = request.getParameter( "fromDate" ) == null || request.getParameter( "fromDate" ).equals("")  ? null : request.getParameter( "fromDate" ).replace("-","") ;
+            
+            String toDate = request.getParameter( "toDate" ) == null || request.getParameter( "toDate" ).equals("") ? null :  request.getParameter( "toDate" ).replace("-","") ;
+                               
+            // asks DB for quotes
+            List<AmountSchedule> amountSchedules = dao.readAmountSchedules( customer_id,  fromDate, toDate );
+            
+            /*DbResult.defaultJsonMode = JsonMode.LIST_OF_OBJECTS; this is by Gianluca*/
+
+            JsonArray jsonAmountSchedules = new JsonArray();
+            
+            for( int i = 0; i < amountSchedules.size(); i++)
+            {
+                JsonObject json = AmountSchedule.getJson( amountSchedules.get(i) );
+                
+                jsonAmountSchedules.add(json);
+            } 
+            
+            jsonResponse.addProperty("success",true);
+            
+            jsonResponse.add("amountSchedules",jsonAmountSchedules);
+            
+        }
+        else
+        {
+            jsonResponse.addProperty("success",false);
+            jsonResponse.addProperty("message","not authenticated");
+        }
+    }
+    
+    /**
+     * To be called once befor deploying in production the version
+     * it populates the amount schedule DB table with all invoices data
+     * at the moment of the execution of the method
+     * @param request
+     * @param jsonResponse
+     * @throws SQLException 
+     */
+    private void fillAmountScheduleDates( HttpServletRequest request, JsonObject jsonResponse ) throws SQLException
+    {
+        HttpSession session = request.getSession(false);
+        
+        if( session != null && session.getAttribute("user_id") != null )
+        {
+            // reads session data
+            DataAccessObject dao = (DataAccessObject) session.getAttribute("dao");
+            
+            //reads all invoices
+            DbResult invoces_dbr = dao.readInvoices(null,null, null, null, null);
+            
+            jsonResponse.addProperty("success",true);
+            
+          
+            
+            //prints the statement to excute on managment studuio
+            String sql = "";
+            Long invoice_id = 0L;
+            for( int i = 0; i < invoces_dbr.rowsCount(); i++ )
+            {
+                invoice_id = invoces_dbr.getLong(i,"invoice_id");
+                sql += " INSERT INTO dyn_AmountScheduleDates ( invoice_id, customer_id, ordinal, amount, amountDate ) " +
+                       "SELECT invoice_id, customer_id, 1, firstAmount, firstAmountDate FROM dyn_Invoices " + 
+                        "WHERE invoice_id = " + invoice_id;
+                sql += " INSERT INTO dyn_AmountScheduleDates ( invoice_id, customer_id, ordinal, amount, amountDate ) " +
+                       "SELECT invoice_id, customer_id, 2, secondAmount, secondAmountDate FROM dyn_Invoices "+ 
+                        "WHERE invoice_id = " + invoice_id;
+                sql += " INSERT INTO dyn_AmountScheduleDates ( invoice_id, customer_id, ordinal, amount, amountDate ) " +
+                       "SELECT invoice_id, customer_id, 3, thirdAmount, thirdAmountDate FROM dyn_Invoices "+ 
+                        "WHERE invoice_id = " + invoice_id;
+            }
+            
+            jsonResponse.addProperty("query",sql);
+            
+        }
+        
+    
     }
     
 }

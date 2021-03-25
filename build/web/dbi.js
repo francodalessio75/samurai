@@ -387,7 +387,20 @@ app.createOrder = function( customer_id, user_id, jobType_id, date, machinaryMod
 /**
     Long order_id, Long creator_id, String order_code, Long completion_state_id, String customerDenominationHint, String machinaryModelHint, String jobTypeHint, String fromDate, String toDate
  */
- app.readOrders = function( order_id, creator_id, order_code, order_description, completion_state_id, availability_id, customer_idString, machinaryModelHint, jobType_idString, fromDate, toDate, successCallback, failCallback )
+ app.readOrders = function( 
+         order_id,
+        creator_id,
+        order_code,
+        order_description,
+        completion_state_id,
+        availability_id,
+        customer_idString,
+        machinaryModelHint,
+        jobType_idString,
+        fromDate,
+        toDate,
+        successCallback,
+        failCallback )
  {
     var url = encodeURI("/Samurai/gate?&op=read_orders");
     if( order_id !== null )
@@ -654,44 +667,44 @@ app.taskUpload = function( task_id, successCallback, failCallback )
 
 app.readTasks = function( task_id, user_id, order_id, operator_id, orderCode, jobType_id, jobSubtype_id, customer_id,  order_creator_id, fromDate, toDate, completion_state_id, successCallback, failCallback )
 {
-     //all tasks
+    //all tasks
     var url = encodeURI("/Samurai/gate?&op=read_tasks");
     //only one
     if( task_id !== null && task_id !== undefined )
         url = encodeURI("/Samurai/gate?&op=read_tasks&task_id="+task_id);
-    
+
     //only those related to the order
     if( user_id !== null && user_id !== undefined )
         url = encodeURI("/Samurai/gate?&op=read_tasks&user_id="+user_id);
-    
+
     //only those related to the order
     if( order_id !== null && order_id !== undefined )
         url = encodeURI("/Samurai/gate?&op=read_tasks&order_id="+order_id);
-    
+
     if( operator_id !== null && operator_id !== undefined )
         url = url + encodeURI("&operator_id="+operator_id);
-    
+
     if( orderCode !== null && orderCode !== undefined )
         url = url + encodeURI( "&orderCode="+orderCode);
-    
+
     if( jobType_id !== null && jobType_id !== undefined )
         url = url + encodeURI( "&jobType_id="+jobType_id);
-    
+
     if( jobSubtype_id !== null && jobSubtype_id !== undefined )
         url = url + encodeURI( "&jobSubtype_id="+jobSubtype_id);
-    
+
     if( customer_id !== null && customer_id !== undefined )
         url = url + encodeURI(  "&customer_id="+customer_id);
-  
+
     if( order_creator_id !== null && order_creator_id !== undefined )
         url = url + encodeURI("&order_creator_id="+order_creator_id);
-    
+
     if( fromDate !== null && fromDate !== ("") && fromDate !== undefined )  
         url = url + encodeURI("&fromDate="+fromDate);
-    
+
     if( toDate !== null && toDate !== ("") && toDate !== undefined )  
         url = url + encodeURI("&toDate="+toDate);
-    
+
     if( completion_state_id !== null && completion_state_id !== undefined )  
         url = url + encodeURI("&completion_state_id="+completion_state_id);
     
@@ -876,24 +889,27 @@ app.readDeliveryNotes = function( deliveryNote_id, customer_id, transporter_id, 
 {
      //all tasks
     var url = encodeURI("/Samurai/gate?&op=read_delivery_notes");
-   
-    if( deliveryNote_id !== null && deliveryNote_id !== undefined )
-        url = url + encodeURI("&deliveryNote_id="+deliveryNote_id);
     
-    if( customer_id !== null && customer_id !== undefined )
-        url = url + encodeURI( "&customer_id="+customer_id);
-    
-    if( transporter_id !== null && transporter_id !== undefined )
-        url = url + encodeURI( "&transporter_id="+transporter_id);
-    
-    if( number !== null && number !== undefined )
+    //if number is not empty all other criteria must be ignored
+    if( number !== "" && number !== null && number !== undefined ){
         url = url + encodeURI( "&number="+number);
-  
-    if( fromDate !== null && fromDate !== ("") && fromDate !== undefined )  
-        url = url + encodeURI("&fromDate="+fromDate);
-    
-    if( toDate !== null && toDate !== ("") && toDate !== undefined )  
-        url = url + encodeURI("&toDate="+toDate);
+    }else{
+   
+        if( deliveryNote_id !== null && deliveryNote_id !== undefined )
+            url = url + encodeURI("&deliveryNote_id="+deliveryNote_id);
+
+        if( customer_id !== null && customer_id !== undefined )
+            url = url + encodeURI( "&customer_id="+customer_id);
+
+        if( transporter_id !== null && transporter_id !== undefined )
+            url = url + encodeURI( "&transporter_id="+transporter_id);
+
+        if( fromDate !== null && fromDate !== ("") && fromDate !== undefined )  
+            url = url + encodeURI("&fromDate="+fromDate);
+
+        if( toDate !== null && toDate !== ("") && toDate !== undefined )  
+            url = url + encodeURI("&toDate="+toDate);
+    }
 
     fetch(url, {credentials: 'same-origin'})
     .then(response=>response.json())
@@ -990,21 +1006,23 @@ app.readInvoices = function( invoice_id, customer_id, number, fromDate, toDate, 
 {
      //all tasks
     var url = encodeURI("/Samurai/gate?&op=read_invoices");
-   
-    if( invoice_id !== null && invoice_id !== undefined )
-        url = url + encodeURI("&invoice_id="+invoice_id);
     
-    if( customer_id !== null && customer_id !== undefined )
-        url = url + encodeURI( "&customer_id="+customer_id);
-    
-    if( number !== null && number !== undefined )
+    if( number !== "" && number !== null && number !== undefined ){
         url = url + encodeURI( "&number="+number);
-    
-    if( fromDate !== null && fromDate !== ("") && fromDate !== undefined )  
-        url = url + encodeURI("&fromDate="+fromDate);
-    
-    if( toDate !== null && toDate !== ("") && toDate !== undefined )  
-        url = url + encodeURI("&toDate="+toDate);
+    }else{
+   
+        if( invoice_id !== null && invoice_id !== undefined )
+            url = url + encodeURI("&invoice_id="+invoice_id);
+
+        if( customer_id !== null && customer_id !== undefined )
+            url = url + encodeURI( "&customer_id="+customer_id);
+
+        if( fromDate !== null && fromDate !== ("") && fromDate !== undefined )  
+            url = url + encodeURI("&fromDate="+fromDate);
+
+        if( toDate !== null && toDate !== ("") && toDate !== undefined )  
+            url = url + encodeURI("&toDate="+toDate);
+    }
 
     fetch(url, {credentials: 'same-origin'})
     .then(response=>response.json())
@@ -1127,21 +1145,28 @@ app.readQuotes = function( quote_id, customer_id, number, fromDate, toDate, succ
 {
      //all tasks
     var url = encodeURI("/Samurai/gate?&op=read_quotes");
-   
-    if( quote_id !== null && quote_id !== undefined )
-        url = url + encodeURI("&quote_id="+quote_id);
     
-    if( customer_id !== null && customer_id !== undefined )
-        url = url + encodeURI( "&customer_id="+customer_id);
-    
-    if( number !== null && number !== undefined )
+    //if the search is by number all ather filters mus be ignored
+    if( number !== null && number !== undefined && number !== "" ){
         url = url + encodeURI( "&number="+number);
-    
-    if( fromDate !== null && fromDate !== ("") && fromDate !== undefined )  
-        url = url + encodeURI("&fromDate="+fromDate);
-    
-    if( toDate !== null && toDate !== ("") && toDate !== undefined )  
-        url = url + encodeURI("&toDate="+toDate);
+    }
+    else{
+   
+        if( quote_id !== null && quote_id !== undefined )
+            url = url + encodeURI("&quote_id="+quote_id);
+
+        if( customer_id !== null && customer_id !== undefined )
+            url = url + encodeURI( "&customer_id="+customer_id);
+
+        if( number !== null && number !== undefined )
+            url = url + encodeURI( "&number="+number);
+
+        if( fromDate !== null && fromDate !== ("") && fromDate !== undefined )  
+            url = url + encodeURI("&fromDate="+fromDate);
+
+        if( toDate !== null && toDate !== ("") && toDate !== undefined )  
+            url = url + encodeURI("&toDate="+toDate);
+    }
 
     fetch(url, {credentials: 'same-origin'})
     .then(response=>response.json())
@@ -1389,6 +1414,31 @@ app.getCreditNoteXML = function( creditNote_id, successCallback, failCallback)
     {
         if(jsonResponse.success) successCallback();
         else failCallback(jsonResponse.message);
+    })
+    .catch(error=>alert(error)); 
+};
+
+//SCHEDULE DATES
+app.readScheduleDates = function( customer_id, fromDate, toDate, successCallback, failCallback )
+{
+     //all tasks
+    var url = encodeURI("/Samurai/gate?&op=read_amount_schedule_dates");
+    
+    if( customer_id !== null && customer_id !== undefined )
+        url = url + encodeURI( "&customer_id="+customer_id);
+    
+    if( fromDate !== null && fromDate !== ("") && fromDate !== undefined )  
+        url = url + encodeURI("&fromDate="+fromDate);
+    
+    if( toDate !== null && toDate !== ("") && toDate !== undefined )  
+        url = url + encodeURI("&toDate="+toDate);
+
+    fetch(url, {credentials: 'same-origin'})
+    .then(response=>response.json())
+    .then(jsonResponse=>
+    {
+        if(jsonResponse.success) successCallback(jsonResponse.amountSchedules);
+        else failCallback();
     })
     .catch(error=>alert(error)); 
 };

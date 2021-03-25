@@ -83,6 +83,7 @@
                 <div id="myDropdown_tools" class="Dropdown_content Tools">
                     <div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('changeCredentials.jsp','_self');">CAMBIA PASSWORD</div>
                     <%if( "admin".equals(user_role) ){%><div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('invoiceDateUpdating.jsp','_self');">CAMBIA DATA FATTURA</div><%}%>
+                    <%if( "admin".equals(user_role) ){%><div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('scheduleDates.jsp','_self');">SCADENZE</div><%}%>
                     <div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('landing.jsp','_self');">LOG-OUT</div>
                 </div>
             </div>
@@ -148,15 +149,16 @@
                 <div id="refresh" class="Button" onclick="app.filterTasks( '<%=user_id%>', '<%=user_role%>' );"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>RICERCA</div>
             </div>     
 
-            <div class="Content WithFilter">
+            <div class="Content WithFilter" style="text-align: center;">
                 <table class="Table" >
-                    <thead>
+                    <thead >
                         <th>DATA</th>
                         <th>OPERATORE</th>
                         <%if("admin".equals(user_role)){%><th>COSTO ORARIO</th><%}%>
                         <th>CODICE</th>
                         <th>CLIENTE</th>
                         <th>STATO LAVORO</th>
+                        <th><i  id="searchIcon" class="fa fa-paperclip fa-3x" aria-hidden="true"></i></th>
                         <th>DESC. LAVORO</th>
                         <th>TIPO LAVORO</th>
                         <th>TIPO LAVOR.NE</th>
@@ -191,6 +193,7 @@
                 <td class="OrderCode"></td>
                 <td class="CustomerDenomination"></td>
                 <td class="CompletionState"></td>
+                <td class="HasAttachment"></td>
                 <td class = "MachinaryModel"></td>
                 <td class = "JobType"></td>
                 <td class = "JobSubtype"></td>

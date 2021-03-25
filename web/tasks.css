@@ -186,3 +186,13 @@ th
     top:40rem;
     left:0.1rem;
 }
+
+.fa fa-paperclip{
+    text-align: center;
+}
+
+#header-fixed {
+    position: fixed;
+    top: 0px; display:none;
+    background-color:white;
+}

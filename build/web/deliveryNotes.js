@@ -532,6 +532,8 @@ app.fillDeliveryNotesTable = function (deliveryNotes)
         templateContent.querySelector(".DeliveryNoteTableRow").onclick = app.setCurrentDeliveryNoteId(deliveryNotes[i].deliveryNote_id);
 
         templateContent.querySelector(".DeliveryNoteNumber").innerHTML = deliveryNotes[i].number + "-" + deliveryNotes[i].year;
+        
+        templateContent.querySelector(".Invoiced").innerHTML = deliveryNotes[i].invoiced  ? '<i class="fa fa-money" aria-hidden="true"></i>' : '';
 
         //formats the date
         var date = deliveryNotes[i].date;

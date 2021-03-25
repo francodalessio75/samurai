@@ -73,7 +73,7 @@ app.setCurrentCustomerId = function(customer_id)
     };
     
 /* Creates a new customer !!!! SUBSTITUDED BY cerateNewCustomer2 ON 08/09/2018 BECOUSE IT WAS NOT POSSIBLE THE NEW CUSTOMER  CREATION. 
- * REPORTED BY ANGELO AND PAOLO*/ 
+ * REPORTED BY ANGELO AND PAOLO*/
 app.createNewCustomer = function()
 {
     //validation checks message
@@ -102,7 +102,7 @@ app.createNewCustomer = function()
         
     }
     //if vat code has not the right format
-    if(!VATCodePatt.test(vatCode))
+    if(!vatCode.equals("") && !VATCodePatt.test(vatCode))
     {
          message = message.concat("IL campo Parita IVA deve essere formato da 11 valori numerici\n");
         
@@ -228,7 +228,7 @@ app.createNewCustomer2 = function()
         
     }
     //if vat code has not the right format
-    if(!VATCodePatt.test(vatCode))
+    if( vatCode !== "" && (!VATCodePatt.test(vatCode)))
     {
          message = message.concat("IL campo Parita IVA deve essere formato da 11 valori numerici\n");
         

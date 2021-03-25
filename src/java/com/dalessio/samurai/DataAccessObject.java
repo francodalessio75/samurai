@@ -1296,7 +1296,9 @@ public class DataAccessObject
             catch(Exception ex){System.out.println("date conversion issues");}
         }
         
-        return dbi.read("dyn_Tasks_view").order("operator_id, taskDate DESC")
+        
+        
+        DbResult tasks_dbr =  dbi.read("dyn_Tasks_view").order("operator_id, taskDate DESC")
             .andWhere(getUserRole( user_id ).equals("operator"),"operator_id = " + user_id )
             .andWhere(task_id != null,"task_id = " + task_id )
             .andWhere( order_id != null,"order_id = " + order_id )
@@ -1310,6 +1312,8 @@ public class DataAccessObject
             .andWhere( toDate != null && !toDate.equals("")," taskDate <= " + toDate )
             .andWhere( completion_state_id != null && completion_state_id > 0,"completion_state_id = " + completion_state_id )
             .go();
+        
+        return tasks_dbr;
     }
     
     public DbResult readTask( Long task_id ) throws SQLException
@@ -1388,6 +1392,7 @@ public class DataAccessObject
             .go().getDeleteCount() == 1;
     }
     
+    
     //COMPLETION STATES
     public DbResult readCompletionStates() throws SQLException
     {
@@ -1411,16 +1416,31 @@ public class DataAccessObject
             .go();
     }
     
+    /**
+     * associates the file with the task and sets the task column hasAttachment to 1 
+     * @param task_id
+     * @param user_id
+     * @param originalFileName
+     * @return
+     * @throws SQLException 
+     */
     Long createTaskAttachment( Long task_id, Long user_id, String originalFileName ) throws SQLException
     {
         String   date = DTF.format(LocalDate.now()).replace("-", "");
         
-        return dbi.create("dyn_TasksAttachments")
+        Long result = dbi.create("dyn_TasksAttachments")
             .value("task_id", task_id)
             .value("user_id", user_id)
             .value("date", date)
             .value("originalFileName", originalFileName)
             .goAndGetId();
+        
+        dbi.update("dyn_Tasks")
+            .andWhere("task_id = " + task_id )
+            .value("hasAttachment", 1 )
+            .go();
+        
+        return result;
     }
     
     Boolean setTaskAttachmentName( String originalFileName, String currentFileName, Long taskAttachment_id ) throws SQLException
@@ -1468,13 +1488,27 @@ public class DataAccessObject
         }
     }
     
-    public void deleteTaskAttachments( Long attachment_id ) throws SQLException
+    /**
+     * deletes the attachment and if it is the last attachment of the task update the coulmnn 
+     * has attachment to 0
+     * @param attachment_id
+     * @throws SQLException 
+     */
+    public void deleteTaskAttachments( Long taskAttachment_id ) throws SQLException
     {
+        //gets task id
+        Long task_id = dbi.read("dyn_TasksAttachments")
+                .andWhere("taskAttachment_id = " + taskAttachment_id )
+                .go()
+                .getLong("task_id");
+        
+        
+        // dletes the fiel from the filesystem and from the DB 
         //Path of the attachment
         Path p1;
         //retrieves all attachments having null as task_id
         DbResult dbr_attachments =  dbi.read("dyn_TasksAttachments")
-            .andWhere("taskAttachment_id = " + attachment_id )
+            .andWhere("taskAttachment_id = " + taskAttachment_id )
             .go();
         
         for( int i = 0; i < dbr_attachments.rowsCount(); i++ )
@@ -1488,6 +1522,19 @@ public class DataAccessObject
             dbi.delete("dyn_TasksAttachments")
                 .andWhere("taskAttachment_id = " + dbr_attachments.getLong(i,"taskAttachment_id"))
                 .go();
+        }
+        
+        //reads all attachments having the same value as task_id
+        Integer attachmentsNumber = dbi.read("dyn_TasksAttachments")
+                .andWhere("task_id = " + task_id )
+                .go()
+                .rowsCount();
+        //if theere are no other attacments set to 0 the hasAttachment value of the task
+        if( attachmentsNumber == 0 ){
+            dbi.update("dyn_Tasks")
+            .andWhere("task_id = " + task_id )
+            .value("hasAttachment", 0 )
+            .go();
         }
     }
     
@@ -1554,14 +1601,24 @@ public class DataAccessObject
         LocalDate fromDate, 
         LocalDate toDate ) throws SQLException
     {
+        String fromDateString = null;
+        String toDateString = null;
+        
         if( fromDate == null )
-            fromDate = LocalDate.of(1900,1,1);
+        {
+            fromDateString = "19000101";
+        }else
+        {
+            fromDateString = DateTimeFormatter.ISO_LOCAL_DATE.format(fromDate).replace("-","");
+        }
         
         if( toDate == null )
-            toDate = LocalDate.of(3000,1,1);
-        
-        String fromDateString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.of(fromDate, LocalTime.now()));
-        String toDateString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.of(toDate, LocalTime.now()));
+        {
+            toDateString = "30000101";
+        }else
+        {
+            toDateString = DateTimeFormatter.ISO_LOCAL_DATE.format(toDate).replace("-","");
+        }
         
         String num = number != null && !number.equals("") && number.contains("-") ? number.split("-")[0] : null;
         String year = number != null && !number.equals("") && number.contains("-") ? number.split("-")[1] : null;
@@ -1759,6 +1816,15 @@ public class DataAccessObject
             .value("suggested", suggest )
             .go();
     }
+    private void setDeliveryNoteInvoiced( Long deliveryNote_id, Boolean invoiced ) throws SQLException
+    {
+        Integer invoiced_ = invoiced ? 1 : 0 ;
+        
+        dbi.update("dyn_DeliveryNotes")
+            .andWhere("deliveryNote_id = " + deliveryNote_id )
+            .value("invoiced", invoiced_ )
+            .go();
+    }
     
     /**
      * returns the order_id related to the deliveryNoterow 
@@ -1821,7 +1887,7 @@ public class DataAccessObject
     
     public DbResult getDeliveryNoteByDeliveryNoteRowId( Long deliveryNoteRow_id ) throws SQLException
     {
-        Long deliveryNote_id = dbi.read("dyn_deliveryNotesRows")
+        Long deliveryNote_id = dbi.read("dyn_DeliveryNotesRows")
                 .where("deliveryNoteRow_id = " + deliveryNoteRow_id)
                 .go().getLong("deliveryNote_id");
         
@@ -1888,7 +1954,17 @@ public class DataAccessObject
             if( invoice.items.get(i).deliveryNoteRow_id != null)
                 setDeliveryNoteSuggested(invoice.items.get(i).deliveryNoteRow_id );
         }
+        
+        //creates the related three amount schedule dates
+        sql = "INSERT INTO dyn_AmountScheduleDates ( invoice_id, customer_id, ordinal, amount, amountDate ) " +
+              "SELECT invoice_id, customer_id, 1, firstAmount, firstAmountDate FROM dyn_Invoices WHERE invoice_id = " + invoice.invoice_id +
+              "INSERT INTO dyn_AmountScheduleDates ( invoice_id, customer_id, ordinal, amount, amountDate ) " +
+              "SELECT invoice_id, customer_id, 2, secondAmount, secondAmountDate FROM dyn_Invoices WHERE invoice_id = " + invoice.invoice_id +
+              "INSERT INTO dyn_AmountScheduleDates ( invoice_id, customer_id, ordinal, amount,amountDate ) " + 
+              "SELECT invoice_id, customer_id, 3, thirdAmount, thirdAmountDate FROM dyn_Invoices WHERE invoice_id = " + invoice.invoice_id  ;
        
+        dbi.execute(sql);
+        
         return readInvoices(invoice.invoice_id, null,null,null,null);
     }
     
@@ -1906,7 +1982,8 @@ public class DataAccessObject
             //then sets the deliveryNoteRow as invoiced and to be not suggested again
             setDeliveryNoteRowInvoiced(item.deliveryNoteRow_id, true);
             setDeliveryNoteRowSuggestion(item.deliveryNoteRow_id, false);
-            
+            //as requested by Paolo on march the 8th 2021 just one row is enough to set as invoiced all the delivery note
+            setDeliveryNoteInvoiced( getDeliveryNoteByDeliveryNoteRowId(item.deliveryNoteRow_id).getLong("deliveryNote_id"), true );
             
             //cheks if the deliveryNoteRow refers to an order
             if( getDeliveryNoteRowOrderId(item.deliveryNoteRow_id) != null )
@@ -1955,14 +2032,29 @@ public class DataAccessObject
         LocalDate fromDate, 
         LocalDate toDate ) throws SQLException
     {
+        String fromDateString = null;
+        String toDateString = null;
+        
         if( fromDate == null )
-            fromDate = LocalDate.of(1900,1,1);
+        {
+            fromDateString = "19000101";
+        }else
+        {
+            fromDateString = DateTimeFormatter.ISO_LOCAL_DATE.format(fromDate).replace("-","");
+        }
         
         if( toDate == null )
-            toDate = LocalDate.of(3000,1,1);
+        {
+            toDateString = "30000101";
+        }else
+        {
+            toDateString = DateTimeFormatter.ISO_LOCAL_DATE.format(toDate).replace("-","");
+        }
         
-        String fromDateString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.of(fromDate, LocalTime.now()));
-        String toDateString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.of(toDate, LocalTime.now()));
+//        if(fromDateString == null){
+//            fromDateString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.of(fromDate, LocalTime.now()));
+//        }
+//        String toDateString = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.of(toDate, LocalTime.now()));
         
         String num = number != null && !number.equals("") && number.contains("-") ? number.split("-")[0] : null;
         String year = number != null && !number.equals("") && number.contains("-") ? number.split("-")[1] : null;
@@ -1977,6 +2069,7 @@ public class DataAccessObject
             .andWhere( number != null && !number.equals(""), "year = " + year )
             .andWhere( " date >= '" + fromDateString + "'" )
             .andWhere( " date <= '" + toDateString + "'")
+            .order("year,number")
             .go();
 
         System.out.println("INVOICES READ [DataAccessObject.readInvoices] : elapsed msec "+(new Date().getTime()-start));
@@ -2000,7 +2093,6 @@ public class DataAccessObject
 
         DbResult out = dbi.read( "dyn_Invoices_view" ).order("number")
             .andWhere( customer_id != null, "customer_id = " + customer_id )
-            .orWhere(" am")
             .andWhere( " date >= '" + fromDateString + "'" )
             .andWhere( " date <= '" + toDateString + "'")
             .go();
@@ -2084,6 +2176,26 @@ public class DataAccessObject
             //than creates new rows
             for(int i = 0; i < invoice.items.size(); i++)
                 addInvoiceRow(invoice.items.get(i),invoice.invoice_id, i+1);
+            
+            //updates related a amount schedule dates
+            dbi.update("dyn_AmountScheduleDates")
+                .andWhere( "invoice_id = " + invoice.invoice_id )
+                .andWhere( "ordinal = 1")
+                .value("amount", invoice.firstAmount)
+                .value("amountDate", invoice.firstAmountDate.replace("-","") )
+                .go();
+            dbi.update("dyn_AmountScheduleDates")
+                .andWhere( "invoice_id = " + invoice.invoice_id )
+                .andWhere( "ordinal = 2")
+                .value("amount", invoice.secondAmount)
+                .value("amountDate", invoice.secondAmountDate.replace("-","") )
+                .go();
+            dbi.update("dyn_AmountScheduleDates")
+                .andWhere( "invoice_id = " + invoice.invoice_id )
+                .andWhere( "ordinal = 3")
+                .value("amount", invoice.thirdAmount)
+                .value("amountDate", invoice.thirdAmountDate.replace("-","") )
+                .go();
           
         return invoice.invoice_id;
     }
@@ -2733,6 +2845,42 @@ public class DataAccessObject
         return dbi.read("view_CNCessionarioCommittente")
             .andWhere( "[creditNote_id] = " + creditNote_id )
             .go();
+    }
+    
+    //AMOUNT SCHEDULE DATES
+    public List<AmountSchedule> readAmountSchedules(
+            Long customer_id, 
+            String fromDate, 
+            String toDate ) throws SQLException
+    {
+        if( fromDate == null )
+            fromDate = "19000101";
+        
+        if( toDate == null )
+            toDate = "30001231";
+       
+        
+        //gets quotes from db
+        DbResult amountSchedules_dbr = dbi.read( "dyn_AmountSchedule_view" )
+            .andWhere( customer_id != null, "customer_id = " + customer_id )
+            .andWhere( " amountDate >= '" + fromDate +"'" )
+            .andWhere( " amountDate <= '" + toDate +"'")
+            .order("amountDate")
+            .go();
+        
+        //List of amount schedules
+        List<AmountSchedule> amountSchedules = new ArrayList<>();
+        
+        //for each quotes record creates a Quote instance and put it in the collection
+        for( int i = 0; i < amountSchedules_dbr.rowsCount(); i++ )
+        {
+            //create the Quote instance
+            AmountSchedule amountSchedule = new AmountSchedule( amountSchedules_dbr.record(i));
+            
+            amountSchedules.add(amountSchedule);
+        }
+          
+        return amountSchedules;
     }
    
 }

@@ -796,87 +796,10 @@ app.filterInvoices = function()
     );
 };
 
-app.filterInvoicesSchedule = function()
-{
-    document.querySelector(".Footer_message").innerHTML = "Sto filtrando le Scadenze...";
-    
-    //assigns to app.filter current values
-    app.getFiltersValues();/* TO CHECK IF WORKS SINCE THE VALUE NUMBER IS NOT MANAGED*/
-    
-    app.readInvoicesSchedule(// deliveryNote_id, customer_id, transporter_id, number, fromDate, toDate, successCallback, failCallback
-        null,//invoice_id_id
-        app.filter.customer_id,//customer_id
-        app.filter.number,//number
-        app.filter.from_date,//fromDate
-        app.filter.to_date,//toDate
-        function( invoices )//successCallBack
-        {
-            app.fillInvoicesScheduleTable(invoices);
-            document.querySelector(".Footer_message").innerHTML = "FATTURE FILTRATE: " + invoices.length;
-        },
-        function()//failCallBack
-        {
-            document.querySelector(".Footer_message").innerHTML = "non riesco a filtrare le fatture! Contattare Assistenza. ";
-        }
-    );
-};
-
 /* refersh table rows*/
 app.fillInvoicesTable = function( invoices )
 {
     var templateItem = document.getElementById("invoiceTableRow");
-    var itemsContainer = document.querySelector(".Table tbody");
-
-    //empty the current content in the table
-    itemsContainer.innerHTML = null;
-    
-    let progressiveAmount = 0.0;
-     
-    for(var i=0; i<invoices.length; i++)
-    {
-        var templateContent =  document.importNode(templateItem.content,true);
-
-        templateContent.querySelector(".InvoiceTableRow").id = "row_"+invoices[i].invoice_id;
-        
-        templateContent.querySelector(".InvoiceTableRow").onclick = app.setCurrentInvoiceId(invoices[i].invoice_id);
-
-        templateContent.querySelector(".InvoiceNumber").innerHTML = invoices[i].number+"-"+invoices[i].year;
-        
-        //formats the date
-        var date = invoices[i].date;
-        var year = date.substring(0,4);
-        var month = date.substring(4,6);
-        var day = date.substring(6,8);
-        date = day+"/"+month+"/"+year;
-        templateContent.querySelector(".InvoiceDate").innerHTML = date;
-        
-        templateContent.querySelector(".Customer").innerHTML = invoices[i].denomination;
-        
-        templateContent.querySelector(".Taxable").innerHTML = invoices[i].taxableAmount.toFixed(2);
-        
-        templateContent.querySelector(".Total").innerHTML = invoices[i].totalAmount.toFixed(2);
-        
-        progressiveAmount += parseFloat(invoices[i].taxableAmount);
-        
-        templateContent.querySelector(".Progressive").innerHTML = progressiveAmount.toFixed(2);
-        
-        let number = invoices[i].number;
-        let shortYear = invoices[i].year;
-        
-        templateContent.querySelector(".Pdf").onclick = (event)=>
-        {
-            event.stopPropagation();
-            window.open("resources/INVOICES/FATTURA_DUESSE_"+number+"_"+shortYear+".pdf","_blank");
-        };
-        
-        itemsContainer.appendChild(templateContent); 
-    }   
-};
-
-/* refersh table rows*/
-app.fillInvoicesScheduleTable = function( invoices )
-{
-    var templateItem = document.getElementById("scheduleTableRow");
     var itemsContainer = document.querySelector(".Table tbody");
 
     //empty the current content in the table

@@ -78,6 +78,7 @@
                 <div id="myDropdown_tools" class="Dropdown_content Tools">
                     <div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('changeCredentials.jsp','_self');">CAMBIA PASSWORD</div>
                     <%if( "admin".equals(user_role) ){%><div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('invoiceDateUpdating.jsp','_self');">CAMBIA DATA FATTURA</div><%}%>
+                    <%if( "admin".equals(user_role) ){%><div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('scheduleDates.jsp','_self');">SCADENZE</div><%}%>
                     <div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('landing.jsp','_self');">LOG-OUT</div>
                 </div>
             </div>
@@ -122,13 +123,15 @@
                 <table class="Table" >
                     <col width="10%">
                     <col width="10%">
-                    <col width="70%">
+                    <col width="60%">
+                    <col width="10%">
                     <col width="10%">
                     <thead>
                         <th class="ThList">NUMERO</th>
                         <th class="ThList">DATA</th>
                         <th class="ThList">CLIENTE</th>
                         <th class="ThList">PDF</th>
+                        <th class="ThList"><i class="fa fa-money" aria-hidden="true"></i></th>
                     </thead>
                     <tbody></tbody>
                 </table>   
@@ -147,6 +150,7 @@
                 <td class="DeliveryNoteDate"></td>
                 <td class="Customer">CLIENTE</td>
                 <td class="Pdf">FILE PDF</td>
+                <td class="Invoiced"></td>
             </tr>
         </template>
    

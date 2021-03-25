@@ -161,6 +161,7 @@
                 <div id="myDropdown_tools" class="Dropdown_content Tools">
                     <div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('changeCredentials.jsp','_self');">CAMBIA PASSWORD</div>
                     <%if( "admin".equals(user_role) ){%><div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('invoiceDateUpdating.jsp','_self');">CAMBIA DATA FATTURA</div><%}%>
+                    <%if( "admin".equals(user_role) ){%><div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('scheduleDates.jsp','_self');">SCADENZE</div><%}%>
                     <div onmouseover="app.showTools()" onmouseout="app.hideTools()" onclick="window.open('landing.jsp','_self');">LOG-OUT</div>
                 </div>
             </div>
@@ -338,16 +339,16 @@
                     <th class="Detail_header Input" id="amounts">IMPORTI</th>
                     <td id="amountsRow">
                         <span class="TableLable">IMPONIBILE</span>
-                            <input   id="taxable_amount_input"  type="number" min="0" step=0.01  onchange="app.invoiceDetailsChanged('taxable_amount_input');" value= "<%=invoice == null ? "0.00" :  invoice.taxableAmount%>" disabled>  
+                            <input   id="taxable_amount_input"  type="number" min="0" step=0.01  onchange="app.invoiceDetailsChanged('taxable_amount_input');" value= "<%=invoice == null ? "0.00" :  new BigDecimal(invoice.taxableAmount).setScale(2, RoundingMode.HALF_UP)+""%>" disabled>  
                             <span class="TableLable">ALIQUOTA IVA</span>
                                 <select id="vatRate" onchange="app.invoiceDetailsChanged('vatRate');">    
                                     <option value="22" <%if( invoice == null ||  dbr_invoice.getDouble("aliquotaIVA") == 22 ){%>selected="selected"<%}%>>22%</option>
                                     <option value="4" <%if( invoice != null &&  dbr_invoice.getDouble("aliquotaIVA") == 4 ){%>selected="selected"<%}%>>4%</option>
                                     <option value="exempt" <%if( invoice != null &&  dbr_invoice.getDouble("aliquotaIVA") == 0 ){%>selected="selected"<%}%>>ESENTE</option>
                                 </select>                                  
-                            <input type="number" min="0" step=0.01 id="tax_amount_input"  onchange="app.invoiceDetailsChanged('tax_amount_input');" onwheel="this.blur()" value= "<%=invoice == null ? "0.00" : invoice.taxAmount%>" disabled>
+                            <input type="number" min="0" step=0.01 id="tax_amount_input"  onchange="app.invoiceDetailsChanged('tax_amount_input');" onwheel="this.blur()" value= "<%=invoice == null ? "0.00" : new BigDecimal(invoice.taxAmount).setScale(2, RoundingMode.HALF_UP)+""%>" disabled>
                         <span class="TableLable">TOTALE FATTURA</span>
-                            <input type="number" min="0" id="total_amount_input"  onchange="app.invoiceDetailsChanged('total_amount_input');" onwheel="this.blur()" value= "<%=invoice == null ? "0.00" : invoice.totalAmount%>" disabled>
+                            <input type="number" min="0" id="total_amount_input"  onchange="app.invoiceDetailsChanged('total_amount_input');" onwheel="this.blur()" value= "<%=invoice == null ? "0.00" : new BigDecimal(invoice.totalAmount).setScale(2, RoundingMode.HALF_UP)+""%>" disabled>
                     </td> 
                 </tr>
 
