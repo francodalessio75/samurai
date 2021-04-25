@@ -1390,7 +1390,7 @@ app.changeInvoiceDate = ()=>
         year,//number
         function()//successCallBack
         {
-            window.alert("Data fattura modificata!");
+            window.alert("Data fattura modificata! E' necessario ora allineare i dati eseguendo una modifica dalla vista di dettaglio fattura.");
             document.querySelector(".Footer_message").innerHTML = "Data fattura modificata!";
         },
         function()//failCallBack

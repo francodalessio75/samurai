@@ -1,0 +1,2 @@
+com.dalessio.samurai.DeliveryNotePdfPrinter$DeliveryNoteMyEventHandler
+com.dalessio.samurai.DeliveryNotePdfPrinter

@@ -82,8 +82,8 @@ public class DigitalInvoice_DueEsse extends DigitalInvoice
         this.data(SDF.parse(view_DigInvoice_dbr.getString("date").substring(0, 4)+"-"+view_DigInvoice_dbr.getString("date").substring(4, 6)+"-"+view_DigInvoice_dbr.getString("date").substring(6)))
             .numeroFattura(view_DigInvoice_dbr.getLong("number")+"/"+view_DigInvoice_dbr.getInteger("year"));
         
-        
-        if( !view_DigInvoice_dbr.getString("VATExemptionText").trim().equals("") )
+        //Se la fattura è in esenzione recupera il testo di esenzione IVA dall'anagrafica cliente
+        if( view_DigInvoice_dbr.getBoolean("exempt") )
         {
             testoEsenzione = view_DigInvoice_dbr.getString("VATExemptionText").replace("’","'").replace("“","''").replace("”","''");//is it possible to have a list of all forbidden characters ?
             this.nuovaCausale(testoEsenzione);
