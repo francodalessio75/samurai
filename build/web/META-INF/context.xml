@@ -16,14 +16,16 @@
            maxWaitMillis="15000"
            username="workline"
            password="workline"
-           url="jdbc:sqlserver://dalessio02.cuoogivijdct.eu-west-1.rds.amazonaws.com;databaseName=WorkLine;"
+           url="jdbc:sqlserver://127.0.0.1;databaseName=WorkLine;"
            removeAbandonedOnBorrow="true"
            removeAbandonedTimeout="300"
            logAbandoned="true"
            validationQuery="select 1"/>     
 </Context>
 <!--
-    PER DATABASE SU RDS
+    NUOVO DATABASE SU RDS
+        url="jdbc:sqlserver://giugno2021.cuoogivijdct.eu-west-1.rds.amazonaws.com;databaseName=WorkLine;"
+    PER DATABASE SU RDS ***VECCCHIA ISTANZA****
         url="jdbc:sqlserver://dalessio02.cuoogivijdct.eu-west-1.rds.amazonaws.com;databaseName=WorkLine;"
         
     PER DATABASE SU EC2 => DON'T USE FOR PRODUACTION DEPLOY!!
