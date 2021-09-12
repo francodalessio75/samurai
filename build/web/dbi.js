@@ -171,7 +171,7 @@ app.createCustomer = function( denomination, vatCode, successCallback, failCallb
  {
     var url = encodeURI( "/Samurai/gate?&op=check_vatcode&vatCode="+vatCode );
     
-     fetch( url, {credentials: 'same-origin'} )
+    fetch( url, {credentials: 'same-origin'} )
     .then( response=>response.json() )
     .then( jsonResponse=>
     {

@@ -11,6 +11,17 @@
         </group>
         <group name="my-first-app"/>
         <group name="Work"/>
-        <group/>
+        <group>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/SAMURAI/web/customers.jsp</file>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/SAMURAI/web/META-INF/context.xml</file>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/SAMURAI/src/java/com/dalessio/samurai/Config.java</file>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/SAMURAI/src/java/com/dalessio/samurai/Gate.java</file>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/SAMURAI/web/customers.js</file>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/SAMURAI/src/java/com/dalessio/samurai/digitalinvoice/DigitalInvoice_DueEsse.java</file>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/SAMURAI/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/SAMURAI/src/java/com/dalessio/samurai/InvoiceXMLPrinter_1.java</file>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/SAMURAI/web/dbi.js</file>
+            <file>file:/C:/Users/dalfra/Documents/NetBeansProjects/SAMURAI/web/customer_details.jsp</file>
+        </group>
     </open-files>
 </project-private>

@@ -93,7 +93,7 @@
                     <input id='new_customer_denomination_input' placeholder="DENOMINAZIONE"><br>
                     <input type="number" id='new_customer_vatCode_input'  placeholder="PARTITA IVA"><br>
                     <input id='new_customer_foreign_vatCode_input'  placeholder="PARTITA IVA ESTERA"><br>
-                    <span type='button' class='Button Accept' onclick="app.createNewCustomer2();">AGGIUNGI</span>
+                    <span type='button' class='Button Accept' onclick="app.createNewCustomer();">AGGIUNGI</span>
                     <span type='button' class='Button Cancel' onclick="document.querySelector('.Modal_screen').classList.remove('Visible');">ANNULLA</span>
                 </div>
             </div>

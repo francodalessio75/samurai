@@ -5,6 +5,8 @@ if(typeof app==='undefined' || app===null) app = {};
 
 app.current_customer_id = null;
 app.customers = null;
+app.fullVatCodeRegex = new RegExp(/^[0-9]{11}$/); 
+app.univocalSevenZeroCodeRegex = new RegExp(/^[0]{7}$/); 
 
 /****** CUSTOMER PAGE *********************************/
 app.getCustomersPage = function()
@@ -65,150 +67,18 @@ app.refreshCustomers = function( customers, denominationHint )
 
 /*closure*/
 app.setCurrentCustomerId = function(customer_id)
+{
+    return function()
     {
-        return function()
-        {
-            window.open("customer_details.jsp?customer_id="+customer_id,'_self');
-        };
+        window.open("customer_details.jsp?customer_id="+customer_id,'_self');
     };
+};
     
-/* Creates a new customer !!!! SUBSTITUDED BY cerateNewCustomer2 ON 08/09/2018 BECOUSE IT WAS NOT POSSIBLE THE NEW CUSTOMER  CREATION. 
- * REPORTED BY ANGELO AND PAOLO*/
+/* Creates a new customer*/ 
 app.createNewCustomer = function()
 {
     //validation checks message
     var message = "";
-    
-    //Regular Expression
-    var VATCodePatt = new RegExp(/^[0-9]{11}$/);
-    
-    var denomination = document.getElementById("new_customer_denomination_input").value;
-    var vatCode = document.getElementById("new_customer_vatCode_input").value;
-    var foreignVatCode = document.getElementById("new_customer_foreign_vatCode_input").value;
-    var IBAN = document.getElementById("IBAN_input").value;
-    
-    //VATCODE RegEx
-    var VATCodePatt = new RegExp(/^[0-9]{11}$/);
-    //if denomination is empty
-    if( denomination === null || denomination === "" )
-    {
-        message = message.concat("Il campo Denominazione è obbligatorio\n");
-        
-    }
-    /* there isn't any vat code*/
-    if( vatCode === "" && foreignVatCode === "" )
-    {
-        message = message.concat("Il campo Partita IVA è obbligatorio\n");
-        
-    }
-    //if vat code has not the right format
-    if(!vatCode.equals("") && !VATCodePatt.test(vatCode))
-    {
-         message = message.concat("IL campo Parita IVA deve essere formato da 11 valori numerici\n");
-        
-    }
-    /*if both vat codes have been inserted*/
-    if( vatCode !== "" && foreignVatCode !== "" )
-    {
-        message = message.concat("Solo uno dei campi Partita IVA può essere compilato.\n");
-        
-    }
-    
-    /*if IBAN less long then 15 charcters*/
-    if( IBAN !== "" && IBAN.length < 15 || IBAN !== "" && IBAN.length > 34  )
-    {
-        message = message.concat("L'IBAN deve essere compreso tra 15 e 34 caratteri.\n");
-        
-    }
-    
-    //checks if the vatCode already exists, if yes ask the user if wants to continue
-    if( message === "" )
-    {
-        var code;
-
-        if( vatCode !== "" )
-        {
-            code = vatCode;
-        }
-        else
-        {
-            code = foreignVatCode;
-        }
-
-        app.checkVatCode(
-            code,
-            function( denominations )
-            {
-                if( denominations.length > 0 )
-                {
-
-                    message += " La partita iva inserita appartiene già ai seguenti Clienti:\n ";
-
-                    for( var i = 0; i < denominations.length; i++ )
-                    {
-                        message += denominations[i][0];
-                        if( i < denominations.length -1 )
-                            message +=", ";
-                    }
-
-                    if( confirm(message + ".\nSi vuole continuare comunque?") )
-                    {
-                        //If denomination is not empty and only one vat code has been inserted where the italian one 
-                        //has got the rigth format then creates the customer
-                        if( ( VATCodePatt.test(vatCode) && denomination !== "" && foreignVatCode === "" ) || ( vatCode === "" && denomination !== "" && foreignVatCode !== "" ) )
-                        {
-                            app.createCustomer( denomination,vatCode,
-                                function()
-                                {
-                                    location.reload(true);
-                                },
-                                function()
-                                {
-                                    document.querySelector(".Footer_message").innerHTML = "non riesco a creare il cliente.";
-                                });  
-                        }
-                    }
-                    else
-                    {
-                        message = "Operazione annullata";
-                        alert(message);
-                    }
-                }
-                else
-                {
-                    //If denomination is not empty and only one vat code has been inserted where the italian one 
-                    //has got the rigth format then creates the customer
-                    if( ( VATCodePatt.test(vatCode) && denomination !== "" && foreignVatCode === "" ) || ( vatCode === "" && denomination !== "" && foreignVatCode !== "" ) )
-                    {
-                        alert("CREAZIONE CLIENTE");
-                        app.createCustomer( denomination,vatCode,
-                            function()
-                            {
-                                alert("CLIENTE CREATO");
-                                location.reload(true);
-                            },
-                            function()
-                            {
-                                alert("CLIENTE NON CREATO");
-                                document.querySelector(".Footer_message").innerHTML = "non riesco a creare il cliente.";
-                            });  
-                    }
-                }
-            },
-            function()
-            {}
-        );
-    }
-};
-
-/* Creates a new customer*/ 
-app.createNewCustomer2 = function()
-{
-    //validation checks message
-    var message = "";
-    
-    //Regular Expression
-    var VATCodePatt = new RegExp(/^[0-9]{11}$/);
     
     var denomination = document.getElementById("new_customer_denomination_input").value;
     var vatCode = document.getElementById("new_customer_vatCode_input").value;
@@ -221,34 +91,21 @@ app.createNewCustomer2 = function()
         message = message.concat("Il campo Denominazione è obbligatorio\n");
         
     }
-    /* there isn't any vat code*/
-    if( vatCode === "" && foreignVatCode === "" )
-    {
-        message = message.concat("Il campo Partita IVA è obbligatorio\n");
-        
-    }
-    //if vat code has not the right format
-    if( vatCode !== "" && (!VATCodePatt.test(vatCode)))
-    {
-         message = message.concat("IL campo Parita IVA deve essere formato da 11 valori numerici\n");
-        
-    }
     /*if both vat codes have been inserted*/
     if( vatCode !== "" && foreignVatCode !== "" )
     {
         message = message.concat("Solo uno dei campi Partita IVA può essere compilato.\n");
         
-    }
-    
-    /*if IBAN less long then 15 charcters*
-    if( IBAN !== "" && IBAN.length < 15 || IBAN !== "" && IBAN.length > 34  )
+    } 
+    if( vatCode !== "" && !app.fullVatCodeRegex.test(vatCode) )
     {
-        message = message.concat("L'IBAN deve essere compreso tra 15 e 34 caratteri.\n");
+        message = message.concat("La partita IVA, quando non vuota, deve essere formata da 11 valori numerici.\n");
         
-    }*/
+    } 
     
-    //checks if the vatCode already exists, if yes ask the user if wants to continue
-    if( message === "" )
+    //checks if the vatCode already exists, if yes ask the user if wants to continue.
+    //if both vatCode and foreignVatCode are empty the check is skipped
+    if( message === "" && ( vatCode !== "" || foreignVatCode !== ""))
     {
         console.log("inside first if");
         
@@ -289,7 +146,7 @@ app.createNewCustomer2 = function()
                     {
                         //If denomination is not empty and only one vat code has been inserted where the italian one 
                         //has got the rigth format then creates the customer
-                        if( ( VATCodePatt.test(vatCode) && denomination !== "" && foreignVatCode === "" ) || ( vatCode === "" && denomination !== "" && foreignVatCode !== "" ) )
+                        if( ( denomination !== "" ) || ( vatCode === "" && denomination !== "" && foreignVatCode !== "" ) )
                         {
                             console.log("creating customer");
                             app.createCustomer( denomination,vatCode,
@@ -307,6 +164,7 @@ app.createNewCustomer2 = function()
                     else
                     {
                         message = "Operazione annullata";
+                        document.querySelector(".Footer_message").innerHTML = "Creazione nuovo utente annullata";
                         alert(message);
                     }
                 }
@@ -315,7 +173,7 @@ app.createNewCustomer2 = function()
                     console.log("customer having unique vatCode");
                     //If denomination is not empty and only one vat code has been inserted where the italian one 
                     //has got the rigth format then creates the customer
-                    if( ( VATCodePatt.test(vatCode) && denomination !== "" && foreignVatCode === "" ) || ( vatCode === "" && denomination !== "" && foreignVatCode !== "" ) )
+                    if( ( app.fullVatCodeRegex.test(vatCode) && denomination !== "" && foreignVatCode === "" ) || ( vatCode === "" && denomination !== "" && foreignVatCode !== "" ) )
                     {
                         console.log("CREAZIONE CLIENTE");
                         app.createCustomer( denomination,vatCode,
@@ -336,6 +194,37 @@ app.createNewCustomer2 = function()
             {}
         );
     }
+    else
+    {
+        if(message === "")
+        {
+            //If denomination is not empty and only one vat code has been inserted where the italian one 
+            //has got the rigth format then creates the customer
+            if( ( denomination !== "" ) || ( vatCode === "" && denomination !== "" && foreignVatCode !== "" ) )
+            {
+                console.log("creating customer");
+                app.createCustomer( denomination,vatCode,
+                    function()
+                    {
+                        console.log("created customer")
+                        location.reload(true);
+                    },
+                    function()
+                    {
+                        document.querySelector(".Footer_message").innerHTML = "non riesco a creare il cliente.";
+                    });  
+            }
+        }
+        else
+        {
+            alert(message);
+        }
+    }
+};
+
+app.checkEmptyVatcode = function(vatcode, univocalCode)
+{
+    
 };
 
 /* CUSTOMER DETAILS PAGE */
@@ -412,9 +301,6 @@ app.customerUpdated = function( customer_id, isItalian )
     //validation checks message
     var message = "";
     
-    //Regular Expression
-    var VATCodePatt = new RegExp(/^[0-9]{11}$/);
-    
     /*var IBANPatt = new RegExp(/^IT[0-9]{2}[A-Z]{1}[0-9]{5}[0-9]{5}[a-zA-Z0-9]{12}$/);
     var CABPatt = new RegExp(/^[0-9]{5}$/);
     var ABIPatt = new RegExp(/^[0-9]{5}$/);*/
@@ -447,15 +333,7 @@ app.customerUpdated = function( customer_id, isItalian )
         message = message.concat("Il campo Denominazione è obbligatorio\n");
         
     }
-    //checks vat code
-    /* there isn't any vat code*/
-    if( vat_code === ""  )
-    {
-        message = message.concat("Il campo Partita IVA è obbligatorio\n");
-        
-    }
-    
-    //checks univocal code format if it is Italian
+    //checks univocal code format
     if( univocalCode.trim() !== "" && !( univocalCode.trim().length === 7 || univocalCode.trim().length === 6 )   )
     {
          message = message.concat("IL campo Codice Univoco deve essere formato da 6 o 7 valori alfanumerici\n");
@@ -463,10 +341,9 @@ app.customerUpdated = function( customer_id, isItalian )
     }
     
     //checks vatcode format if it is Italian
-    if( isItalian && !VATCodePatt.test(vat_code))
+    if( ( isItalian && !app.fullVatCodeRegex.test(vat_code) &&  vat_code !== "") || ( vat_code === "" && !app.univocalSevenZeroCodeRegex.test(univocalCode)))
     {
-         message = message.concat("IL campo Parita IVA deve essere formato da 11 valori numerici\n");
-        
+         message = message.concat("IL campo Parita IVA deve essere formato da 11 valori numerici.\nLa partita IVA vuota è ammessa solo in caso di codice univoco formato sa sette zeri");
     }
     
     /*if IBAN less long then 15 charcters*/
