@@ -764,6 +764,16 @@ public class Gate extends HttpServlet implements HttpSessionListener {
                     record.add( new JsonPrimitive( "" ) );
                 else
                     record.add( new JsonPrimitive( dbr.getString( i, "VATExemptionText" )));
+                //23
+                if( dbr.getString( i, "exemptionProtocol" ) == null )
+                    record.add( new JsonPrimitive( "" ) );
+                else
+                    record.add( new JsonPrimitive( dbr.getString( i, "exemptionProtocol" )));
+                //24
+                if( dbr.getString( i, "exemptionDate" ) == null )
+                    record.add( new JsonPrimitive( "" ) );
+                else
+                    record.add( new JsonPrimitive( dbr.getString( i, "exemptionDate" )));
 
                 customers.add(record);
             }
@@ -817,9 +827,39 @@ public class Gate extends HttpServlet implements HttpSessionListener {
             String univocalCode = request.getParameter( "univocalCode" );
             String pec = request.getParameter( "pec" );
             String modalitaPagamento = request.getParameter( "modalitaPagamento" );
+            String vatExemptionProtocol = request.getParameter( "vatExemptionProtocol" );
+            String vatExemptionDate = request.getParameter( "vatExemptionDate" );
             
             //calls the db
-            boolean success = dao.updateCustomer( customer_id, vatCode, fiscalCode, denomination, phoneNumber, faxNumber, cellNumber, email, city, address, houseNumber, postalCode, province, country, logo, paymentConditions,  bank, CAB, ABI, IBAN, foreignIBAN, notes, VATExemptionText, univocalCode, pec, modalitaPagamento );
+            boolean success = dao.updateCustomer( 
+                customer_id, 
+                vatCode, 
+                fiscalCode, 
+                denomination, 
+                phoneNumber, 
+                faxNumber, 
+                cellNumber, 
+                email, 
+                city, 
+                address, 
+                houseNumber, 
+                postalCode, 
+                province, 
+                country, 
+                logo, 
+                paymentConditions,  
+                bank, 
+                CAB, 
+                ABI, 
+                IBAN, 
+                foreignIBAN, 
+                notes, 
+                VATExemptionText, 
+                univocalCode, 
+                pec, 
+                modalitaPagamento,
+                vatExemptionProtocol,
+                vatExemptionDate);
             
             jsonResponse.addProperty("success",success);
         }

@@ -1,8 +1,9 @@
-<%@page import="jdk.nashorn.internal.runtime.regexp.RegExp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page  import="com.dps.dbi.DbResult"%>
 <%@page import="com.dalessio.samurai.DataAccessObject"%>
 <%@page import="java.util.Date"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
 
 <!DOCTYPE html>
 <%
@@ -26,9 +27,24 @@
     <script>window.open("/Samurai/landing.jsp","_self")</script>
 
 <%}else{
+        //European date format
+        DateTimeFormatter DTFE = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
         DbResult dbr_user = dao.readUsers( user_id);
         user_role = dao.getUserRole(user_id);
+
         String userName = dbr_user.getString("firstName") + " " + dbr_user.getString("lastName");
+
+        String vatExemptionProtocol = dbr_customer.getString("exemptionProtocol");
+        String vatExemptionDate = dbr_customer.getString("exemptionDate");
+
+        StringBuilder vatExemptionDateSB = vatExemptionDate == null ? new StringBuilder( "" ) : new StringBuilder( vatExemptionDate );
+        if( !vatExemptionDate.toString().equals(""))
+        {
+            vatExemptionDateSB.insert(4, "-");
+            vatExemptionDateSB.insert(7,"-");
+            vatExemptionDate = vatExemptionDateSB.toString();
+        }
 %>
 
     <html>
@@ -305,12 +321,23 @@
                         <tr class="Details_row">
                             <th id="notes" class="Detail_header">NOTE</th>
                             <td><input id='notes_input' onchange="app.customerDetailsChanged('#notes_input');" value="<%=dbr_customer.getString("notes")%>"></td>
-                        </tr>   
+                        </tr>  
                         
                         <tr class="Details_row">
-                            <th id="notes" class="Detail_header">TESTO ESENZIONE IVA</th>
+                            <th id="exemptionProtocol" class="Detail_header exemption">Protocollo di ricezione della dichiarazione di intento ed il suo progressivo separato dal segno "-" es: 08060120341234567-000001 </th>
+                            <td><input id='exemptionProtocol_input' onchange="app.customerDetailsChanged('#exemptionProtocol_input');" value="<%= vatExemptionProtocol == null ? "" : vatExemptionProtocol %>"></td>
+                        </tr> 
+                        
+                        <tr class="Details_row">
+                            <th id="exemptionDate" class="Detail_header exemption">Data della ricevuta telematica rilasciata dall'Agenzia delle Entrate e contenente il protocollo della dichiarazione di intento</th>
+                            <td><input type="date" id="exemptionDate_input" max="<%=LocalDate.now().toString()%>" value= "<%= vatExemptionDate == null ? "" : vatExemptionDate %>"></td>
+                        </tr> 
+                        
+                        <tr class="Details_row">  <!--QUESTO CAMPO E' OBSOLETA DAL 01/01/2022 CON LE NUOVE MODALITA' DI GESTIONE DELLE ESENZIONI NELL'XML DELLE FATTURE DIGITALI-->
+                            <th id="exemption_notes" class="Detail_header">TESTO ESENZIONE IVA ( N.B. CAMPO OBSOLETO DAL 01/02/2022 )</th>
                             <td><input id='vat_exemption_text_input' onchange="app.customerDetailsChanged('#vat_exemption_text_input');" value="<%=dbr_customer.getString("VATExemptionText")%>"></td>
-                        </tr-->  
+                        </tr>  
+                        
                     </tbody>
                 </table>   
                 <span id="updateCustomerButton" class="Button Operation Update" onclick="app.customerUpdated('<%=customer_id%>',<%=isItalian%>);">CONFERMA MODIFICHE CLIENTE</span>

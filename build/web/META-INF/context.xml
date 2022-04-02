@@ -5,22 +5,23 @@
     </Resources>
     
     <Resource name="jdbc/samurai"
-           auth="Container"
-           driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-           type="javax.sql.DataSource"
-           maxActive="20"
-           maxTotal="20"
-           initialSize="5"
-           minIdle="5"
-           maxIdle="10"
-           maxWaitMillis="15000"
-           username="workline"
-           password="workline"
-           url="jdbc:sqlserver://giugno2021.cuoogivijdct.eu-west-1.rds.amazonaws.com;databaseName=WorkLine;"
-           removeAbandonedOnBorrow="true"
-           removeAbandonedTimeout="300"
-           logAbandoned="true"
-           validationQuery="select 1"/>     
+        auth="Container"
+        driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+        type="javax.sql.DataSource"
+        maxActive="20"
+        maxTotal="20"
+        initialSize="5"
+        minIdle="5"
+        maxIdle="10"
+        maxWaitMillis="15000"
+        username="workline"
+        password="workline"
+        xurl="jdbc:sqlserver://giugno2021.cuoogivijdct.eu-west-1.rds.amazonaws.com;databaseName=WorkLine;TrustServerCertificate=True;"
+        url="jdbc:sqlserver://localhost;databaseName=WorkLine;TrustServerCertificate=True;"
+        removeAbandonedOnBorrow="true"
+        removeAbandonedTimeout="300"
+        logAbandoned="true"
+        validationQuery="select 1"/>     
 </Context>
 <!--
     NUOVO DATABASE SU RDS

@@ -1,4 +1,3 @@
-<%@page import="jdk.nashorn.internal.runtime.regexp.RegExp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page  import="com.dps.dbi.DbResult"%>
 <%@page import="com.dalessio.samurai.DataAccessObject"%>

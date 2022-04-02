@@ -31,9 +31,9 @@ public class Config
     
     /********************* AMAZON WEB SERVER ADDRESS / LOCAL ADDRESS**************************/
     
-    //public static final String SERVER_ADDRESS = "localhost";
-    public static final String SERVER_ADDRESS = "dalessio02.cuoogivijdct.eu-west-1.rds.amazonaws.com";
-    
+    public static final String SERVER_ADDRESS = "localhost";
+    //public static final String SERVER_ADDRESS = "jdbc:sqlserver://giugno2021.cuoogivijdct.eu-west-1.rds.amazonaws.com;databaseName=WorkLine;TrustServerCertificate=True;";
+            //"jdbc:sqlserver://giugno2021.cuoogivijdct.eu-west-1.rds.amazonaws.com;databaseName=WorkLine;integratedSecurity=true;encrypt=true;trustServerCertificate=true;trustStore=storeName;trustStorePassword=storePassword";
     // inserts automatically the credentials : paolo paolo
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
 }

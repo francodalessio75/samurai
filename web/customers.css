@@ -48,3 +48,16 @@
     background-color: lightblue;
 }
 
+#exemptionDate_input{
+    width:12rem;
+    font-size: 1.2rem;
+}
+
+#exemptionProtocol_input{
+    font-size: 1.2rem;
+}
+
+#exemption_notes{
+    background-color: lightgrey;
+    color:lightcoral;
+}

@@ -425,7 +425,7 @@ app.invoiceDetailsChanged = function(field_id)
                    {
                        for( var i = 0; i < customers.length; i++)
                        {
-                           document.getElementById('notes_input').value = customers[i][22];
+                           document.getElementById('notes_input').value = 'Protocollo Esenzione : ' + customers[i][23] + ' del ' +  customers[i][24].substring(6)+"/"+customers[i][24].substring(4,6)+"/"+customers[i][24].substring(0,4)
                        }
                    },
                    ()=>
@@ -564,7 +564,6 @@ app.createNewInvoice = function()
                 app.newInvoice.paymentConditions = document.getElementById("paymentConditions_input").value;
                 app.newInvoice.notes = document.getElementById("notes_input").value;
                 app.newInvoice.exempt = document.getElementById("vat_exempt_checkbox").checked;
-                
                 //collects items ( rows ) in a Json object
                 app.newInvoice.items = app.invoiceItemsToJson();
 

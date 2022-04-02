@@ -401,8 +401,35 @@ public class DataAccessObject
      * @return
      * @throws SQLException                                                                                                                                                 
      */
-    boolean updateCustomer( Long customer_id, String vatCode, String fiscalCode, String denomination, String phoneNumber, String faxNumber, String cellNumber, String email, String city, String address, String houseNumber, String postalCode, String province, String country, String logo, String paymentConditions, String bank, String CAB, String ABI, String IBAN, String foreignIBAN, String notes, String VATExemptionText, String univocalCode, String pec, String modalitaPagamento  ) throws SQLException
+    boolean updateCustomer( 
+        Long customer_id, 
+        String vatCode, 
+        String fiscalCode, 
+        String denomination, 
+        String phoneNumber, 
+        String faxNumber, 
+        String cellNumber, 
+        String email, 
+        String city, 
+        String address, 
+        String houseNumber, 
+        String postalCode, 
+        String province, 
+        String country, 
+        String logo, 
+        String paymentConditions, 
+        String bank, String CAB, 
+        String ABI, String IBAN, 
+        String foreignIBAN, 
+        String notes, 
+        String VATExemptionText, 
+        String univocalCode, 
+        String pec, 
+        String modalitaPagamento,
+        String vatExemptionProtocol,
+        String vatExemtpionDate) throws SQLException
     {
+        String vatExemptionDateString = vatExemtpionDate == null ? null : vatExemtpionDate.replace("-","");
         if( vatCode != null )
             vatCode = vatCode.trim();
         if( fiscalCode != null )
@@ -472,6 +499,8 @@ public class DataAccessObject
             .value(univocalCode != null,"univocalCode", univocalCode)
             .value(pec != null,"pec", pec)
             .value(modalitaPagamento != null,"modalitaPagamento", modalitaPagamento)
+            .value(vatExemptionProtocol != null, "exemptionProtocol", vatExemptionProtocol)
+            .value(vatExemptionDateString != null, "exemptionDate", vatExemptionDateString)
             .go();
               
         //if all paramters are null returns true

@@ -327,6 +327,8 @@ app.customerUpdated = function( customer_id, isItalian )
     var univocalCode = document.querySelector("#univocal_code_input").value;
     var pec = document.querySelector("#pec_input").value;
     var modalitaPagamento = document.querySelector("#modalitaPagamento_input").value;
+    var VATExemptionProtocol = document.querySelector("#exemptionProtocol_input").value;
+    var VATExemptionDate = document.querySelector("#exemptionDate_input").value;
     //checks denomination 
     if( denomination === null || denomination === "" )
     {
@@ -357,7 +359,33 @@ app.customerUpdated = function( customer_id, isItalian )
         alert(message);
     else
     {
-        app.updateCustomer(customer_id, vat_code, fiscal_code, denomination, null, null, null, null, city, address, house_number, postal_code, province, country, null, paymentConditions,  bank, CAB, ABI, IBAN, foreignIBAN, notes, VATExemptionText, univocalCode,pec,modalitaPagamento, 
+        app.updateCustomer(
+            customer_id, 
+            vat_code, fiscal_code, 
+            denomination, 
+            null, 
+            null, 
+            null, 
+            null, 
+            city, 
+            address, 
+            house_number, 
+            postal_code, 
+            province, country, 
+            null, 
+            paymentConditions,  
+            bank, 
+            CAB, 
+            ABI, 
+            IBAN, 
+            foreignIBAN, 
+            notes, 
+            VATExemptionText, 
+            univocalCode,
+            pec,
+            modalitaPagamento, 
+            VATExemptionProtocol,
+            VATExemptionDate,
             function( )
             {
                 location.reload();

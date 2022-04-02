@@ -151,11 +151,67 @@ app.createCustomer = function( denomination, vatCode, successCallback, failCallb
  };
  
  /**/
- app.updateCustomer = function(customer_id, vatCode, fiscalCode, denomination, phoneNumber, faxNumber, cellNumber, email, city, address, houseNumber, postalCode, province, country, logo, paymentConditions,  bank, CAB, ABI, IBAN, foreignIBAN, notes, VATExemptionText, univocalCode, pec, modalitaPagamento, successCallback, failCallback )
+ app.updateCustomer = function(
+    customer_id, 
+    vatCode, 
+    fiscalCode, 
+    denomination, 
+    phoneNumber, 
+    faxNumber, 
+    cellNumber, 
+    email, 
+    city, 
+    address, 
+    houseNumber, 
+    postalCode, 
+    province, 
+    country, 
+    logo, 
+    paymentConditions,  
+    bank, 
+    CAB, 
+    ABI, 
+    IBAN, 
+    foreignIBAN, 
+    notes, 
+    VATExemptionText, 
+    univocalCode, 
+    pec, 
+    modalitaPagamento, 
+    vatExemptionProtocol,
+    vatExemptionDate,
+    successCallback, failCallback )
  {
     if( customer_id !== null )
     {
-        var url = "/Samurai/gate?&op=update_customer&customer_id="+encodeURIComponent(customer_id)+"&vatCode="+encodeURIComponent(vatCode)+"&fiscalCode="+encodeURIComponent(fiscalCode)+"&denomination="+encodeURIComponent(denomination)+"&phoneNumber="+encodeURIComponent(phoneNumber)+"&faxNumber="+encodeURIComponent(faxNumber)+"&cellNumber="+encodeURIComponent(cellNumber)+"&email="+encodeURIComponent(email)+"&city="+encodeURIComponent(city)+"&address="+encodeURIComponent(address)+"&houseNumber="+encodeURIComponent(houseNumber)+"&postalCode="+encodeURIComponent(postalCode)+"&province="+encodeURIComponent(province)+"&country="+encodeURIComponent(country)+"&logo="+encodeURIComponent(logo)+"&paymentConditions="+encodeURIComponent(paymentConditions)+"&bank="+encodeURIComponent(bank)+"&CAB="+encodeURIComponent(CAB)+"&ABI="+encodeURIComponent(ABI)+"&IBAN="+encodeURIComponent(IBAN)+"&foreignIBAN="+encodeURIComponent(foreignIBAN)+"&notes="+encodeURIComponent(notes)+"&VATExemptionText="+encodeURIComponent(VATExemptionText)+"&univocalCode="+encodeURIComponent(univocalCode)+"&pec="+encodeURIComponent(pec)+"&modalitaPagamento="+encodeURIComponent(modalitaPagamento);
+        var url = "/Samurai/gate?&op=update_customer&customer_id="+encodeURIComponent(customer_id)+
+        "&vatCode="+encodeURIComponent(vatCode)+
+        "&fiscalCode="+encodeURIComponent(fiscalCode)+
+        "&denomination="+encodeURIComponent(denomination)+
+        "&phoneNumber="+encodeURIComponent(phoneNumber)+
+        "&faxNumber="+encodeURIComponent(faxNumber)+
+        "&cellNumber="+encodeURIComponent(cellNumber)+
+        "&email="+encodeURIComponent(email)+
+        "&city="+encodeURIComponent(city)+
+        "&address="+encodeURIComponent(address)+
+        "&houseNumber="+encodeURIComponent(houseNumber)+
+        "&postalCode="+encodeURIComponent(postalCode)+
+        "&province="+encodeURIComponent(province)+
+        "&country="+encodeURIComponent(country)+
+        "&logo="+encodeURIComponent(logo)+
+        "&paymentConditions="+encodeURIComponent(paymentConditions)+
+        "&bank="+encodeURIComponent(bank)+
+        "&CAB="+encodeURIComponent(CAB)+
+        "&ABI="+encodeURIComponent(ABI)+
+        "&IBAN="+encodeURIComponent(IBAN)+
+        "&foreignIBAN="+encodeURIComponent(foreignIBAN)+
+        "&notes="+encodeURIComponent(notes)+
+        "&VATExemptionText="+encodeURIComponent(VATExemptionText)+
+        "&univocalCode="+encodeURIComponent(univocalCode)+
+        "&pec="+encodeURIComponent(pec)+
+        "&modalitaPagamento="+encodeURIComponent(modalitaPagamento)+
+        "&vatExemptionProtocol="+encodeURIComponent(vatExemptionProtocol)+
+        "&vatExemptionDate="+encodeURIComponent(vatExemptionDate);
         fetch( url, {credentials: 'same-origin'})
         .then(response=>response.json())
         .then(jsonResponse=>
