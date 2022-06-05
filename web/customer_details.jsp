@@ -334,7 +334,7 @@
                         </tr> 
                         
                         <tr class="Details_row">  <!--QUESTO CAMPO E' OBSOLETA DAL 01/01/2022 CON LE NUOVE MODALITA' DI GESTIONE DELLE ESENZIONI NELL'XML DELLE FATTURE DIGITALI-->
-                            <th id="exemption_notes" class="Detail_header">TESTO ESENZIONE IVA ( N.B. CAMPO OBSOLETO DAL 01/02/2022 )</th>
+                            <th id="exemption_notes" class="Detail_header">TESTO ESENZIONE IVA ( N.B. DA UTILIZZARE SOLO PER CLIENTI ESTERI )</th>
                             <td><input id='vat_exemption_text_input' onchange="app.customerDetailsChanged('#vat_exemption_text_input');" value="<%=dbr_customer.getString("VATExemptionText")%>"></td>
                         </tr>  
                         

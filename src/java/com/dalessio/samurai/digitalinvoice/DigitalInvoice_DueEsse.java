@@ -27,8 +27,10 @@ public class DigitalInvoice_DueEsse extends DigitalInvoice
     //protocollo ricezione dichiarazione intento
     public String protocolExemption;
     public String protocolDate;
-    //vecchio campo esenzione obsoleto dal primo gennaio 2022
-    @Deprecated() public String testoEsenzione; //Sulla scorta delle richieste di Vodaphone Automotive tale testo ove necessario va inserito nel tag 2.1.1.11 : Causale 
+    
+    //Sulla scorta delle richieste di Vodaphone Automotive tale testo ove necessario va inserito nel tag 2.1.1.11 : Causale
+    //dopo l'aggiornamento Agenzia Entrate del primo gennaio 2022 questo campo resta in uso solo per le fatture estere
+    public String testoEsenzione;  
     
     public DigitalInvoice_DueEsse( DbResult view_DigInvoice_dbr, DbResult view_DigInvoiceRows_dbr,  DbResult view_DatiDDT_dbr, DbResult view_DatiOrdineAcquisto_dbr, DbResult view_CessionarioCommittente ) throws ParseException
     {
@@ -92,13 +94,13 @@ public class DigitalInvoice_DueEsse extends DigitalInvoice
         this.data(SDF.parse(view_DigInvoice_dbr.getString("date").substring(0, 4)+"-"+view_DigInvoice_dbr.getString("date").substring(4, 6)+"-"+view_DigInvoice_dbr.getString("date").substring(6)))
             .numeroFattura(view_DigInvoice_dbr.getLong("number")+"/"+view_DigInvoice_dbr.getInteger("year"));
         
-        /*** Commented on March the 30th 2022 due to new rules of January the 1st 2022*****/
-        //Se la fattura è in esenzione recupera il testo di esenzione IVA dall'anagrafica cliente
-//        if( view_DigInvoice_dbr.getBoolean("exempt") )
-//        {
-//            testoEsenzione = view_DigInvoice_dbr.getString("VATExemptionText").replace("’","'").replace("“","''").replace("”","''");//is it possible to have a list of all forbidden characters ?
-//            this.nuovaCausale(testoEsenzione);
-//        }
+        /*** Updated on June the 1st 2022 due to new rules of January the 1st 2022*****/
+        //Se la fattura è in esenzione ed il cliente è estero recupera il testo di esenzione IVA dall'anagrafica cliente
+        if( !committente.idFiscaleIva_paese.equals("IT") && view_DigInvoice_dbr.getBoolean("exempt") )
+        {
+            testoEsenzione = view_DigInvoice_dbr.getString("VATExemptionText").replace("’","'").replace("“","''").replace("”","''");//is it possible to have a list of all forbidden characters ?
+            this.nuovaCausale(testoEsenzione);
+        }
         
         
         for( int i = 0; i < view_DigInvoiceRows_dbr.rowsCount(); i++ )
@@ -110,16 +112,16 @@ public class DigitalInvoice_DueEsse extends DigitalInvoice
                 .prezzoUnitario(view_DigInvoiceRows_dbr.getDouble(i,"prezzoUnitario"))
                 .aliquotaIVA(view_DigInvoice_dbr.getDouble("aliquotaIVA"));
             
-            //if vat code is italian, tax  is zero and vat exemption text is not empty then fills the Natura value to N3 ( non imponibile ) and set to be paid the 'bollo'
+            //if vat code is italian, tax  is zero and vat exemption text is not empty then fills the Natura value to N3.5 ( non imponibile ) and set to be paid the 'bollo'
             if( committente.idFiscaleIva_paese.equals("IT") && view_DigInvoice_dbr.getDouble("aliquotaIVA") == 0 &&  !view_DigInvoice_dbr.getString("exemptionProtocol").trim().equals("") &&  !view_DigInvoice_dbr.getString("exemptionDate").trim().equals(""))
             {
                 dettaglio.natura(DigitalInvoice.Natura.NON_IMPONIBILI);
                 this.bollo(true);
             }
             
-            //if vat code is foreign and tax is zero, the VAT Tax must not be paid as well as the stamp, then the Natura value is set to N3 ( non soggetto ). Note that in this case the bollo must not be paid
+            //if vat code is foreign and tax is zero, the VAT Tax must not be paid as well as the stamp, then the Natura value is set to N2.1 ( non soggetto ). Note that in this case the bollo must not be paid
             //THIS IS THE CASE FOR EXTRACEE INVOICES, WE ARE WAITING TI IMPLEMENT THE CASE FO NOT ITALIAN BUT INSIDE CEE INVOICES.(WRITTEN ON MARCH 14, 2019 )
-            if( !committente.idFiscaleIva_paese.equals("IT") &&  view_DigInvoice_dbr.getDouble("aliquotaIVA") == 0 )
+            if( !committente.idFiscaleIva_paese.equals("IT") &&  view_DigInvoice_dbr.getDouble("aliquotaIVA") == 0 && !view_DigInvoice_dbr.getString("VATExemptionText").trim().equals("") )
             {
                 dettaglio.natura(DigitalInvoice.Natura.NON_SOGGETTE);
                 this.bollo(false);
@@ -130,8 +132,8 @@ public class DigitalInvoice_DueEsse extends DigitalInvoice
             {
                 dettaglio.nuovoCodiceArticolo("Cod.", view_DigInvoiceRows_dbr.getString("code"));
             }
-            //if is an exemption invoice ( new rule from january the 1st 2022)
-            if( view_DigInvoice_dbr.getBoolean("exempt") )
+            //if is an exemption invoice for italian customers( new rule from january the 1st 2022)
+            if( committente.idFiscaleIva_paese.equals("IT") && view_DigInvoice_dbr.getBoolean("exempt") )
             {
                 protocolExemption = view_DigInvoice_dbr.getString("exemptionProtocol");
                 protocolDate = view_DigInvoice_dbr.getString("exemptionDate").substring(0, 4)+"-"+view_DigInvoice_dbr.getString("exemptionDate").substring(4, 6)+"-"+view_DigInvoice_dbr.getString("exemptionDate").substring(6,8);

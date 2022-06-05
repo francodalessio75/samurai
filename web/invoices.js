@@ -424,8 +424,13 @@ app.invoiceDetailsChanged = function(field_id)
                    (customers)=>
                    {
                        for( var i = 0; i < customers.length; i++)
-                       {
-                           document.getElementById('notes_input').value = 'Protocollo Esenzione : ' + customers[i][23] + ' del ' +  customers[i][24].substring(6)+"/"+customers[i][24].substring(4,6)+"/"+customers[i][24].substring(0,4)
+                       {   //new rules Agenzia Entrate on January the 1st 2022 
+                           if(customers[i][13] === "IT"){
+                            document.getElementById('notes_input').value = 'Protocollo Esenzione : ' + customers[i][23] + ' del ' +  customers[i][24].substring(6)+"/"+customers[i][24].substring(4,6)+"/"+customers[i][24].substring(0,4);
+                           }else{
+                               document.getElementById('notes_input').value = customers[i][22];
+                           }
+                           
                        }
                    },
                    ()=>
