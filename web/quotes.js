@@ -25,7 +25,6 @@ app.quoteRowsTBody = document.querySelector("#quoteRowsTable tbody");
 app.amount = 0;
 
 
-
 /* the invoice_id value involves wich between creation or update must be done*/
 app.quoteConfirmed = function(  quote_id, duplicate )
 {

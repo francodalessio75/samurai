@@ -1,22 +1,22 @@
 ::-webkit-input-placeholder {
-   color: gray;
-   font-weight: 500;
-   text-align: left;
+    color: gray;
+    font-weight: 500;
+    text-align: left;
 }
 
 :-moz-placeholder { /* Firefox 18- */
     color: black;
-   font-weight: 400;
+    font-weight: 400;
 }
 
 ::-moz-placeholder {  /* Firefox 19+ */
     color: black;
-   font-weight: 400;
+    font-weight: 400;
 }
 
-:-ms-input-placeholder {  
+:-ms-input-placeholder {
     color: black;
-   font-weight: 400;
+    font-weight: 400;
 }
 
 /*********************** Label Buttons****************************************/
@@ -31,7 +31,7 @@
 
 #address_input,#houseNumber_input,#postalCode_input,#city_input,#province_input,#destDenomination_input,#destAddress_input, #destHouseNumber_input,#destPostalCode_input,#destCity_input, #destProvince_input,#transportResponsable_input,#transportReason_input,#goodsExteriorAspect_input,#packagesNumber_input
 {
-    
+
     text-align: left;
 }
 
@@ -55,6 +55,9 @@
     height: 10rem;
 }
 
+#number_input{
+width: 30%;
+}
 
 /********************  TABLE *********************************/
 #quantity, #code
@@ -73,7 +76,7 @@
 
 .ActionMenu
 {
-    z-index: 1000;
+    z-index: 100;
 }
 
 .ThList
@@ -113,7 +116,7 @@
 .TaskDate
 {
     font-size:80%;
-    
+
 }
 
 .TaskRow
@@ -137,15 +140,15 @@
 }
 .Date
 {
-    width:10rem; 
+    width:10rem;
 }
 .CurrentFileName
 {
-    
+
 }
 .Actions
 {
-    width:20rem; 
+    width:20rem;
 }
 
 #confirm_label
@@ -161,7 +164,7 @@
     position:absolute;
     top:26rem;
     text-align: center;
-    
+
 }
 
 #pdfButton
@@ -169,14 +172,14 @@
     position:absolute;
     top:30rem;
     text-align: center;
-    
+
 }
 
 #newDeliveryNoteButton
 {
     position:absolute;
     top:20rem;
-    text-align: center;   
+    text-align: center;
 }
 
 /* not editables inputs*/
@@ -188,7 +191,7 @@
 
 /*makes bigger the checkbox*/
 input[type=checkbox] {
-  transform: scale(2.5);
+    transform: scale(2.5);
 }
 
 #suggest_checkbox

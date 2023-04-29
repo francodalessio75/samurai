@@ -82,7 +82,8 @@
         <link href="/Samurai/Resources/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
     </head>
     <body>
-
+        <div class="loader" id="loader"></div>
+        <div id="modal" class="modal"></div>
         <div class="Header">
             <span class="SWName">Workline 2.0</span><span class="PageTitle"> MODULO RICHIESTA CONFORMITA' <%=orderViewDbr.getString("customerDenomination")%> </span>
         </div>
@@ -199,7 +200,7 @@
                 <!-- Look unfortunally becouse of Paolo orderDescription propertu name is machinaryModel :( -->
                 <tr class="Details_row ">
                         <th class="Detail_header Input" id="orderDescription" rows="4" cols="50">DESCRIZIONE LAVORO</th>
-                        <td><textarea id="orderDescription_input"  onchange="app.detailsChanged('orderDescription_input');"><%= certificate != null ? certificate.orderDescription : orderViewDbr.getString("machinaryModel")%></textarea></td>
+                        <td><textarea id="orderDescription_input"  onchange="app.certificateDetailsChanged('orderDescription_input');"><%= certificate != null ? certificate.orderDescription : orderViewDbr.getString("machinaryModel")%></textarea></td>
                     </tr>
                 
             </table>

@@ -5,7 +5,7 @@
 --%>
 <%@page import="java.util.Date"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% Long timestamp = new Date().getTime(); %>
+<% Long timestamp = new Date().getTime();%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,13 +14,15 @@
         <link href="/Samurai/common.css" rel="stylesheet">
     </head>
     <body>
+        <div class="loader" id="loader"></div>
+        <div id="modal" class="modal"></div>
         <div class="Modal_screen Visible">
             <div class="New_record">
                 <input id='old_username' placeholder="username attuale"><br>
                 <input type="password" id='old_password' placeholder="password attuale"><br>
                 <input type="password" id='new_password' placeholder="nuova password"><br>
                 <span type='button' class='Button Accept' onclick="app.changePassword();">CONFERMA</span>
-                <span type='button' class='Button Cancel' onclick="window.open('dashboard.jsp','_self');">ANNULLA</span>
+                <span type='button' class='Button Cancel' onclick="window.open('dashboard.jsp', '_self');">ANNULLA</span>
             </div>
         </div>
     </body>

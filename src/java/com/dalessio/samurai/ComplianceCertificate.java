@@ -79,7 +79,7 @@ public class ComplianceCertificate
         secondTitle_id = JSON.getLong(json, "secondTitle_id");
         number = JSON.getLong(json, "number");
         year = JSON.getInteger(json, "year");
-        date = LocalDate.parse(JSON.getString( json, "date"));
+        date = LocalDate.parse(JSON.getString( json, "date").substring(0,10));
         customerDenomination = JSON.getString( json, "customerDenomination");
         firstTitle = JSON.getString( json, "firstTitle");
         secondTitle = JSON.getString( json, "secondTitle");

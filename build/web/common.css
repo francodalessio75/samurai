@@ -9,7 +9,30 @@
     box-sizing: border-box;/*Includes padding and border in the element's total width and height*/
     font-family: sans-serif;
 }
+html {
+    height: 100%;
+}
 
+/*modal layer during database create/update opeerations*/
+.backdrop {
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+}
+
+.backdrop__notification {
+    position: absolute;
+    color:white;
+    top:50%;
+    left:45%;
+    font-size: 4rem;
+    font-weight: bolder;
+}
 
 /*******************************************************************************/
 /********************************  BODY ***************************************/
@@ -81,130 +104,132 @@ body > div  /*Selects all <div> elements where the parent is body*/
     width: 100%;
 }
 
-                /**************  MENU BAR BUTTONS ********/
+/**************  MENU BAR BUTTONS ********/
 
-        .Menu .Button
-        {
-            position: relative;/*its normal position is static in Menu container that is "inline" behaviour  */
-            left: 10rem;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: darkgray;
-            border: thin solid darkgray;
-            padding: .125rem  1rem;
-            margin-right: 2rem;
-            font-size: 90%;
-            color: white;
-            font-weight: 600;
-        }
+.Menu .Button
+{
+    position: relative;/*its normal position is static in Menu container that is "inline" behaviour  */
+    left: 10rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: darkgray;
+    border: thin solid darkgray;
+    padding: .125rem  1rem;
+    margin-right: 2rem;
+    font-size: 90%;
+    color: white;
+    font-weight: 600;
+}
 
-        .Menu .Button:hover
-        {
-            color: black;
-            background-color: white;
-        }
-        
-        /************* DROP DOWN MENU ************************/
-        
-        /* POSITION */
-        .Dropdown_registry {
-            position: absolute;
-            top: 3.3rem;
-            left:68rem;
-            z-index: 1;
-        }
-        
-        /* POSITION */
-        .Dropdown_tools {
-            position: absolute;
-            top: 3.3rem;
-            left:80rem;
-            z-index: 1;
-        }
-        
-        
-        /* BUTTON WIDTH */
-        .DropBtn {
-            background-color: darkgray;
-            border: thin solid darkgray;
-            padding: .125rem  .30rem;
-            margin-right: .5rem;
-            font-size: 90%;
-            color: white;
-            font-weight: 600;
-            border-radius: .125rem;
-            cursor: pointer;
-        }
-        
-        /* Dropdown Button */
-        .DropBtn.Tools {
-            padding: .125rem  2.4rem;
-        }
-        
-                /* Dropdown Button */
-        .DropBtn.Registry {
-            padding: .125rem  2.05rem;
-        }
-        
-        /* Dropdown button on hover & focus */
-        .DropBtn:hover, .DropBtn:focus {
-            color: black;
-            background-color: white;
-        }
+.Menu .Button:hover
+{
+    color: black;
+    background-color: white;
+}
 
-        /* Dropdown Content (Hidden by Default) */
-        .Dropdown_content{
-            display: none;
-            position: absolute;
-            background-color: darkgray;
-            /*min-width: 13rem;*/
-            z-index: 1;
-        }
-        
-        /* Dropdown Content (Hidden by Default) */
-        .Dropdown_content.Registry{
-            min-width: 10rem;
-        }
-        
-        /* Dropdown Content (Hidden by Default) */
-        .Dropdown_content.Tools{
-            min-width: 10rem;
-        }
+/************* DROP DOWN MENU ************************/
+
+/* POSITION */
+.Dropdown_registry {
+    position: absolute;
+    top: 3.3rem;
+    left:68rem;
+    z-index: 1;
+}
+
+/* POSITION */
+.Dropdown_tools {
+    position: absolute;
+    top: 3.3rem;
+    left:80rem;
+    z-index: 1;
+}
 
 
-        /* Links inside the dropdown */
-        .Dropdown_content div {
-            background-color: darkgray;
-            padding: .5rem  .30rem;
-            margin-right: .5rem;
-            font-size: 90%;
-            color: white;
-            font-weight: 600;
-            border-radius: .125rem;
-            border-bottom: 1px solid black;
-            border-top: 1px solid #3c3c3c;
-            cursor: pointer;
-        }
-        
-        .Dropdown_content div:first-child {
-            border-top: none;
-        }
- 
-        .Dropdown_content div:last-child {
-            border-bottom: none;
-        }
-        
-        /* Dropdown button on hover & focus */
-        .Dropdown_content div:hover {
-            color: black;
-            background-color: white;
-        }
-        
-        /* Show the dropdown menu (use JS to add this class to the
-        .dropdown-content container when the user clicks on the dropdown button) */
-        .Show {display:block;}
-        
-        
+/* BUTTON WIDTH */
+.DropBtn {
+    background-color: darkgray;
+    border: thin solid darkgray;
+    padding: .125rem  .30rem;
+    margin-right: .5rem;
+    font-size: 90%;
+    color: white;
+    font-weight: 600;
+    border-radius: .125rem;
+    cursor: pointer;
+}
+
+/* Dropdown Button */
+.DropBtn.Tools {
+    padding: .125rem  2.4rem;
+}
+
+/* Dropdown Button */
+.DropBtn.Registry {
+    padding: .125rem  2.05rem;
+}
+
+/* Dropdown button on hover & focus */
+.DropBtn:hover, .DropBtn:focus {
+    color: black;
+    background-color: white;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.Dropdown_content{
+    display: none;
+    position: absolute;
+    background-color: darkgray;
+    /*min-width: 13rem;*/
+    z-index: 1;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.Dropdown_content.Registry{
+    min-width: 10rem;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.Dropdown_content.Tools{
+    min-width: 10rem;
+}
+
+
+/* Links inside the dropdown */
+.Dropdown_content div {
+    background-color: darkgray;
+    padding: .5rem  .30rem;
+    margin-right: .5rem;
+    font-size: 90%;
+    color: white;
+    font-weight: 600;
+    border-radius: .125rem;
+    border-bottom: 1px solid black;
+    border-top: 1px solid #3c3c3c;
+    cursor: pointer;
+}
+
+.Dropdown_content div:first-child {
+    border-top: none;
+}
+
+.Dropdown_content div:last-child {
+    border-bottom: none;
+}
+
+/* Dropdown button on hover & focus */
+.Dropdown_content div:hover {
+    color: black;
+    background-color: white;
+}
+
+/* Show the dropdown menu (use JS to add this class to the
+.dropdown-content container when the user clicks on the dropdown button) */
+.Show {
+    display:block;
+}
+
+
 /*******************************************************************************/
 /*****************   FILTER SECTION ON LEFT SIDE ******************************/
 /******************************************************************************/
@@ -258,7 +283,7 @@ body > div  /*Selects all <div> elements where the parent is body*/
 /************** CONTENT : ALL BETWEEN MENU  AND FOOTER *********************/
 /******************************************************************************/
 
- /* Content section position is absolute relative to the body because of the rule A */
+/* Content section position is absolute relative to the body because of the rule A */
 .Content
 {
     top: 5rem;/*header height plus menu height*/
@@ -295,7 +320,7 @@ body > div  /*Selects all <div> elements where the parent is body*/
     background-color: white;
     padding-top: 1rem;
     padding-bottom: .5rem;
-    
+
 }
 
 .Table td
@@ -344,7 +369,7 @@ td.Date
 
 
 /**/
-.Details_table td 
+.Details_table td
 {
     padding: .25rem;
     border: thin solid grey;
@@ -422,13 +447,13 @@ input[type="button"]
 .Button.Operation
 {
     margin-top: 2rem;
-    
+
 }
 
 .Button.Operation.Update
 {
     display:none;
-    
+
 }
 
 .Button.Operation.Update.Visible
@@ -464,7 +489,7 @@ input[type="button"]
 {
     color: red;
     background-color: white;
-    
+
 }
 
 /*********************** Label Buttons****************************************
@@ -577,4 +602,42 @@ input[type="button"]
 #searchIcon
 {
     margin-right: 1rem;
+}
+
+/** MODAL SPINNER **/
+
+.loader {
+    display: none; /* Hidden by default */
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    z-index: 150;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 130; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
