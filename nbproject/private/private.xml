@@ -12,15 +12,12 @@
         <group name="my-first-app"/>
         <group name="Work"/>
         <group>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/jobSubtypes.jsp</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/scheduleDates.jsp</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/invoiceDateUpdating.jsp</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/jobTypes.jsp</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/jobSubtype_details.jsp</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/changeCredentials.jsp</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/jobType_details.jsp</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/dbi.js</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/deliveryNote_details.jsp</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/customer_details.jsp</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/src/java/com/dalessio/samurai/PdfOrderCoverPrinter.java</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/src/java/com/dalessio/samurai/Config.java</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/customers.jsp</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/src/java/com/dalessio/samurai/Invoice.java</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/WEB-INF/web.xml</file>
         </group>
     </open-files>
 </project-private>

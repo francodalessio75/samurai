@@ -201,6 +201,7 @@
                                 <option value="ME"<%if (dbr_customer != null && dbr_customer.getString("province").equals("ME")) {%>selected<%}%>>Messina (ME)</option>
                                 <option value="MI"<%if (dbr_customer != null && dbr_customer.getString("province").equals("MI")) {%>selected<%}%>>Milano (MI)</option>
                                 <option value="MO"<%if (dbr_customer != null && dbr_customer.getString("province").equals("MO")) {%>selected<%}%>>Modena (MO)</option>
+                                <option value="MB"<%if (dbr_customer != null && dbr_customer.getString("province").equals("MO")) {%>selected<%}%>>Monza Brianza (MB)</option>
                                 <option value="NA"<%if (dbr_customer != null && dbr_customer.getString("province").equals("NA")) {%>selected<%}%>>Napoli (NA)</option>
                                 <option value="NO"<%if (dbr_customer != null && dbr_customer.getString("province").equals("NO")) {%>selected<%}%>>Novara (NO)</option>
                                 <option value="NU"<%if (dbr_customer != null && dbr_customer.getString("province").equals("NU")) {%>selected<%}%>>Nuoro (NU)</option>

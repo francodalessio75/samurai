@@ -424,6 +424,8 @@ app.fillTasksTable = function(tasks)
     var operatorTotalHours = 0;
     //general hours total
     let totalHours = 0;
+    //general hours total cost
+    let totalHoursCost = 0;
     //sum of all translations cost
     let totalTranslationsCost = 0;
     //sum of all tranlsaltions amount tu put in invoice
@@ -456,7 +458,7 @@ app.fillTasksTable = function(tasks)
         templateContent.querySelector(".JobType").innerHTML = tasks[i][17];
         templateContent.querySelector(".JobSubtype").innerHTML = tasks[i][3];
         templateContent.querySelector(".Hours").innerHTML = tasks[i][5];
-        /*Modified on the 6th of october 2018 to allow also operaotors to see their total hours
+        /*Modified on the 6th of october 2018 to allow also operators to see their total hours
         //table columns only for operators
         if( app.user_role === "operator")
         {
@@ -516,6 +518,7 @@ app.fillTasksTable = function(tasks)
             if( tasks.length === 1 )
             {
                 templateContent.querySelector(".TotalHours").innerHTML = tasks[i][5];
+                
             }
 
             else if( (i+1) <  tasks.length  )
@@ -523,10 +526,13 @@ app.fillTasksTable = function(tasks)
                 //increases operator hours variable
                 operatorTotalHours += tasks[i][5];
                 
+                
                 //compares operators if different writes the data and empties the variable
                 if( tasks[i][2] !== tasks[i+1][2]  )
                 {
                     templateContent.querySelector(".TotalHours").innerHTML = operatorTotalHours;
+                    //increments total hours cost using the operator total before resetting the operatorTotalHours variable
+                    totalHoursCost += operatorTotalHours * Math.trunc(tasks[i][29]).toFixed(2);
                     operatorTotalHours = 0;
                 }
                 
@@ -535,8 +541,8 @@ app.fillTasksTable = function(tasks)
             else if( (i+1) === tasks.length ) 
             {
                 operatorTotalHours += tasks[i][5];
+                totalHoursCost += operatorTotalHours * Math.trunc(tasks[i][29]).toFixed(2);
                 templateContent.querySelector(".TotalHours").innerHTML = operatorTotalHours;
-
             }
         }
         
@@ -590,6 +596,8 @@ app.fillTasksTable = function(tasks)
             //fills cell if necessary
             if( i === 0 )
                 cell.innerHTML = "Totale";
+            if( i === 2 )
+                cell.innerHTML = totalHoursCost.toFixed(2);
             else if( i === 11 )
                 cell.innerHTML = totalHours;
             else if( i === 12 )
