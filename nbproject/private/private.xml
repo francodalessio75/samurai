@@ -12,8 +12,12 @@
         <group name="my-first-app"/>
         <group name="Work"/>
         <group>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/invoice_details.jsp</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/invoices.js</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/invoices.css</file>
             <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/src/java/com/dalessio/samurai/InvoiceXMLPrinter_1.java</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/src/java/com/dalessio/samurai/digitalinvoice/DigitalInvoice_DueEsse.java</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/quotes.js</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/invoices.jsp</file>
         </group>
     </open-files>
 </project-private>
