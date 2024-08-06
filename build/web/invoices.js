@@ -909,7 +909,7 @@ app.getInvoiceRows = function( invoice_id, changeDates )
                     table.rows[i].cells[4].firstChild.value = rows[i][4].toFixed(3);
                     
                     //inserts the total amount
-                    table.rows[i].cells[5].firstChild.value = rows[i][5].toFixed(2);
+                    table.rows[i].cells[5].firstChild.value = rows[i][5];
                     
                     //inserts in dataset deliveryNoteRow_id necessary to create deliveryNoteRow Json Object in elasticTable.js
                     table.rows[i].dataset.deliveryNoteRow_id = rows[i][6]; 
@@ -1167,7 +1167,7 @@ app.refreshAmounts = function()
             app.invoiceItemsTBody.rows[i].querySelector(".TotalAmount input").value = "0.00";
         //truncates to two decimals 
         var singleAmount = Math.round( parseFloat(app.invoiceItemsTBody.rows[i].querySelector(".SingleAmount input").value)*1000)/1000;
-        var totalAmount = singleAmount * (parseInt(app.invoiceItemsTBody.rows[i].querySelector(".Quantity input").value)) ;
+        var totalAmount = singleAmount * (parseFloat(app.invoiceItemsTBody.rows[i].querySelector(".Quantity input").value)) ;
         //displays in two decimals
         app.invoiceItemsTBody.rows[i].querySelector(".SingleAmount input").value = singleAmount.toFixed(3);
         app.invoiceItemsTBody.rows[i].querySelector(".TotalAmount input").value = totalAmount.toFixed(2);
