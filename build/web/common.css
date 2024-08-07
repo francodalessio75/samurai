@@ -342,6 +342,13 @@ td.Code
     font-weight: 600;
 }
 
+td.SerialNumber
+{
+    width: auto;
+    text-align: center;
+    font-weight: 400;
+}
+
 td.Date
 {
     width:7rem;
@@ -602,6 +609,7 @@ input[type="button"]
 #searchIcon
 {
     margin-right: 1rem;
+    
 }
 
 /** MODAL SPINNER **/

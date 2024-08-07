@@ -545,11 +545,11 @@ app.updateTranslationsCenter = function (translations_center_id, denomination, n
  * @param {type} failCallback
  * @returns {undefined}
  */
-app.createOrder = function (customer_id, user_id, jobType_id, date, machinaryModel, notes, successCallback, failCallback)
+app.createOrder = function (customer_id, user_id, jobType_id, serialNumber, date, machinaryModel, notes, successCallback, failCallback)
 {
     document.getElementById("modal").style.display = "block";
     document.getElementById("loader").style.display = "block";
-    var url = encodeURI('/Samurai/gate?&op=create_order&customer_id=' + customer_id + '&user_id=' + user_id + '&jobType_id=' + jobType_id + '&date=' + date + '&machinaryModel=' + machinaryModel + '&notes=' + notes);
+    var url = encodeURI('/Samurai/gate?&op=create_order&customer_id=' + customer_id + '&user_id=' + user_id + '&jobType_id=' + jobType_id + '&serial_number=' + serialNumber + '&date=' + date + '&machinaryModel=' + machinaryModel + '&notes=' + notes);
 
     fetch(url, {credentials: 'same-origin'})
             .then(response => response.json())
@@ -576,6 +576,7 @@ app.readOrders = function (
         order_code,
         order_description,
         completion_state_id,
+        serial_number,
         availability_id,
         customer_idString,
         machinaryModelHint,
@@ -604,6 +605,9 @@ app.readOrders = function (
 
     if (completion_state_id !== null)
         url = url + encodeURI("&completion_state_id=" + completion_state_id);
+    
+    if (serial_number !== null)
+        url = url + encodeURI("&serial_number=" + serial_number);
 
     if (availability_id !== null)
         url = url + encodeURI("&availability_id=" + availability_id);

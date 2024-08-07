@@ -25,7 +25,7 @@
 
     DbResult dbr_jobTypes = dao.readJobTypes(null);
 
-    DbResult dbr_order = dao.readOrders(order_id, null, null, null, null, null, null, null, null, null, null);
+    DbResult dbr_order = dao.readOrders(order_id, null, null, null, null, null, null, null, null, null, null, null);
     Long jobType_id = dbr_order.getLong("jobType_id");
 
     Long customer_id = dao.getCustomerIdByOrderId(order_id);
@@ -116,6 +116,10 @@
                 <tr class="Details_row">
                     <th class="Detail_header" id="code_label">CODICE</th>
                     <td id="code_value"><%=dbr_order.getString("code")%></td>
+                </tr>
+                <tr class="Details_row">
+                    <th class="Detail_header" id="serial_number_label">MATRICOLA</th>
+                    <td id="serial_number_value"><%=dbr_order.getString("serialNumber")%></td>
                 </tr>
                 <tr class="Details_row">
                     <th class="Detail_header" id="date_label">DATA</th>

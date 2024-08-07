@@ -673,7 +673,7 @@ public class DataAccessObject {
      * @return
      * @throws SQLException
      */
-    Long createOrder(Long customer_id, Long user_id, Long jobType_id, String date, String machinaryModel, String notes) throws SQLException {
+    Long createOrder(Long customer_id, Long user_id, Long jobType_id, String serialNumber, String date, String machinaryModel, String notes) throws SQLException {
         int year = 0;
         try {
             DTF.parse(date);
@@ -691,6 +691,7 @@ public class DataAccessObject {
                 .value("customer_id", customer_id)
                 .value("user_id", user_id)
                 .value("jobType_id", jobType_id)
+                .value("serialNumber", serialNumber)
                 .value("machinaryModel", machinaryModel)
                 .value("date", date)
                 .value("notes", notes).goAndGetId();
@@ -715,6 +716,7 @@ public class DataAccessObject {
      * @param order_description
      * @param completion_state_id
      * @param availability_id
+     * @param serial_number
      * @param customer_idString
      * @param machinaryModelHint
      * @param jobType_idString
@@ -723,7 +725,19 @@ public class DataAccessObject {
      * @return
      * @throws SQLException
      */
-    public DbResult readOrders(Long order_id, Long creator_id, String order_code, String order_description, Long completion_state_id, Long availability_id, String customer_idString, String machinaryModelHint, String jobType_idString, String fromDate, String toDate) throws SQLException {
+    public DbResult readOrders(
+            Long order_id, 
+            Long creator_id, 
+            String order_code, 
+            String order_description, 
+            Long completion_state_id, 
+            String serialNumber, 
+            Long availability_id, 
+            String customer_idString, 
+            String machinaryModelHint, 
+            String jobType_idString, 
+            String fromDate, 
+            String toDate) throws SQLException {
         Long customer_id = null;
 
         if (customer_idString != null && !customer_idString.equals("")) {
@@ -767,6 +781,7 @@ public class DataAccessObject {
                 .andWhere(order_id != null, "[order_id] = " + order_id)
                 .andWhere(creator_id != null, "[creator_id] = " + creator_id)
                 .andWhere(order_code != null && !order_code.equals(""), "[code] = '" + order_code + "'")
+                .andWhere(serialNumber != null && !serialNumber.equals(""), "[code] = '" + serialNumber + "'")
                 .andWhere(order_description != null, "[machinaryModel] COLLATE SQL_Latin1_General_CP1_CI_AS LIKE \n'%" + order_description + "%'")
                 .andWhere(completion_state_id != null, "[completion_state_id] = " + completion_state_id)
                 .andWhere(availability_id != null, "[availabilty_id] = " + availability_id)

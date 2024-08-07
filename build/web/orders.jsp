@@ -87,6 +87,8 @@
             <div class="Filters_label">RICERCA</div>
 
             <input id="order_code_Hint" placeholder="      CODICE LAVORO">
+            
+            <input id="serial_number_Hint" placeholder="      MATRICOLA">
 
             <!--input id="customer_denomination_Hint" placeholder="NOME CLIENTE"-->
             <select id="customer_select_options" <!--onchange="app.getCustomerMachinaries( 'machinary_model_select_options' )"--> >
@@ -151,6 +153,7 @@
             <table class="Table">
                 <thead>
                 <th class="Code">CODICE</th>
+                <th class="SerialNumber">MATRICOLA</th>
                 <th class="Date">DATA</th>
                 <th class="CustomerDenomination">CLIENTE</th>
                 <th class="Description">DESCRIZIONE LAVORO</th>
@@ -179,6 +182,9 @@
                     <option value="<%=dbr_customers.getLong(i, "customer_id")%>"><%=dbr_customers.getString(i, "denomination")%></option>
                     <%}%>
                 </select><br><br>
+                
+                <!--machinary model-->
+                <input id='new_order_serial_number' placeholder="MATRICOLA">
 
                 <!--machinary model-->
                 <input id='new_order_machinary_model' placeholder="DESCRIZIONE LAVORO">
@@ -214,6 +220,7 @@
     <template id="order_template">
         <tr id="order_row">
             <td class="Code" id="code"></td>
+            <td class="SerialNumber" id="serial_number"></td>
             <td class="Date" id="date"></td>
             <td class="CustomerDenomination" id="customer_denomination"></td>
             <td class="MachinaryModel" id="machinary_model"></td>

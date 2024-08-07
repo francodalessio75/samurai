@@ -23,6 +23,9 @@
 
     // RECUPERO IL CODICE ORDINE
     String code = dbr.getString("code");
+    
+    // RECUPERO LA MATRICOLA
+    String serialNumber = dbr.getString("serialNumber");
 
     // RECUPERO IL TIPO MACCHINA
     String machinaryModel = dbr.getString("machinaryModel");
@@ -108,6 +111,11 @@
             <div id="orderCodeContainer">
                 <div id="orderCodeLabel">CODICE LAVORO:</div>
                 <div id="orderCode"><%=code%></div>
+            </div>
+            
+            <div id="orderSerialNumberContainer">
+                <div id="orderSerialNumberLabel">MATRICOLA:</div>
+                <div id="orderSerialNumber"><%=serialNumber%></div>
             </div>
             
             <div id="orderDateContainer">

@@ -43,6 +43,7 @@ app.getOrdersPage = function ()
             null,
             null,
             null,
+            null,
             fromDate,
             toDate,
             function (orders)
@@ -81,6 +82,7 @@ app.refreshOrders = function ()
         templateContent.querySelector("#customer_denomination").id = "customer_denomination_" + app.orders[i][0];
         templateContent.querySelector("#machinary_model").id = "machinary_model_" + app.orders[i][0];
         templateContent.querySelector("#job_type").id = "job_type_" + app.orders[i][0];
+        templateContent.querySelector("#serial_number").id = "serial_number_" + app.orders[i][0];
         templateContent.querySelector("#completion_state").id = "completion_state_" + app.orders[i][0];
 
         //content fillling
@@ -90,6 +92,7 @@ app.refreshOrders = function ()
         templateContent.querySelector("#machinary_model_" + app.orders[i][0]).textContent = app.orders[i][12];
         templateContent.querySelector("#job_type_" + app.orders[i][0]).textContent = app.orders[i][7];
         templateContent.querySelector("#completion_state_" + app.orders[i][0]).textContent = app.orders[i][13];
+        templateContent.querySelector("#serial_number_" + app.orders[i][0]).textContent = app.orders[i][15];
 
         // DEFINIZIONE DELLE CALLBACK
         templateContent.querySelector("#order_row_" + app.orders[i][0]).onclick = app.setCurrentOrderIdCustomerId(app.orders[i][0], app.orders[i][1]);
@@ -173,6 +176,7 @@ app.createNewOrder = function (user_id)
     var customer_id = document.getElementById("new_customer_select_options").value;
     var jobType_id = document.getElementById("new_job_type_select_options").value;
     var machinaryModel = document.getElementById("new_order_machinary_model").value;
+    var serialNumber = document.getElementById("new_order_serial_number").value;
     //checks for customer
     if (customer_id === "" || customer_id === undefined)
     {
@@ -193,7 +197,7 @@ app.createNewOrder = function (user_id)
         var date = document.getElementById("new_order_date").value;
         var notes = document.getElementById("new_order_notes").value;
 
-        app.createOrder(customer_id, user_id, jobType_id, date, machinaryModel, notes,
+        app.createOrder(customer_id, user_id, jobType_id, serialNumber, date, machinaryModel, notes,
                 function ()
                 {
                     location.reload(true);
@@ -291,6 +295,8 @@ app.jobTypeDatalistonChange = function (jobTypes)
 app.filterOrders = function ()
 {
     var orderCode = document.getElementById('order_code_Hint').value;
+    
+    var serialNumber = document.getElementById('serial_number_Hint').value;
 
     var customer_idString = document.getElementById('customer_select_options').value;
 
@@ -316,7 +322,9 @@ app.filterOrders = function ()
     //id orderCode is not empty just empty all other criteria and serch the order only by orderCode first checks 
     //if the order exists
     //order_id, creator_id, order_code, completion_state_id, availability_id, customer_idString, machinaryModelHint, jobType_idString, fromDate, toDate, successCallback, failCallback )
-    if (orderCode !== "")
+    orderCode = orderCode === "" ? null : orderCode;
+    serialNumber = serialNumber === "" ? null : serialNumber;
+    if (orderCode !== null || serialNumber !== null)
     {
         app.readOrders(
                 null,
@@ -324,7 +332,7 @@ app.filterOrders = function ()
                 orderCode,
                 orderDescription_idString,
                 null,
-                null,
+                serialNumber,
                 null,
                 null,
                 null,
@@ -370,6 +378,7 @@ app.filterOrders = function ()
                 null,
                 orderDescription_idString,
                 completion_state_id,
+                serialNumber,
                 null,
                 customer_idString,
                 null,

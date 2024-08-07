@@ -66,7 +66,7 @@ public class PdfOrderCoverPrinter
         
         
         //related deliverynotes
-        DbResult order = dao.readOrders(order_id,null,null,null,null,null,null,null,null,null,null );
+        DbResult order = dao.readOrders(order_id,null,null,null,null,null,null,null,null,null,null,null );
         
         //pdf document with destination file, operatoes low level opeerations
         PdfDocument destPdf = new PdfDocument(new PdfWriter(DEST));
@@ -116,8 +116,10 @@ public class PdfOrderCoverPrinter
         Cell notesCell = new Cell( 5, 1 );
         Cell orderDateLabelCell = new Cell( 2, 1 );
         Cell orderCodeLabelCell = new Cell( 2, 1 );
+        Cell orderSerialNumberLabelCell = new Cell( 2, 1 );
         Cell orderDateCell = new Cell( 2, 1 );
         Cell orderCodeCell = new Cell( 3, 1 );
+        Cell orderSerialNumberCell = new Cell( 3, 1 );
         
         //cells height and rotation
         logoCell.setHeight( 565 );
@@ -131,6 +133,8 @@ public class PdfOrderCoverPrinter
         orderDateCell.setHeight( 365 );
         orderCodeLabelCell.setHeight( 200 );
         orderCodeCell.setHeight( 365 ).setPaddingTop(5).setHorizontalAlignment(HorizontalAlignment.CENTER);
+        orderSerialNumberLabelCell.setHeight( 200 );
+        orderSerialNumberCell.setHeight( 365 ).setPaddingTop(5).setHorizontalAlignment(HorizontalAlignment.CENTER);
         
         /*cells height and rotation
         logoCell.setWidth( 400 ).setRotationAngle(Math.PI /2);
@@ -152,6 +156,7 @@ public class PdfOrderCoverPrinter
         Paragraph pMachinaryModelHeader = new Paragraph( new Text( "DESCRIZIONE LAVORO" ) ).setRotationAngle(Math.PI/2).setVerticalAlignment(VerticalAlignment.MIDDLE).setHorizontalAlignment(HorizontalAlignment.CENTER).setBorder( new DashedBorder( 0.3f) ).setWidth(555).setHeight(40).setBold().setFontSize(15);
         Paragraph pNotesHeader = new Paragraph( new Text( "NOTE" ) ).setRotationAngle(Math.PI/2).setVerticalAlignment(VerticalAlignment.MIDDLE).setHorizontalAlignment(HorizontalAlignment.CENTER).setBorder( new DashedBorder( 0.3f) ).setWidth(555).setHeight(40).setBold().setFontSize(15);
         Paragraph pOrderCodeLabel = new Paragraph( new Text( "CODICE LAVORO" ) ).setRotationAngle(Math.PI/2).setVerticalAlignment(VerticalAlignment.MIDDLE).setHorizontalAlignment(HorizontalAlignment.CENTER).setBorder( new DashedBorder( 0.3f) ).setWidth(180).setHeight(120).setBold().setFontSize(20);
+        Paragraph pOrderSerialNumberLabel = new Paragraph( new Text( "MATRICOLA" ) ).setRotationAngle(Math.PI/2).setVerticalAlignment(VerticalAlignment.MIDDLE).setHorizontalAlignment(HorizontalAlignment.CENTER).setBorder( new DashedBorder( 0.3f) ).setWidth(180).setHeight(120).setBold().setFontSize(20);
         Paragraph pOrderDateLabel = new Paragraph( new Text( "DATA" ) ).setRotationAngle(Math.PI/2).setVerticalAlignment(VerticalAlignment.MIDDLE).setHorizontalAlignment(HorizontalAlignment.CENTER).setBorder( new DashedBorder( 0.3f) ).setWidth(180).setHeight(40).setBold().setFontSize(15);
         
         //creates a null image instance and try to retrieve the customer logo
@@ -168,7 +173,7 @@ public class PdfOrderCoverPrinter
         Paragraph pMachinaryModelText = new Paragraph( new Text( order.getString( "machinaryModel" ) ) ).setRotationAngle(Math.PI/2).setVerticalAlignment(VerticalAlignment.MIDDLE).setHorizontalAlignment(HorizontalAlignment.CENTER).setBorder( new DashedBorder( 0.3f) ).setWidth(555).setHeight(120).setFontSize(35);
         Paragraph pNotesText = new Paragraph( new Text( order.getString( "notes" ) ) ).setRotationAngle(Math.PI/2).setVerticalAlignment(VerticalAlignment.MIDDLE).setHorizontalAlignment(HorizontalAlignment.CENTER).setBorder( new DashedBorder( 0.3f) ).setWidth(555).setHeight(120).setFontSize(25);
         Paragraph pCode = new Paragraph( new Text( order.getString( "code" ) ) ).setRotationAngle(Math.PI/2).setVerticalAlignment(VerticalAlignment.MIDDLE).setHorizontalAlignment(HorizontalAlignment.CENTER).setBorder( new DashedBorder( 0.3f) ).setWidth(285).setHeight(100).setFontSize(70).setFontColor(Color.WHITE).setBackgroundColor(Color.BLACK).setBold();
-        
+        Paragraph pSerialNumber = new Paragraph( new Text( order.getString( "serialNumber" ) ) ).setRotationAngle(Math.PI/2).setVerticalAlignment(VerticalAlignment.MIDDLE).setHorizontalAlignment(HorizontalAlignment.CENTER).setBorder( new DashedBorder( 0.3f) ).setWidth(285).setHeight(100).setFontSize(70).setFontColor(Color.WHITE).setBackgroundColor(Color.BLACK).setBold();
         
         //date
         String dateString = order.getString( "date" );
@@ -206,6 +211,8 @@ public class PdfOrderCoverPrinter
         orderDateCell.add(pDate);
         orderCodeLabelCell.add(pOrderCodeLabel);
         orderCodeCell.add(pCode);
+        orderSerialNumberLabelCell.add(pOrderSerialNumberLabel);
+        orderSerialNumberCell.add(pSerialNumber);
         
         //assembling table
         tblCover
@@ -217,6 +224,7 @@ public class PdfOrderCoverPrinter
             .addCell(notesLabelCell)
             .addCell(notesCell)
             .addCell(orderCodeCell)
+            .addCell(orderSerialNumberCell)
             .addCell(orderDateCell)
             .addCell(orderDateLabelCell)
             .addCell(orderCodeLabelCell);

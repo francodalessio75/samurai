@@ -35,7 +35,7 @@
 
 
 #refresh{
-    top:30rem;
+    top:32rem;
     left:0.1rem;
 }
 
@@ -48,7 +48,7 @@
 }
 
 /* not editables inputs*/
-#code_label,#date_label,#customer_label,#creator_label,#totals_label,#title_label
+#code_label,#date_label,#customer_label,#creator_label,#totals_label,#title_label,#serial_number_label
 {
     font-weight: 600;
     color: darkblue;

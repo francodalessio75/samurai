@@ -1,0 +1,4 @@
+com.dalessio.samurai.PdfPrinter$DeliveryNoteMyEventHandler
+com.dalessio.samurai.PdfPrinter$InvoiceMyEventHandler
+com.dalessio.samurai.PdfPrinter
+com.dalessio.samurai.PdfPrinter$MyParagraphRenderer

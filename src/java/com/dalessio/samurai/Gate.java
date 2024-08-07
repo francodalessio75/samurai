@@ -1645,6 +1645,8 @@ public class Gate extends HttpServlet implements HttpSessionListener {
             } catch (NumberFormatException Nex) {
                 jsonResponse.addProperty("message", "invalid jobType_id format");
             }
+            
+            String serialNumber = request.getParameter("serial_number");
 
             //Hard coded here but it should be a default value on DB. When I send to AWS I loose this default setting!!!!!!!!!!!!!!!!!!!!!
             //Long completion_state_id = 1L;//"In Corso"
@@ -1655,7 +1657,7 @@ public class Gate extends HttpServlet implements HttpSessionListener {
             String notes = request.getParameter("notes");
 
             // creates the customer
-            Long order_id = dao.createOrder(customer_id, user_id, jobType_id, date, machinaryModel, notes);
+            Long order_id = dao.createOrder(customer_id, user_id, jobType_id, serialNumber, date, machinaryModel, notes);
 
             jsonResponse.addProperty("success", true);
             jsonResponse.addProperty("order_id", order_id);
@@ -1698,6 +1700,8 @@ public class Gate extends HttpServlet implements HttpSessionListener {
                 completion_state_id = Long.parseLong(request.getParameter("completion_state_id"));
             } catch (NumberFormatException Nex) {
             }
+            
+            String serialNumber = request.getParameter("serial_number");
 
             Long availability_id = null;
             try {
@@ -1716,7 +1720,7 @@ public class Gate extends HttpServlet implements HttpSessionListener {
 
             // asks DB for orders
             //Long order_id, Long creator_id, String order_code, Long completion_state_id, String customerDenominationHint, String machinaryModelHint, String jobTypeHint, String fromDate, String toDate
-            DbResult dbr = dao.readOrders(order_id, creator_id, order_code, order_description, completion_state_id, availability_id, customer_idString, machinaryModelHint, jobType_idString, fromDate, toDate);
+            DbResult dbr = dao.readOrders(order_id, creator_id, order_code, order_description, completion_state_id, serialNumber, availability_id, customer_idString, machinaryModelHint, jobType_idString, fromDate, toDate);
 
             //JsonArray jsonRecords = (JsonArray)dbr.toJson(true).get("records");
             //jsonResponse.add("orders", jsonRecords);
@@ -1833,6 +1837,13 @@ public class Gate extends HttpServlet implements HttpSessionListener {
                     record.add(new JsonPrimitive(""));
                 } else {
                     record.add(new JsonPrimitive(dbr.getString(i, "availability")));
+                }
+                
+                //15
+                if (dbr.getString(i, "serialNumber") == null) {
+                    record.add(new JsonPrimitive(""));
+                } else {
+                    record.add(new JsonPrimitive(dbr.getString(i, "serialNumber")));
                 }
 
                 orders.add(record);
