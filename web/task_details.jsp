@@ -172,6 +172,8 @@
             </select>
 
             <input id="order_code_Hint" placeholder="CODICE LAVORO">
+            
+            <input id="order_serial_number_Hint" placeholder="MATRICOLA">
 
             <select id="jobType_select_options" >
                 <option value="" > TIPO LAVORO </option>

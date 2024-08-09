@@ -321,10 +321,10 @@ app.filterOrders = function ()
 
     //id orderCode is not empty just empty all other criteria and serch the order only by orderCode first checks 
     //if the order exists
-    //order_id, creator_id, order_code, completion_state_id, availability_id, customer_idString, machinaryModelHint, jobType_idString, fromDate, toDate, successCallback, failCallback )
+    //order_id, creator_id, order_code, order_description,completion_state_id, serial_number, availability_id, customer_idString, machinaryModelHint, jobType_idString, fromDate, toDate, successCallback, failCallback )
     orderCode = orderCode === "" ? null : orderCode;
     serialNumber = serialNumber === "" ? null : serialNumber;
-    if (orderCode !== null || serialNumber !== null)
+    if (orderCode !== null )
     {
         app.readOrders(
                 null,
@@ -332,7 +332,8 @@ app.filterOrders = function ()
                 orderCode,
                 orderDescription_idString,
                 null,
-                serialNumber,
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -356,7 +357,41 @@ app.filterOrders = function ()
                     document.querySelector(".Footer_message").innerHTML = "non riesco a filtrare i LAVORI!";
                 }
         );
-    } else
+    } else if ( serialNumber !== null){
+        app.readOrders(
+                null,
+                null,
+                null,
+                orderDescription_idString,
+                null,
+                serialNumber,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                function (orders)
+                {
+                    //checks if the order exists
+                    if (orders.length === 1)
+                    {
+                        app.orders = orders;
+                        app.refreshOrders();
+                        document.querySelector(".Footer_message").innerHTML = "LAVORI FILTRATI: " + orders.length;
+                    } else
+                    {
+                        window.alert(" codice non troavato!");
+                    }
+                },
+                function ()
+                {
+                    document.querySelector(".Footer_message").innerHTML = "non riesco a filtrare i LAVORI!";
+                }
+        );
+    }
+    
+    else
     {
         /**
          * readOrders is a method located in dbi.js. It takes four parameters

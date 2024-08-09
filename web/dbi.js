@@ -953,7 +953,7 @@ app.createTask = function (order_code, user_id, jobSubtype_id, date, hours, tran
     ;
 };
 
-app.readTasks = function (task_id, user_id, order_id, operator_id, orderCode, jobType_id, jobSubtype_id, customer_id, order_creator_id, fromDate, toDate, completion_state_id, successCallback, failCallback)
+app.readTasks = function (task_id, user_id, order_id, operator_id, orderCode, orderSerialNumber, jobType_id, jobSubtype_id, customer_id, order_creator_id, fromDate, toDate, completion_state_id, successCallback, failCallback)
 {
     document.getElementById("modal").style.display = "block";
     document.getElementById("loader").style.display = "block";
@@ -976,6 +976,9 @@ app.readTasks = function (task_id, user_id, order_id, operator_id, orderCode, jo
 
     if (orderCode !== null && orderCode !== undefined)
         url = url + encodeURI("&orderCode=" + orderCode);
+    
+    if (orderSerialNumber !== null && orderSerialNumber !== undefined)
+        url = url + encodeURI("&orderSerialNumber=" + orderSerialNumber);
 
     if (jobType_id !== null && jobType_id !== undefined)
         url = url + encodeURI("&jobType_id=" + jobType_id);

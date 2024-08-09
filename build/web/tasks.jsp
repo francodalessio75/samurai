@@ -117,7 +117,10 @@
             <% if (user_role.equals("admin")) {%>
             <script>document.getElementById('operator_select_options').value = "<%= filter != null ? filter.get("operator_id").getAsString() : ""%>";</script>
             <%}%>
+            
             <input id="order_code_Hint" placeholder="CODICE LAVORO" value="<%= filter != null ? filter.get("order_code").getAsString() : ""%>">
+            
+            <input id="order_serial_number_Hint" placeholder="MATRICOLA" value="<%= filter != null ? filter.get("order_serial_number").getAsString() : ""%>">
 
             <select id="jobType_select_options" >
                 <option value="" > TIPO LAVORO </option>
@@ -155,26 +158,26 @@
         <div class="Content WithFilter" style="text-align: center;">
             <table class="Table" >
                 <thead >
-                <th>DATA</th>
-                <th>OPERATORE</th>
-                <%if ("admin".equals(user_role)) {%><th>COSTO ORARIO</th><%}%>
-                <th>CODICE</th>
-                <th>CLIENTE</th>
-                <th>STATO LAVORO</th>
-                <th><i  id="searchIcon" class="fa fa-paperclip fa-3x" aria-hidden="true"></i></th>
-                <th>DESC. LAVORO</th>
-                <th>TIPO LAVORO</th>
-                <th>TIPO LAVOR.NE</th>
-                <th>ORE</th>
-                <th>TOTALE ORE</th>
-                    <%if ("admin".equals(user_role)) {%>
-                <th>COSTO TRAD.</th>
-                <th>IMPORTO TRAD.</th>
-                <th>ORE LAV. EST.</th>
-                <th>COSTO LAV. EST.</th>
-                <th>COSTO MAT.LI</th>
-                <th>COSTO TRAS.TA</th>
-                    <%}%>
+                <th class="column-header">DATA</th>
+                <th class="column-header">OPERATORE</th>
+                <th class="column-header">CODICE</th>
+                <th class="column-header">CLIENTE</th>
+                <th class="column-header">STATO LAVORO</th>
+                <th class="column-header"><i  id="searchIcon" class="fa fa-paperclip fa-3x" aria-hidden="true"></i></th>
+                <th class="column-header">DESC. LAVORO</th>
+                <th class="column-header">TIPO LAVORO</th>
+                <th class="column-header">TIPO LAVOR.NE</th>
+                <th class="column-header">ORE</th>
+                <th class="column-header">TOTALE ORE</th>
+           <%if ("admin".equals(user_role)) {%>
+                <th class="column-header">COSTO ORARIO<p>(A)</p></th>
+                <th class="column-header">COSTO TRAD.</th>
+                <th class="column-header">IMPORTO TRAD.<p>(B)</p></th>
+                <th class="column-header">ORE LAV. EST.</th>
+                <th class="column-header">COSTO LAV. EST.<p>(C)</p></th>
+                <th class="column-header">COSTO MAT.LI<p>(D)</p></th>
+                <th class="column-header">COSTO TRAS.TA<p>(E)</p></th>
+            <%}%>
                 </thead>
                 <tbody></tbody>
             </table>   
@@ -192,7 +195,6 @@
         <tr class="TaskTableRow">
             <td class="TaskDate"></td>
             <td class="Operator"></td>
-            <%if ("admin".equals(user_role)) {%><td class="HourlyCost"></td><%}%>
             <td class="OrderCode"></td>
             <td class="CustomerDenomination"></td>
             <td class="CompletionState"></td>
@@ -203,6 +205,7 @@
             <td class = "Hours"></td>
             <td class = "TotalHours"></td>
             <%if ("admin".equals(user_role)) {%>
+            <td class="HourlyCost"></td>
             <td class = "TranslationCost"></td>
             <td class = "TranslationPrice"></td>
             <td class = "ExternalJobsHours"></td>
@@ -212,6 +215,13 @@
             <%}%>
         </tr>
     </template>
+    
+        <template id="generalTotal">
+            <table>
+                <th>TOTALE GENERALE(A+B+C+D+E)</th><th>DESC. LAVORO</th>
+            </table>
+        </template>
+    
 
     <script src="/Samurai/dbi.js?<%=timestamp%>"></script>
     <script src="/Samurai/tasks.js?<%=timestamp%>"></script>

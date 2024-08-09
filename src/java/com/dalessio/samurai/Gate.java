@@ -2386,6 +2386,8 @@ public class Gate extends HttpServlet implements HttpSessionListener {
             }
 
             String orderCode = request.getParameter("orderCode");
+            
+            String orderSerialNumber = request.getParameter("orderSerialNumber");
 
             Long jobType_id = null;
             try {
@@ -2422,7 +2424,7 @@ public class Gate extends HttpServlet implements HttpSessionListener {
             }
 
             // asks DB for tasks
-            DbResult dbr = dao.readTasks(task_id, user_id, order_id, operator_id, orderCode, jobType_id, jobSubtype_id, customer_id, order_creator_id, fromDate, toDate, completion_state_id);
+            DbResult dbr = dao.readTasks(task_id, user_id, order_id, operator_id, orderCode, orderSerialNumber, jobType_id, jobSubtype_id, customer_id, order_creator_id, fromDate, toDate, completion_state_id);
             // DbResult dbr =dao.readTasks( 31L, 1L, null, null, null,  null, null, null, null, null, null,  null, null );
             jsonResponse.addProperty("success", true);
             //jsonResponse.add("orders",dbr.toJson(true));
@@ -2617,6 +2619,12 @@ public class Gate extends HttpServlet implements HttpSessionListener {
                 }
                 //31 Has Attachment:  calls DAO to know if the task has got unless one related attachment
                 record.add(new JsonPrimitive(dbr.getInteger(i, "hasAttachment")));
+                //32
+                if (dbr.getString(i, "serialNumber") == null) {
+                    record.add(new JsonPrimitive(""));
+                } else {
+                    record.add(new JsonPrimitive(dbr.getString(i, "serialNumber")));
+                }
 
                 tasks.add(record);
             }

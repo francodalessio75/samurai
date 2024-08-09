@@ -781,7 +781,7 @@ public class DataAccessObject {
                 .andWhere(order_id != null, "[order_id] = " + order_id)
                 .andWhere(creator_id != null, "[creator_id] = " + creator_id)
                 .andWhere(order_code != null && !order_code.equals(""), "[code] = '" + order_code + "'")
-                .andWhere(serialNumber != null && !serialNumber.equals(""), "[code] = '" + serialNumber + "'")
+                .andWhere(serialNumber != null && !serialNumber.equals(""), "[serialNumber] = '" + serialNumber + "'")
                 .andWhere(order_description != null, "[machinaryModel] COLLATE SQL_Latin1_General_CP1_CI_AS LIKE \n'%" + order_description + "%'")
                 .andWhere(completion_state_id != null, "[completion_state_id] = " + completion_state_id)
                 .andWhere(availability_id != null, "[availabilty_id] = " + availability_id)
@@ -1281,7 +1281,7 @@ public class DataAccessObject {
      * operator_id, operatorHint, customerDenominationHint, orderCreatorHint,
      * fromDate, toDate, completion_state_id gate ->
      */
-    public DbResult readTasks(Long task_id, Long user_id, Long order_id, Long operator_id, String orderCode, Long jobType_id, Long jobSubtype_id, Long customer_id, Long order_creator_id, String fromDate, String toDate, Long completion_state_id) throws SQLException {
+    public DbResult readTasks(Long task_id, Long user_id, Long order_id, Long operator_id, String orderCode, String orderSerialNumber, Long jobType_id, Long jobSubtype_id, Long customer_id, Long order_creator_id, String fromDate, String toDate, Long completion_state_id) throws SQLException {
         if (fromDate != null && !fromDate.equals("")) {
             try {
                 //removes dashes for correct casting from string to int on sql server
@@ -1309,6 +1309,7 @@ public class DataAccessObject {
                 .andWhere(order_id != null, "order_id = " + order_id)
                 .andWhere(operator_id != null, "operator_id = " + operator_id)
                 .andWhere(orderCode != null && !orderCode.equals(""), "orderCode = " + orderCode)
+                .andWhere(orderSerialNumber != null && !orderSerialNumber.equals(""), "serialNumber = " + orderCode)
                 .andWhere(jobType_id != null, "jobType_id = " + jobType_id)
                 .andWhere(jobSubtype_id != null, "jobSubtype_id = " + jobSubtype_id)
                 .andWhere(customer_id != null, "customer_id = " + customer_id)

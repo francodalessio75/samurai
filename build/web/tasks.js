@@ -264,7 +264,7 @@ app.detailsChanged = function(field_id)
     if( field_id === ("transfert_kms_input") )
     {
         var message =  app.validInteger( "transfert_kms_input", "Km Trasferta" );
-        if( message !== "" )
+        if( message !== "" ) 
             alert( message );
     }
     
@@ -287,7 +287,7 @@ app.orderCodeChanged = function()
     var order_code = document.getElementById('order_code_input').value.trim();
     
     //order_id, creator_id, order_code, completion_state_id, availability_id, customer_idString, machinaryModelHint, jobType_idString, fromDate, toDate, successCallback, failCallback )
-    app.readOrders(null, null, order_code,  null, null, null, null, null, null,null,null, 
+    app.readOrders(null, null, order_code,  null, null, null, null, null, null,null,null,null, 
         function(orders)
         {
             if( orders.length === 1 )
@@ -361,6 +361,8 @@ app.getFiltersValues = function()
     
     app.filter.order_code = document.getElementById('order_code_Hint').value.trim();
     
+    app.filter.order_serial_number = document.getElementById('order_serial_number_Hint').value.trim();
+    
     app.filter.jobType_id = document.getElementById("jobType_select_options").value;
     
     app.filter.jobSubtype_id = document.getElementById("jobSubtype_select_options").value;
@@ -385,12 +387,13 @@ app.filterTasks = function( user_id, user_role )
     //assigns to app.filter current values
     app.getFiltersValues();
     
-    app.readTasks(// task_id, user_id, order_id, operator_id, orderCode, jobType_id, jobSubtype_id, customer_id,  order_creator_id, fromDate, toDate, completion_state_id, successCallback, failCallback )
+    app.readTasks(// task_id, user_id, order_id, operator_id, orderCode, orderSerialNumber, jobType_id, jobSubtype_id, customer_id,  order_creator_id, fromDate, toDate, completion_state_id, successCallback, failCallback )
         null,//task_id
         app.user_id,//user_id
         null,//order_id
         app.filter.operator_id,//operator_id
         app.filter.order_code,//orderCode
+        app.filter.order_serial_number,//orderSerialNumber
         app.filter.jobType_id,//jobType_id
         app.filter.jobSubtype_id,//jbSubtype_id
         null,//customer_id
@@ -420,11 +423,11 @@ app.fillTasksTable = function(tasks)
     //empty the current content in the table
     itemsContainer.innerHTML = null;
     
-    //operator total hours : computed field for administrators
+    //operator total hours : total hours worked by the operator in the period
     var operatorTotalHours = 0;
-    //general hours total
+    //total worked hours in the period
     let totalHours = 0;
-    //general hours total cost
+    //sum of Xi,n, Yi,n of ( X*Y ) where X is operatorTotalHours and Y is Operator Hourly Cost
     let totalHoursCost = 0;
     //sum of all translations cost
     let totalTranslationsCost = 0;
@@ -438,6 +441,8 @@ app.fillTasksTable = function(tasks)
     let totalMaterialCost = 0;
     //sum of all transfert cost
     let totalTransfertCost = 0;
+    //sum of totalHoursCost + totalTranslationCost + totalExternalJobsCost totalMaterialCost +totalTransfertCost
+    let totalGeneralCosts = 0;
     
     
     
@@ -446,10 +451,8 @@ app.fillTasksTable = function(tasks)
         let templateContent =  document.importNode(templateItem.content,true);
         templateContent.querySelector(".TaskTableRow").id = "row_"+tasks[i][0];
         templateContent.querySelector(".TaskTableRow").onclick = app.setCurrentTaskId(tasks[i][0]);
-
         templateContent.querySelector(".TaskDate").innerHTML = tasks[i][4];
         templateContent.querySelector(".Operator").innerHTML = tasks[i][24]+ " " + tasks[i][25];
-        
         templateContent.querySelector(".OrderCode").innerHTML = tasks[i][21];
         templateContent.querySelector(".CustomerDenomination").innerHTML = tasks[i][23];
         templateContent.querySelector(".CompletionState").innerHTML = tasks[i][19];
@@ -518,7 +521,9 @@ app.fillTasksTable = function(tasks)
             if( tasks.length === 1 )
             {
                 templateContent.querySelector(".TotalHours").innerHTML = tasks[i][5];
-                
+                //increases operator hours variable
+                operatorTotalHours += tasks[i][5];
+                totalHoursCost += operatorTotalHours * Math.trunc(tasks[i][29]).toFixed(2);
             }
 
             else if( (i+1) <  tasks.length  )
@@ -596,10 +601,10 @@ app.fillTasksTable = function(tasks)
             //fills cell if necessary
             if( i === 0 )
                 cell.innerHTML = "Totale";
-            if( i === 2 )
-                cell.innerHTML = totalHoursCost.toFixed(2);
-            else if( i === 11 )
+            else if( i === 10 )
                 cell.innerHTML = totalHours;
+            else if( i === 11 )
+                cell.innerHTML = totalHoursCost.toFixed(2);
             else if( i === 12 )
                 cell.innerHTML = Math.trunc(totalTranslationsCost).toFixed(2);     
             else if( i === 13 )
@@ -619,6 +624,19 @@ app.fillTasksTable = function(tasks)
 
         //adds last row to the table
         itemsContainer.appendChild(lastRow);  
+        
+        //At th end of the table adds General Total Row
+        const generalTotalRow = document.createElement("tr");
+        const titleCell = document.createElement("td");
+        titleCell.innerHTML = "TOTALE GENERALE A+B+C+D+E";
+        generalTotalRow.appendChild(titleCell);
+        const generalTotalCost = (totalHoursCost + totalTranslationsCost + totalExternalJobsCost + totalMaterialCost+totalTransfertCost ).toFixed(2);
+        const valueCell = document.createElement("td");
+        valueCell.innerHTML = generalTotalCost;
+        generalTotalRow.appendChild(valueCell);
+        itemsContainer.appendChild(generalTotalRow);  
+        
+        
     }
 };
 
