@@ -158,25 +158,25 @@
         <div class="Content WithFilter" style="text-align: center;">
             <table class="Table" >
                 <thead >
-                <th class="column-header">DATA</th>
-                <th class="column-header">OPERATORE</th>
-                <th class="column-header">CODICE</th>
-                <th class="column-header">CLIENTE</th>
-                <th class="column-header">STATO LAVORO</th>
-                <th class="column-header"><i  id="searchIcon" class="fa fa-paperclip fa-3x" aria-hidden="true"></i></th>
-                <th class="column-header">DESC. LAVORO</th>
-                <th class="column-header">TIPO LAVORO</th>
-                <th class="column-header">TIPO LAVOR.NE</th>
-                <th class="column-header">ORE</th>
-                <th class="column-header">TOTALE ORE</th>
+                <th>DATA</th>
+                <th>OPERATORE</th>
+                <th>CODICE</th>
+                <th>CLIENTE</th>
+                <th>STATO LAVORO</th>
+                <th><i  id="searchIcon" class="fa fa-paperclip fa-3x" aria-hidden="true"></i></th>
+                <th>DESC. LAVORO</th>
+                <th>TIPO LAVORO</th>
+                <th>TIPO LAVOR.NE</th>
+                <th>ORE</th>
+                <th>TOTALE ORE</th>
            <%if ("admin".equals(user_role)) {%>
-                <th class="column-header">COSTO ORARIO<p>(A)</p></th>
-                <th class="column-header">COSTO TRAD.</th>
-                <th class="column-header">IMPORTO TRAD.<p>(B)</p></th>
-                <th class="column-header">ORE LAV. EST.</th>
-                <th class="column-header">COSTO LAV. EST.<p>(C)</p></th>
-                <th class="column-header">COSTO MAT.LI<p>(D)</p></th>
-                <th class="column-header">COSTO TRAS.TA<p>(E)</p></th>
+                <th>COSTO ORARIO<p>(A)</p></th>
+                <th>COSTO TRAD.</th>
+                <th>IMPORTO TRAD.<p>(B)</p></th>
+                <th>ORE LAV. EST.</th>
+                <th>COSTO LAV. EST.<p>(C)</p></th>
+                <th>COSTO MAT.LI<p>(D)</p></th>
+                <th>COSTO TRAS.TA<p>(E)</p></th>
             <%}%>
                 </thead>
                 <tbody></tbody>

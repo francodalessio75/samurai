@@ -95,8 +95,8 @@
 
 .TaskDate
 {
-    font-size:80%;
-    
+    font-size:100%;
+    width: 8rem;
 }
 
 .TaskRow
