@@ -29,6 +29,9 @@ app.filter = {};
 app.user_id = 0;
 app.user_role = "";
 
+//boolean that manages aggreagate / detailed view
+app.isAggregate = false;
+
 
 
 /* the task_id value involves wich beteween creation or update must be done*/
@@ -377,7 +380,7 @@ app.getFiltersValues = function()
 
    
 /* updtates the tasks variable in acording to current filters values in the page*/
-app.filterTasks = function( user_id, user_role )
+app.filterTasks = function( user_id, user_role, isAggregate )
 {
     document.querySelector(".Footer_message").innerHTML = "Sto filtrando le Lavorazioni... ";
     //assigns user data
@@ -386,6 +389,19 @@ app.filterTasks = function( user_id, user_role )
     
     //assigns to app.filter current values
     app.getFiltersValues();
+    
+    let successCallback;
+    if( isAggregate ){
+        successCallback = function(tasks){
+            app.fillAggregateTasksTable(tasks);
+            document.querySelector(".Footer_message").innerHTML = "LAVORAZIONI FILTRATE: " + tasks.length;
+        };
+    }else {
+        successCallback = function(tasks){
+            app.fillDetailedTasksTable(tasks);
+            document.querySelector(".Footer_message").innerHTML = "LAVORAZIONI FILTRATE: " + tasks.length;
+        };
+    }
     
     app.readTasks(// task_id, user_id, order_id, operator_id, orderCode, orderSerialNumber, jobType_id, jobSubtype_id, customer_id,  order_creator_id, fromDate, toDate, completion_state_id, successCallback, failCallback )
         null,//task_id
@@ -401,11 +417,7 @@ app.filterTasks = function( user_id, user_role )
         app.filter.from_date,//fromDate
         app.filter.to_date,//toDate
         app.filter.completionState_id,//completion_state_id
-        function( tasks )//successCallBack
-        {
-            app.fillTasksTable(tasks);
-            document.querySelector(".Footer_message").innerHTML = "LAVORAZIONI FILTRATE: " + tasks.length;
-        },
+        successCallback,
         function()//failCallBack
         {
             document.querySelector(".Footer_message").innerHTML = "non riesco a filtrare le lavorazioni! Contattare Assistenza, codice errore : 0002 ";
@@ -415,10 +427,15 @@ app.filterTasks = function( user_id, user_role )
 
 
 /* refersh table rows in according to the user role*/
-app.fillTasksTable = function(tasks)
+app.fillDetailedTasksTable = function(tasks)
 {
-    var templateItem = document.getElementById("taskTableRow");
-    var itemsContainer = document.querySelector(".Table tbody");
+    var detailedTable = document.getElementById("DetailedTable");
+    detailedTable.classList.remove("None");
+    var AggregateTable = document.getElementById("AggregateTable");
+    AggregateTable.classList.add("None");
+    
+    var templateItem = document.getElementById("detailedTaskTableRow");
+    var itemsContainer = document.querySelector(".DetailedTable tbody");
 
     //empty the current content in the table
     itemsContainer.innerHTML = null;
@@ -638,6 +655,15 @@ app.fillTasksTable = function(tasks)
         
         
     }
+};
+
+/* table of aggregate data only for admin users*/
+app.fillAggregateTasksTable = function(tasks)
+{
+    //var detailedTale = document.getElementById("DetailedTable");
+    //detailedTale.classList.add("None");
+    var AggregateTable = document.getElementById("AggregateTable");
+    detailedTale.classList.remove("None");
 };
 
 /**
