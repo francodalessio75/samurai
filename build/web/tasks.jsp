@@ -58,7 +58,7 @@
         <link href="/Samurai/tasks.css" rel="stylesheet">
         <link href="/Samurai/Resources/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
     </head>
-    <body onload="app.filterTasks('<%=user_id%>', '<%=user_role%>');">
+    <body onload="app.filterTasks('<%=user_id%>', '<%=user_role%>', false);">
 
         <div class="loader" id="loader"></div>
         <div id="modal" class="modal"></div>
@@ -152,12 +152,16 @@
                     document.getElementById("completionState_select_options").value = <%= filter != null ? filter.get("completionState_id").getAsLong() : ""%>;
             </script>
 
-            <div id="refresh" class="Button" onclick="app.filterTasks('<%=user_id%>', '<%=user_role%>');"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>RICERCA</div>
+            <div id="refresh" class="Button" onclick="app.filterTasks('<%=user_id%>', '<%=user_role%>', false);"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>RICERCA</div>
+            
+            <%if ("admin".equals(user_role)) {%>
+                <div id="aggregate_refresh" class="Button" onclick="app.filterTasks('<%=user_id%>', '<%=user_role%>', true);"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>AGGREGA</div>
+            <%}%>
         </div>     
 
         <div class="Content WithFilter" style="text-align: center;">
-            <table class="Table" >
-                <thead >
+            <table id="DetailedTable" class="Table DetailedTable">
+                <thead>
                 <th>DATA</th>
                 <th>OPERATORE</th>
                 <th>CODICE</th>
@@ -181,6 +185,17 @@
                 </thead>
                 <tbody></tbody>
             </table>   
+                
+            <table id="AggregateTable">
+            <thead>
+                <th>Cliente</th>
+                <th>Codice</th>
+                <th>Costi</th>
+                <th>Fatturato</th>
+                <th>Margine</th>
+            </thead>
+            <body></body>
+            </table>
         </div> 
 
         <div class="Footer">
@@ -191,7 +206,7 @@
 
     </body>
 
-    <template id="taskTableRow">
+    <template id="detailedTaskTableRow">
         <tr class="TaskTableRow">
             <td class="TaskDate"></td>
             <td class="Operator"></td>
@@ -215,6 +230,16 @@
             <%}%>
         </tr>
     </template>
+    
+        <template id="detailedTaskTableRow">
+        <tr class="TaskTableRow">
+            <td class="CustomerDenomination"></td>
+            <td class="OrderCode"></td>
+            <td class="Costs"></td>
+            <td class="Invoiced"></td>
+            <td class="Margin"></td>
+        </tr>
+    </template>    
     
         <template id="generalTotal">
             <table>

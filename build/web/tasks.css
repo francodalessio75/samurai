@@ -85,11 +85,26 @@
 
 /********************  ATTACHMENTS TABLE *********************************/
 
-.Table thead
+.None {
+    display: none;
+}
+
+
+.DetailedTable thead, 
+.AggregateTable thead
 {
     font-size:90%;
     font-weight:  bolder;
     text-align: center;
+}
+
+.AggregateTable thead 
+{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5,1fr); 
+    grid-template-rows: 1fr;
+    background: red;
 }
 
 
@@ -174,6 +189,11 @@ th
 
 #refresh{
     top:26rem;
+    left:0.1rem;
+}
+#aggregate_refresh{
+    position: relative;
+    top:10rem;
     left:0.1rem;
 }
 
