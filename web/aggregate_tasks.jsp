@@ -58,7 +58,7 @@
         <link href="/Samurai/tasks.css" rel="stylesheet">
         <link href="/Samurai/Resources/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
     </head>
-    <body onload="app.filterTasks('<%=user_id%>', '<%=user_role%>', false);">
+    <body onload="app.filterTasks('<%=user_id%>', '<%=user_role%>', true);">
 
         <div class="loader" id="loader"></div>
         <div id="modal" class="modal"></div>

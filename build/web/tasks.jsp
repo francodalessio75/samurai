@@ -155,7 +155,7 @@
             <div id="refresh" class="Button" onclick="app.filterTasks('<%=user_id%>', '<%=user_role%>', false);"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>RICERCA</div>
             
             <%if ("admin".equals(user_role)) {%>
-                <div id="aggregate_refresh" class="Button" onclick="app.filterTasks('<%=user_id%>', '<%=user_role%>', true);"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>AGGREGA</div>
+                <div id="go-to-aggregate" class="Button" onclick="app.openAggregateTasksPage('<%=user_role%>');"><i  id="aggregateIcon" class="fa fa-minimize" aria-hidden="true"></i>AGGREGA</div>
             <%}%>
         </div>     
 
@@ -186,7 +186,7 @@
                 <tbody></tbody>
             </table>   
                 
-            <table id="AggregateTable">
+            <table id="AggregateTable" class="AggregateTable">
             <thead>
                 <th>Cliente</th>
                 <th>Codice</th>
@@ -194,7 +194,7 @@
                 <th>Fatturato</th>
                 <th>Margine</th>
             </thead>
-            <body></body>
+            <tbody></tbody>
             </table>
         </div> 
 

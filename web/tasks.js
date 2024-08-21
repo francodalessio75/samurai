@@ -350,6 +350,22 @@ app.openTasksPage = function(user_role)
     window.open("tasks.jsp?&filter="+encodeURIComponent(JSON.stringify(app.filter)),'_self');
 };
 
+/* when the user presses the "RICERCA" button on task_details page, tasks page must be shown.
+ * depending on filtering criteria all tasks satisfying them are put in the 
+ * list. Only tasks related to the logged user will be shown, unless he's administrator.
+ * In this case all tasks satisfying criteria will be shown
+ */
+app.openAggregateTasksPage = function(user_role)
+{
+    document.querySelector(".Footer_message").innerHTML = "Sto caricando i dati aggregati... ";
+    app.user_role = user_role;
+    //assigns to app.filter current values
+    app.getFiltersValues();
+    
+    //opens tasks page       
+    window.open("aggregate-tasks.jsp?&filter="+encodeURIComponent(JSON.stringify(app.filter)),'_self');
+};
+
 /*retrieves filters values from the page*/
 app.getFiltersValues = function()
 {
@@ -429,16 +445,11 @@ app.filterTasks = function( user_id, user_role, isAggregate )
 /* refersh table rows in according to the user role*/
 app.fillDetailedTasksTable = function(tasks)
 {
-    var detailedTable = document.getElementById("DetailedTable");
-    detailedTable.classList.remove("None");
-    var AggregateTable = document.getElementById("AggregateTable");
-    AggregateTable.classList.add("None");
-    
     var templateItem = document.getElementById("detailedTaskTableRow");
-    var itemsContainer = document.querySelector(".DetailedTable tbody");
+    var detailedTableBody = document.querySelector(".DetailedTable tbody");
 
-    //empty the current content in the table
-    itemsContainer.innerHTML = null;
+    //empty the current content in the detailed table
+    detailedTableBody.innerHTML = null;
     
     //operator total hours : total hours worked by the operator in the period
     var operatorTotalHours = 0;
@@ -478,28 +489,6 @@ app.fillDetailedTasksTable = function(tasks)
         templateContent.querySelector(".JobType").innerHTML = tasks[i][17];
         templateContent.querySelector(".JobSubtype").innerHTML = tasks[i][3];
         templateContent.querySelector(".Hours").innerHTML = tasks[i][5];
-        /*Modified on the 6th of october 2018 to allow also operators to see their total hours
-        //table columns only for operators
-        if( app.user_role === "operator")
-        {
-            //if there's only one task just writes the hours in the cell
-            if( tasks.length === 1 )
-            {
-                templateContent.querySelector(".TotalHours").innerHTML = tasks[i][5];
-            }
-            //if there's more than one task collect the total and writes it in the last row
-            else if( (i+1) <  tasks.length  )
-            {
-                //increases operator hours variable
-                operatorTotalHours += tasks[i][5];
-                
-                //when the itaration is on the last element write the total
-                if( (i+1) === tasks.length  )
-                {
-                    templateContent.querySelector(".TotalHours").innerHTML = operatorTotalHours;
-                }
-            }
-        }*/
         
          //table columns only for administrators
         if( app.user_role === "admin")
@@ -572,7 +561,7 @@ app.fillDetailedTasksTable = function(tasks)
         totalHours += tasks[i][5];
 
         //adds rows to the table
-        itemsContainer.appendChild(templateContent); 
+        detailedTableBody.appendChild(templateContent); 
     }
     
     //total row for operators
@@ -598,7 +587,7 @@ app.fillDetailedTasksTable = function(tasks)
             lastRow.appendChild(cell);
         }
         //adds last row to the table
-        itemsContainer.appendChild(lastRow);  
+        detailedTableBody.appendChild(lastRow);  
     }
 
     //totals row only for adminstrators
@@ -640,7 +629,7 @@ app.fillDetailedTasksTable = function(tasks)
         }
 
         //adds last row to the table
-        itemsContainer.appendChild(lastRow);  
+        detailedTableBody.appendChild(lastRow);  
         
         //At th end of the table adds General Total Row
         const generalTotalRow = document.createElement("tr");
@@ -651,7 +640,7 @@ app.fillDetailedTasksTable = function(tasks)
         const valueCell = document.createElement("td");
         valueCell.innerHTML = generalTotalCost;
         generalTotalRow.appendChild(valueCell);
-        itemsContainer.appendChild(generalTotalRow);  
+        detailedTableBody.appendChild(generalTotalRow);  
         
         
     }
@@ -660,10 +649,12 @@ app.fillDetailedTasksTable = function(tasks)
 /* table of aggregate data only for admin users*/
 app.fillAggregateTasksTable = function(tasks)
 {
-    //var detailedTale = document.getElementById("DetailedTable");
-    //detailedTale.classList.add("None");
-    var AggregateTable = document.getElementById("AggregateTable");
-    detailedTale.classList.remove("None");
+    var templateItem = document.getElementById("aggregateTaskTableRow");
+    var aggregateTableBody = document.querySelector(".AggregateTable tbody");
+
+    //empty the current content in the table
+    aggregateTableBody.innerHTML = null;
+
 };
 
 /**
