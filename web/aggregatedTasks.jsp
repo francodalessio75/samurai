@@ -104,7 +104,7 @@
 
         <div class="Filters">
 
-            <div class="Filters_label">RICERCA</div>
+            <div class="Filters_label">AGGREGA</div>
 
             <% if (user_role.equals("admin")) {%>
             <select id="operator_select_options" >
@@ -152,47 +152,24 @@
                     document.getElementById("completionState_select_options").value = <%= filter != null ? filter.get("completionState_id").getAsLong() : ""%>;
             </script>
 
-            <div id="refresh" class="Button" onclick="app.filterTasks('<%=user_id%>', '<%=user_role%>', false);"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>RICERCA</div>
+            <div id="refresh" class="Button" onclick="app.filterTasks('<%=user_id%>', '<%=user_role%>', true);"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>RICERCA</div>
             
             <%if ("admin".equals(user_role)) {%>
-                <div id="go-to-aggregate" class="Button" onclick="app.openAggregateTasksPage('<%=user_role%>');"><i  id="aggregateIcon" class="fa fa-minimize" aria-hidden="true"></i>AGGREGA</div>
+                <div id="go-to-detailed" class="Button" onclick="app.openDetailedTasksPage('<%=user_role%>');"><i  id="aggregateIcon" class="fa fa-search" aria-hidden="true"></i>VISTA DETTAGLIO</div>
             <%}%>
         </div>     
 
         <div class="Content WithFilter" style="text-align: center;">
-            <table id="DetailedTable" class="Table DetailedTable">
-                <thead>
-                <th>DATA</th>
-                <th>OPERATORE</th>
-                <th>CODICE</th>
-                <th>CLIENTE</th>
-                <th>STATO LAVORO</th>
-                <th><i  id="searchIcon" class="fa fa-paperclip fa-3x" aria-hidden="true"></i></th>
-                <th>DESC. LAVORO</th>
-                <th>TIPO LAVORO</th>
-                <th>TIPO LAVOR.NE</th>
-                <th>ORE</th>
-                <th>TOTALE ORE</th>
-           <%if ("admin".equals(user_role)) {%>
-                <th>COSTO ORARIO<p>(A)</p></th>
-                <th>COSTO TRAD.</th>
-                <th>IMPORTO TRAD.<p>(B)</p></th>
-                <th>ORE LAV. EST.</th>
-                <th>COSTO LAV. EST.<p>(C)</p></th>
-                <th>COSTO MAT.LI<p>(D)</p></th>
-                <th>COSTO TRAS.TA<p>(E)</p></th>
-            <%}%>
-                </thead>
-                <tbody></tbody>
-            </table>   
                 
-            <table id="AggregateTable" class="AggregateTable">
+            <table id="AggregateTable" class="Table AggregateTable">
             <thead>
-                <th>Cliente</th>
-                <th>Codice</th>
-                <th>Costi</th>
-                <th>Fatturato</th>
-                <th>Margine</th>
+                <th>CLIENTE</th>
+                <th>CODICE</th>
+                <th>TOTALE CODICE</th>
+                <th>TOTALE CLIENTE</th>
+                <th>COSTI</th>
+                <th>FATTURATO</th>
+                <th>MARGINE</th>
             </thead>
             <tbody></tbody>
             </table>
@@ -205,47 +182,22 @@
         </div>
 
     </body>
-
-    <template id="detailedTaskTableRow">
-        <tr class="TaskTableRow">
-            <td class="TaskDate"></td>
-            <td class="Operator"></td>
-            <td class="OrderCode"></td>
-            <td class="CustomerDenomination"></td>
-            <td class="CompletionState"></td>
-            <td class="HasAttachment"></td>
-            <td class = "MachinaryModel"></td>
-            <td class = "JobType"></td>
-            <td class = "JobSubtype"></td>
-            <td class = "Hours"></td>
-            <td class = "TotalHours"></td>
-            <%if ("admin".equals(user_role)) {%>
-            <td class="HourlyCost"></td>
-            <td class = "TranslationCost"></td>
-            <td class = "TranslationPrice"></td>
-            <td class = "ExternalJobsHours"></td>
-            <td class = "ExternalJobsCost"></td>
-            <td class = "VariouseMaterialsCost"></td>        
-            <td class = "TransfertCost"></td>           
-            <%}%>
-        </tr>
-    </template>
     
-        <template id="detailedTaskTableRow">
-        <tr class="TaskTableRow">
-            <td class="CustomerDenomination"></td>
-            <td class="OrderCode"></td>
-            <td class="Costs"></td>
-            <td class="Invoiced"></td>
-            <td class="Margin"></td>
-        </tr>
-    </template>    
+        <template id="aggregatedTaskTableRow">
+            <tr class="TaskTableRow">
+                <td class="CustomerDenomination"></td>
+                <td class="OrderCode"></td>
+                <td class="Costs"></td>
+                <td class="Invoiced"></td>
+                <td class="Margin"></td>
+            </tr>
+        </template>    
     
         <template id="generalTotal">
             <table>
                 <th>TOTALE GENERALE(A+B+C+D+E)</th><th>DESC. LAVORO</th>
             </table>
-        </template>
+        </template-->
     
 
     <script src="/Samurai/dbi.js?<%=timestamp%>"></script>

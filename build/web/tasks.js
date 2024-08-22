@@ -339,7 +339,7 @@ app.orderCodeChanged = function()
  * list. Only tasks related to the logged user will be shown, unless he's administrator.
  * In this case all tasks satisfying criteria will be shown
  */
-app.openTasksPage = function(user_role)
+app.openDetailedTasksPage = function(user_role)
 {
     document.querySelector(".Footer_message").innerHTML = "Sto caricando le Ore Lavori... ";
     app.user_role = user_role;
@@ -347,7 +347,7 @@ app.openTasksPage = function(user_role)
     app.getFiltersValues();
     
     //opens tasks page       
-    window.open("tasks.jsp?&filter="+encodeURIComponent(JSON.stringify(app.filter)),'_self');
+    window.open("detailedTasks.jsp?&filter="+encodeURIComponent(JSON.stringify(app.filter)),'_self');
 };
 
 /* when the user presses the "RICERCA" button on task_details page, tasks page must be shown.
@@ -355,7 +355,7 @@ app.openTasksPage = function(user_role)
  * list. Only tasks related to the logged user will be shown, unless he's administrator.
  * In this case all tasks satisfying criteria will be shown
  */
-app.openAggregateTasksPage = function(user_role)
+app.openAggregatedTasksPage = function(user_role)
 {
     document.querySelector(".Footer_message").innerHTML = "Sto caricando i dati aggregati... ";
     app.user_role = user_role;
@@ -363,7 +363,7 @@ app.openAggregateTasksPage = function(user_role)
     app.getFiltersValues();
     
     //opens tasks page       
-    window.open("aggregate-tasks.jsp?&filter="+encodeURIComponent(JSON.stringify(app.filter)),'_self');
+    window.open("aggregatedTasks.jsp?&filter="+encodeURIComponent(JSON.stringify(app.filter)),'_self');
 };
 
 /*retrieves filters values from the page*/

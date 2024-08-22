@@ -94,13 +94,12 @@
     text-align: center;
 }
 
-.AggregateTable thead 
-{
+.AggregateTable {
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(5,1fr); 
-    grid-template-rows: 1fr;
-    background: red;
+}
+
+.AggregateTable > th{
+    font-size: 1rem;
 }
 
 
@@ -187,8 +186,10 @@ th
     top:26rem;
     left:0.1rem;
 }
-#aggregate_refresh{
-    position: relative;
+#go-to-aggregate, #go-to-detailed{
+    display:flex;
+    justify-content: space-around;
+    position:relative;
     top:10rem;
     left:0.1rem;
 }

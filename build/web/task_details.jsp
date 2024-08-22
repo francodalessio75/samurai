@@ -203,7 +203,7 @@
                 <option value="1">- IN CORSO -</option>
                 <option value="2">- COMPLETATI -</option>
             </select>
-            <div id="refresh" class="Button" onclick="app.openTasksPage('<%=user_role%>');"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>RICERCA</div>
+            <div id="refresh" class="Button" onclick="app.openDetailedTasksPage('<%=user_role%>');"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>RICERCA</div>
 
             <div id="confirm_label" class="Filters_label">CONFERMA OPERAZIONE</div>
 

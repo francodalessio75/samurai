@@ -151,12 +151,13 @@
             <script>
                     document.getElementById("completionState_select_options").value = <%= filter != null ? filter.get("completionState_id").getAsLong() : ""%>;
             </script>
+            
+            <%if ("admin".equals(user_role)) {%>
+                <div id="go-to-aggregate" class="Button" onclick="app.openAggregatedTasksPage('<%=user_role%>');"><i  id="aggregateIcon" class="fa fa-search" aria-hidden="true"></i>VISTA AGGREGATA</div>
+            <%}%>
 
             <div id="refresh" class="Button" onclick="app.filterTasks('<%=user_id%>', '<%=user_role%>', false);"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>RICERCA</div>
             
-            <%if ("admin".equals(user_role)) {%>
-                <div id="go-to-aggregate" class="Button" onclick="app.openAggregateTasksPage('<%=user_role%>');"><i  id="aggregateIcon" class="fa fa-minimize" aria-hidden="true"></i>AGGREGA</div>
-            <%}%>
         </div>     
 
         <div class="Content WithFilter" style="text-align: center;">
@@ -185,17 +186,7 @@
                 </thead>
                 <tbody></tbody>
             </table>   
-                
-            <table id="AggregateTable" class="AggregateTable">
-            <thead>
-                <th>Cliente</th>
-                <th>Codice</th>
-                <th>Costi</th>
-                <th>Fatturato</th>
-                <th>Margine</th>
-            </thead>
-            <tbody></tbody>
-            </table>
+             
         </div> 
 
         <div class="Footer">
