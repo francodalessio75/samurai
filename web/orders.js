@@ -232,6 +232,7 @@ app.orderUpdated = function (order_id)
     var ordine = document.querySelector("#ordine_input").value;
     var commessa = document.querySelector("#commessa_input").value;
     var storyData = document.querySelector("#story_data_input").value;
+    var serialNumber = document.querySelector("#serial_number_input").value;
 
     if (job_type_id === "" || job_type_id === undefined)
     {
@@ -259,7 +260,7 @@ app.orderUpdated = function (order_id)
         //var availability_id = document.querySelector("#availability_options").value; **it has been eliminated after the introduction of storyData field in dyn_Orders table**
 
         ///order_id, customer_id, user_id, jobType_id, completionState_id, date, code, machinaryModel, notes, closingReason, successCallback, failCallback 
-        app.updateOrder(order_id, customer_id, null, job_type_id, completion_state_id, null, null, machinaryModel, notes, notSuggest, ordine, commessa, dataOrdine, storyData,
+        app.updateOrder(order_id, customer_id, null, job_type_id, completion_state_id, null, null, machinaryModel, notes, notSuggest, ordine, commessa, dataOrdine, storyData, serialNumber,
                 function ( )
                 {
                     location.reload();

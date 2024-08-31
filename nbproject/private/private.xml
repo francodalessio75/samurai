@@ -12,16 +12,10 @@
         <group name="my-first-app"/>
         <group name="Work"/>
         <group>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/tasks.jsp</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/src/java/com/dalessio/samurai/Config.java</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/orders.js</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/task_details.jsp</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/orders.jsp</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/META-INF/context.xml</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/src/java/com/dalessio/samurai/DataAccessObject.java</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/dbi.js</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/common.css</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/changeCredentials.jsp</file>
             <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/tasks.css</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/src/java/com/dalessio/samurai/Gate.java</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/invoices.jsp</file>
             <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/tasks.js</file>
         </group>
     </open-files>

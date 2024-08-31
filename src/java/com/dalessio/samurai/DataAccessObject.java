@@ -814,7 +814,7 @@ public class DataAccessObject {
      * @return
      * @throws SQLException
      */
-    boolean updateOrder(Long order_id, Long customer_id, Long user_id, Long jobType_id, Long completion_state_id, String date, Long code, String machinaryModel, String notes, Boolean notSuggest, String ordine, String commessa, String dataOrdine, String storyData) throws SQLException {
+    boolean updateOrder(Long order_id, Long customer_id, Long user_id, Long jobType_id, Long completion_state_id, String date, Long code, String machinaryModel, String notes, Boolean notSuggest, String ordine, String commessa, String dataOrdine, String storyData, String serialNumber) throws SQLException {
         if (date != null) {
             date = date.replace("-", "");
         }
@@ -844,6 +844,7 @@ public class DataAccessObject {
                 .value(commessa != null, "commessa", commessa)
                 .value(dataOrdine != null, "dataOrdine", dataOrdine)
                 .value(storyData != null, "storyData", storyData)
+                .value(serialNumber != null, "serialNumber", serialNumber)
                 .go();
 
         //if all parameters are null returns true
