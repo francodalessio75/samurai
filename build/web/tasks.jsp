@@ -160,6 +160,7 @@
                 <thead >
                 <th>DATA</th>
                 <th>OPERATORE</th>
+                <th>MATRICOLA</th>
                 <th>CODICE</th>
                 <th>CLIENTE</th>
                 <th>STATO LAVORO</th>
@@ -195,6 +196,7 @@
         <tr class="TaskTableRow">
             <td class="TaskDate"></td>
             <td class="Operator"></td>
+            <td class="SerialNumber"></td>
             <td class="OrderCode"></td>
             <td class="CustomerDenomination"></td>
             <td class="CompletionState"></td>

@@ -322,6 +322,7 @@ app.filterOrders = function ()
 
     //id orderCode is not empty just empty all other criteria and serch the order only by orderCode first checks 
     //if the order exists
+    //same for serial number
     //order_id, creator_id, order_code, order_description,completion_state_id, serial_number, availability_id, customer_idString, machinaryModelHint, jobType_idString, fromDate, toDate, successCallback, failCallback )
     orderCode = orderCode === "" ? null : orderCode;
     serialNumber = serialNumber === "" ? null : serialNumber;
@@ -350,7 +351,7 @@ app.filterOrders = function ()
                         document.querySelector(".Footer_message").innerHTML = "LAVORI FILTRATI: " + orders.length;
                     } else
                     {
-                        window.alert(" codice non troavato!");
+                        window.alert(" codice o matricola non trovati!");
                     }
                 },
                 function ()

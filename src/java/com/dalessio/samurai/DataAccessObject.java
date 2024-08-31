@@ -1310,7 +1310,7 @@ public class DataAccessObject {
                 .andWhere(order_id != null, "order_id = " + order_id)
                 .andWhere(operator_id != null, "operator_id = " + operator_id)
                 .andWhere(orderCode != null && !orderCode.equals(""), "orderCode = " + orderCode)
-                .andWhere(orderSerialNumber != null && !orderSerialNumber.equals(""), "serialNumber = " + orderCode)
+                .andWhere(orderSerialNumber != null && !orderSerialNumber.equals(""), "serialNumber = '" + orderSerialNumber +"'")
                 .andWhere(jobType_id != null, "jobType_id = " + jobType_id)
                 .andWhere(jobSubtype_id != null, "jobSubtype_id = " + jobSubtype_id)
                 .andWhere(customer_id != null, "customer_id = " + customer_id)
