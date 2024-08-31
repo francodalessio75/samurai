@@ -13,9 +13,10 @@
         <group name="Work"/>
         <group>
             <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/common.css</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/aggregatedTasks.jsp</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/changeCredentials.jsp</file>
             <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/tasks.css</file>
             <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/detailedTasks.jsp</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/invoices.jsp</file>
             <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/tasks.js</file>
         </group>
     </open-files>

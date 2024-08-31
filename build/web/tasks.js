@@ -396,7 +396,7 @@ app.getFiltersValues = function()
 
    
 /* updtates the tasks variable in acording to current filters values in the page*/
-app.filterTasks = function( user_id, user_role, isAggregate )
+app.filterTasks = function( user_id, user_role )
 {
     document.querySelector(".Footer_message").innerHTML = "Sto filtrando le Lavorazioni... ";
     //assigns user data
@@ -405,19 +405,6 @@ app.filterTasks = function( user_id, user_role, isAggregate )
     
     //assigns to app.filter current values
     app.getFiltersValues();
-    
-    let successCallback;
-    if( isAggregate ){
-        successCallback = function(tasks){
-            app.fillAggregateTasksTable(tasks);
-            document.querySelector(".Footer_message").innerHTML = "LAVORAZIONI FILTRATE: " + tasks.length;
-        };
-    }else {
-        successCallback = function(tasks){
-            app.fillDetailedTasksTable(tasks);
-            document.querySelector(".Footer_message").innerHTML = "LAVORAZIONI FILTRATE: " + tasks.length;
-        };
-    }
     
     app.readTasks(// task_id, user_id, order_id, operator_id, orderCode, orderSerialNumber, jobType_id, jobSubtype_id, customer_id,  order_creator_id, fromDate, toDate, completion_state_id, successCallback, failCallback )
         null,//task_id
@@ -433,7 +420,10 @@ app.filterTasks = function( user_id, user_role, isAggregate )
         app.filter.from_date,//fromDate
         app.filter.to_date,//toDate
         app.filter.completionState_id,//completion_state_id
-        successCallback,
+        function(tasks){
+            app.fillDetailedTasksTable(tasks);
+            document.querySelector(".Footer_message").innerHTML = "LAVORAZIONI FILTRATE: " + tasks.length;
+        },
         function()//failCallBack
         {
             document.querySelector(".Footer_message").innerHTML = "non riesco a filtrare le lavorazioni! Contattare Assistenza, codice errore : 0002 ";
@@ -646,16 +636,6 @@ app.fillDetailedTasksTable = function(tasks)
     }
 };
 
-/* table of aggregate data only for admin users*/
-app.fillAggregateTasksTable = function(tasks)
-{
-    var templateItem = document.getElementById("aggregateTaskTableRow");
-    var aggregateTableBody = document.querySelector(".AggregateTable tbody");
-
-    //empty the current content in the table
-    aggregateTableBody.innerHTML = null;
-
-};
 
 /**
  * Closure to preserve the order id related to each table row.

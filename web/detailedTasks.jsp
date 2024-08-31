@@ -58,7 +58,7 @@
         <link href="/Samurai/tasks.css" rel="stylesheet">
         <link href="/Samurai/Resources/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
     </head>
-    <body onload="app.filterTasks('<%=user_id%>', '<%=user_role%>', false);">
+    <body onload="app.filterTasks('<%=user_id%>', '<%=user_role%>');">
 
         <div class="loader" id="loader"></div>
         <div id="modal" class="modal"></div>
@@ -151,12 +151,8 @@
             <script>
                     document.getElementById("completionState_select_options").value = <%= filter != null ? filter.get("completionState_id").getAsLong() : ""%>;
             </script>
-            
-            <%if ("admin".equals(user_role)) {%>
-                <div id="go-to-aggregate" class="Button" onclick="app.openAggregatedTasksPage('<%=user_role%>');"><i  id="aggregateIcon" class="fa fa-search" aria-hidden="true"></i>VISTA AGGREGATA</div>
-            <%}%>
 
-            <div id="refresh" class="Button" onclick="app.filterTasks('<%=user_id%>', '<%=user_role%>', false);"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>RICERCA</div>
+            <div id="refresh" class="Button" onclick="app.filterTasks('<%=user_id%>', '<%=user_role%>');"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>RICERCA</div>
             
         </div>     
 
