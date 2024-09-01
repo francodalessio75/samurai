@@ -643,7 +643,7 @@ app.readOrders = function (
             });
 };
 /*order_id, customer_id, user_id, jobType_id, completionState_id, date, code, machinaryModel, notes, closingReason, successCallback, failCallback **/
-app.updateOrder = function (order_id, customer_id, user_id, jobType_id, completionState_id, date, code, machinaryModel, notes, notSuggest, ordine, commessa, dataOrdine, storyData, successCallback, failCallback)
+app.updateOrder = function (order_id, customer_id, user_id, jobType_id, completionState_id, date, code, machinaryModel, notes, notSuggest, ordine, commessa, dataOrdine, storyData, serialNumber, successCallback, failCallback)
 {
     document.getElementById("modal").style.display = "block";
     document.getElementById("loader").style.display = "block";
@@ -690,6 +690,9 @@ app.updateOrder = function (order_id, customer_id, user_id, jobType_id, completi
 
         if (storyData !== null)
             url = url + encodeURI("&storyData=" + storyData);
+        
+        if (serialNumber !== null)
+            url = url + encodeURI("&serialNumber=" + serialNumber);
 
     }
     fetch(url, {credentials: 'same-origin'})

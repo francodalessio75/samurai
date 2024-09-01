@@ -814,7 +814,7 @@ public class DataAccessObject {
      * @return
      * @throws SQLException
      */
-    boolean updateOrder(Long order_id, Long customer_id, Long user_id, Long jobType_id, Long completion_state_id, String date, Long code, String machinaryModel, String notes, Boolean notSuggest, String ordine, String commessa, String dataOrdine, String storyData) throws SQLException {
+    boolean updateOrder(Long order_id, Long customer_id, Long user_id, Long jobType_id, Long completion_state_id, String date, Long code, String machinaryModel, String notes, Boolean notSuggest, String ordine, String commessa, String dataOrdine, String storyData, String serialNumber) throws SQLException {
         if (date != null) {
             date = date.replace("-", "");
         }
@@ -844,6 +844,7 @@ public class DataAccessObject {
                 .value(commessa != null, "commessa", commessa)
                 .value(dataOrdine != null, "dataOrdine", dataOrdine)
                 .value(storyData != null, "storyData", storyData)
+                .value(serialNumber != null, "serialNumber", serialNumber)
                 .go();
 
         //if all parameters are null returns true
@@ -1309,7 +1310,7 @@ public class DataAccessObject {
                 .andWhere(order_id != null, "order_id = " + order_id)
                 .andWhere(operator_id != null, "operator_id = " + operator_id)
                 .andWhere(orderCode != null && !orderCode.equals(""), "orderCode = " + orderCode)
-                .andWhere(orderSerialNumber != null && !orderSerialNumber.equals(""), "serialNumber = " + orderCode)
+                .andWhere(orderSerialNumber != null && !orderSerialNumber.equals(""), "serialNumber = '" + orderSerialNumber +"'")
                 .andWhere(jobType_id != null, "jobType_id = " + jobType_id)
                 .andWhere(jobSubtype_id != null, "jobSubtype_id = " + jobSubtype_id)
                 .andWhere(customer_id != null, "customer_id = " + customer_id)

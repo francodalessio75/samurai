@@ -2217,6 +2217,8 @@ public class Gate extends HttpServlet implements HttpSessionListener {
             String dataOrdine = request.getParameter("dataOrdine");
 
             String storyData = request.getParameter("storyData");
+            
+            String serialNumber = request.getParameter("serialNumber");
 
             Boolean notSuggest = null;
             if (request.getParameter("notSuggest") != null) {
@@ -2229,7 +2231,7 @@ public class Gate extends HttpServlet implements HttpSessionListener {
             //String closingReason = request.getParameter( "closingReason" );
 
             // UPDATES THE RECORD
-            boolean success = dao.updateOrder(order_id, customer_id, user_id, jobType_id, completionState_id, date, code, machinaryModel, notes, notSuggest, ordine, commessa, dataOrdine, storyData);
+            boolean success = dao.updateOrder(order_id, customer_id, user_id, jobType_id, completionState_id, date, code, machinaryModel, notes, notSuggest, ordine, commessa, dataOrdine, storyData, serialNumber);
 
             jsonResponse.addProperty("success", success);
         } else {

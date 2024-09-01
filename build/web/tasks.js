@@ -471,6 +471,7 @@ app.fillDetailedTasksTable = function(tasks)
         templateContent.querySelector(".TaskTableRow").onclick = app.setCurrentTaskId(tasks[i][0]);
         templateContent.querySelector(".TaskDate").innerHTML = tasks[i][4];
         templateContent.querySelector(".Operator").innerHTML = tasks[i][24]+ " " + tasks[i][25];
+        templateContent.querySelector(".SerialNumber").innerHTML = tasks[i][32];
         templateContent.querySelector(".OrderCode").innerHTML = tasks[i][21];
         templateContent.querySelector(".CustomerDenomination").innerHTML = tasks[i][23];
         templateContent.querySelector(".CompletionState").innerHTML = tasks[i][19];

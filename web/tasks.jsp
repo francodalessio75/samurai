@@ -153,12 +153,11 @@
             </script>
 
             <div id="refresh" class="Button" onclick="app.filterTasks('<%=user_id%>', '<%=user_role%>');"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>RICERCA</div>
-            
         </div>     
 
         <div class="Content WithFilter" style="text-align: center;">
-            <table id="DetailedTable" class="Table DetailedTable">
-                <thead>
+            <table class="Table" >
+                <thead >
                 <th>DATA</th>
                 <th>OPERATORE</th>
                 <th>MATRICOLA</th>
@@ -183,7 +182,6 @@
                 </thead>
                 <tbody></tbody>
             </table>   
-             
         </div> 
 
         <div class="Footer">
@@ -194,7 +192,7 @@
 
     </body>
 
-    <template id="detailedTaskTableRow">
+    <template id="taskTableRow">
         <tr class="TaskTableRow">
             <td class="TaskDate"></td>
             <td class="Operator"></td>
@@ -219,16 +217,6 @@
             <%}%>
         </tr>
     </template>
-    
-        <template id="detailedTaskTableRow">
-        <tr class="TaskTableRow">
-            <td class="CustomerDenomination"></td>
-            <td class="OrderCode"></td>
-            <td class="Costs"></td>
-            <td class="Invoiced"></td>
-            <td class="Margin"></td>
-        </tr>
-    </template>    
     
         <template id="generalTotal">
             <table>

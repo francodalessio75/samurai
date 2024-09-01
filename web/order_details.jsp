@@ -119,7 +119,7 @@
                 </tr>
                 <tr class="Details_row">
                     <th class="Detail_header" id="serial_number_label">MATRICOLA</th>
-                    <td id="serial_number_value"><%=dbr_order.getString("serialNumber")%></td>
+                    <td><input id="serial_number_input" type="text" onchange="app.orderDetailsChanged('#serial_number_input');" value="<%=dbr_order.getString("serialNumber")%>"></td>
                 </tr>
                 <tr class="Details_row">
                     <th class="Detail_header" id="date_label">DATA</th>
