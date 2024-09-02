@@ -293,5 +293,32 @@ public class Invoice
 
         return jsonDN;
     };
+    
+     public static JsonArray getAggregatedJsonArrayByDbResults( DbResult items_dbr ){
+         //creates items array
+        JsonArray items = new JsonArray();
+        
+        //fills the array with delivery note rows JsonObjects
+        for( int i=0; i < items_dbr.rowsCount(); i++ )
+        {
+            JsonObject row = new JsonObject();
+            row.addProperty("customerDenomination", items_dbr.getString(i,"customerDenomination"));
+            row.addProperty("invoiceDate", items_dbr.getString(i,"invoiceDate"));
+            row.addProperty("orderCode", items_dbr.getString(i,"orderCode"));
+            row.addProperty("variouseMaterialCost", items_dbr.getDouble(i,"variouseMaterialCost"));
+            row.addProperty("translationCost", items_dbr.getDouble(i,"translationCost"));
+            row.addProperty("transfertCost", items_dbr.getDouble(i,"transfertCost"));
+            row.addProperty("externalJobsCost", items_dbr.getDouble(i,"externalJobsCost"));
+            row.addProperty("hourlyCost", items_dbr.getDouble(i,"hourlyCost"));
+            row.addProperty("hours", items_dbr.getDouble(i,"hours"));
+            row.addProperty("totalCosts", items_dbr.getDouble(i,"totalCosts"));
+            row.addProperty("taxableAmount", items_dbr.getDouble(i,"taxableAmount"));
+            row.addProperty("margin", items_dbr.getDouble(i,"margin"));
+            
+            items.add(row);
+        }
+        
+        return items;
+     }
   
 }

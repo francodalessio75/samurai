@@ -2042,6 +2042,38 @@ public class DataAccessObject {
 
         return out;
     }
+    
+    public DbResult readAggregatedInvoices(
+            Long customer_id,
+            String orderCode,
+            LocalDate fromDate,
+            LocalDate toDate) throws SQLException {
+        String fromDateString = null;
+        String toDateString = null;
+
+        if (fromDate == null) {
+            fromDateString = "19000101";
+        } else {
+            fromDateString = DateTimeFormatter.ISO_LOCAL_DATE.format(fromDate).replace("-", "");
+        }
+
+        if (toDate == null) {
+            toDateString = "30000101";
+        } else {
+            toDateString = DateTimeFormatter.ISO_LOCAL_DATE.format(toDate).replace("-", "");
+        }
+
+        System.out.println("READING AGGREGATED INVOICES [DataAccessObject.readInvoices]");
+
+        DbResult out = dbi.read("dyn_Aggregated_Invoices_view")
+                .andWhere(customer_id != null, "customer_id = " + customer_id)
+                .andWhere(" date >= '" + fromDateString + "'")
+                .andWhere(" date <= '" + toDateString + "'")
+                .order("customerDenomination,orderCode")
+                .go();
+
+        return out;
+    }
 
     public DbResult readInvoicesSchedule(
             Long customer_id,

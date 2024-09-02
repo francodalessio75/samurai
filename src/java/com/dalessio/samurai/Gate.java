@@ -251,6 +251,9 @@ public class Gate extends HttpServlet implements HttpSessionListener {
                     case "read_invoices":
                         readInvoices(request, jsonResponse);
                         break;
+                    case "read_aggregated_invoices":
+                        readAggregatedInvoices(request, jsonResponse);
+                        break;
                     case "read_invoice_rows":
                         readInvoiceRows(request, jsonResponse);
                         break;
@@ -3397,6 +3400,42 @@ public class Gate extends HttpServlet implements HttpSessionListener {
             System.out.println("JSON INVOICES BUILD [DataAccessObject.readInvoices] : elapsed msec " + (new Date().getTime() - start));
 
             jsonResponse.add("invoices", invoices);
+
+        } else {
+            jsonResponse.addProperty("success", false);
+            jsonResponse.addProperty("message", "not authenticated");
+        }
+    }
+    
+    private void readAggregatedInvoices (HttpServletRequest request, JsonObject jsonResponse) throws SQLException {
+        /*ask for a session, if it doesn't exist, it won't be created. 
+        Note that this mechanism of session checking avoids malware attempts
+        to enter the system without executing log-in procedure*/
+        HttpSession session = request.getSession(false);
+
+        if (session != null && session.getAttribute("user_id") != null) {
+            // reads session data
+            DataAccessObject dao = (DataAccessObject) session.getAttribute("dao");
+
+            // reads operation parameters
+            Long customer_id = null;
+            try {
+                customer_id = Long.parseLong(request.getParameter("customer_id"));
+            } catch (NumberFormatException Nex) {}
+            
+            String orderCode = request.getParameter("orderCode");
+
+            LocalDate fromDate = request.getParameter("fromDate") == null || request.getParameter("fromDate").equals("") ? null : LocalDate.parse(request.getParameter("fromDate"));
+
+            LocalDate toDate = request.getParameter("toDate") == null || request.getParameter("toDate").equals("") ? null : LocalDate.parse(request.getParameter("toDate"));
+
+            // asks DB for invoices
+            DbResult invoicesRows_dbr = dao.readAggregatedInvoices( customer_id, orderCode, fromDate, toDate);
+
+            //invoices rows Json array
+            JsonArray invoicesRows = Invoice.getAggregatedJsonArrayByDbResults(invoicesRows_dbr);
+
+            jsonResponse.add("invoicesRows", invoicesRows);
 
         } else {
             jsonResponse.addProperty("success", false);

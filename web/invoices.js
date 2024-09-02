@@ -774,6 +774,19 @@ app.getFiltersValues = function()
     
 };
 
+/*retrieves filters values from the page*/
+app.getAggregatedFiltersValues = function()
+{
+    app.filter.customer_id = document.getElementById("customer_select_options").value;
+    
+    app.filter.from_date = document.getElementById("from_date").value; 
+    
+    app.filter.to_date = document.getElementById("to_date").value;
+    
+    app.filter.order_code = document.getElementById("orderCode").value;
+    
+};
+
 /* updtates the tasks variable in acording to current filters values in the page*/
 app.filterInvoices = function()
 {
@@ -800,6 +813,32 @@ app.filterInvoices = function()
     );
 };
 
+/* updtates the tasks variable in acording to current filters values in the page*/
+app.filterAggregatedInvoicesRows = function()
+{
+    document.querySelector(".Footer_message").innerHTML = "Sto filtrando le fatture...";
+    
+    //assigns to app.filter current values
+    app.getAggregatedFiltersValues();
+    
+    app.readAggregatedInvoices(// deliveryNote_id, customer_id, transporter_id, number, fromDate, toDate, successCallback, failCallback
+        null,//invoice_id_id
+        app.filter.customer_id,//customer_id
+        app.filter.order_code,
+        app.filter.from_date,//fromDate
+        app.filter.to_date,//toDate
+        function( invoicesRows )//successCallBack
+        {
+            app.fillAggregatedInvoicesTable(invoicesRows);
+            document.querySelector(".Footer_message").innerHTML = "RIGHE FATTURE FILTRATE: " + invoicesRows.length;
+        },
+        function()//failCallBack
+        {
+            document.querySelector(".Footer_message").innerHTML = "non riesco a filtrare le fatture! Contattare Assistenza. ";
+        }
+    );
+};
+
 /* refersh table rows*/
 app.fillInvoicesTable = function( invoices )
 {
@@ -818,6 +857,56 @@ app.fillInvoicesTable = function( invoices )
         templateContent.querySelector(".InvoiceTableRow").id = "row_"+invoices[i].invoice_id;
         
         templateContent.querySelector(".InvoiceTableRow").onclick = app.setCurrentInvoiceId(invoices[i].invoice_id);
+
+        templateContent.querySelector(".InvoiceNumber").innerHTML = invoices[i].number+"-"+invoices[i].year;
+        
+        //formats the date
+        var date = invoices[i].date;
+        var year = date.substring(0,4);
+        var month = date.substring(4,6);
+        var day = date.substring(6,8);
+        date = day+"/"+month+"/"+year;
+        templateContent.querySelector(".InvoiceDate").innerHTML = date;
+        
+        templateContent.querySelector(".Customer").innerHTML = invoices[i].denomination;
+        
+        templateContent.querySelector(".Taxable").innerHTML = invoices[i].taxableAmount.toFixed(2);
+        
+        templateContent.querySelector(".Total").innerHTML = invoices[i].totalAmount.toFixed(2);
+        
+        progressiveAmount += parseFloat(invoices[i].taxableAmount);
+        
+        templateContent.querySelector(".Progressive").innerHTML = progressiveAmount.toFixed(2);
+        
+        let number = invoices[i].number;
+        let shortYear = invoices[i].year;
+        
+        templateContent.querySelector(".Pdf").onclick = (event)=>
+        {
+            event.stopPropagation();
+            window.open("resources/INVOICES/FATTURA_DUESSE_"+number+"_"+shortYear+".pdf","_blank");
+        };
+        
+        itemsContainer.appendChild(templateContent); 
+    }   
+};
+
+/* refersh table rows*/
+app.fillAggregatedInvoicesTable = function( invoicesRows )
+{
+    var templateItem = document.getElementById("AggregatedInvoiceTableRow");
+    var itemsContainer = document.querySelector(".Table tbody");
+
+    //empty the current content in the table
+    itemsContainer.innerHTML = null;
+    
+    let progressiveAmount = 0.0;
+     
+    for(var i=0; i<invoicesRows.length; i++)
+    {
+        var templateContent =  document.importNode(templateItem.content,true);
+
+        templateContent.querySelector(".AggregatedInvoiceTableRow").id = "row_"+invoicesRows[i].invoice_id;
 
         templateContent.querySelector(".InvoiceNumber").innerHTML = invoices[i].number+"-"+invoices[i].year;
         

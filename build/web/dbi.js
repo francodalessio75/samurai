@@ -1464,6 +1464,43 @@ app.readInvoices = function (invoice_id, customer_id, number, fromDate, toDate, 
             });
 };
 
+app.readAggregatedInvoices = function (customer_id, orderCode, fromDate, toDate, successCallback, failCallback)
+{
+    document.getElementById("modal").style.display = "block";
+    document.getElementById("loader").style.display = "block";
+    //all tasks
+    var url = encodeURI("/Samurai/gate?&op=read_aggregated_invoices");
+
+    if (customer_id !== null && customer_id !== undefined)
+        url = url + encodeURI("&customer_id=" + customer_id);
+
+    if (orderCode !== null && orderCode !== "" )
+        url = url + encodeURI("&customer_id=" + customer_id);
+
+    if (fromDate !== null && fromDate !== ("") && fromDate !== undefined)
+        url = url + encodeURI("&fromDate=" + fromDate);
+
+    if (toDate !== null && toDate !== ("") && toDate !== undefined)
+        url = url + encodeURI("&toDate=" + toDate);
+
+
+    fetch(url, {credentials: 'same-origin'})
+        .then(response => response.json())
+        .then(jsonResponse =>
+        {
+            if (jsonResponse.success)
+                successCallback(jsonResponse.invoices);
+            else
+                failCallback();
+        })
+        .catch(error => alert(error))
+        .finally(() => {
+            document.getElementById("modal").style.display = "none";
+            document.getElementById("loader").style.display = "none";
+        });
+};
+
+
 app.readInvoiceRows = function (invoice_id, successCallback, failCallback)
 {
     document.getElementById("modal").style.display = "block";
