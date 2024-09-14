@@ -149,12 +149,12 @@
 
     <template id="AggregatedInvoiceTableRow">
         <tr class="InvoiceTableRow">
-            <td class="Customer"></td>
-            <td class="OrderCode"></td>
-            <td class="OrderCodeCosts"></td>
-            <td class="CustomerCosts"></td>
-            <td class="TaxableAmount"></td>
-            <td class="Margin"></td>
+            <td class="Customer" style="text-align: center"></td>
+            <td class="OrderCode" style="text-align: center"></td>
+            <td class="OrderCodeCosts" style="text-align: right"></td>
+            <td class="CustomerCosts" style="text-align: right"></td>
+            <td class="TaxableAmount" style="text-align: right"></td>
+            <td class="Margin" style="text-align: center"></td>
         </tr>
     </template>
 

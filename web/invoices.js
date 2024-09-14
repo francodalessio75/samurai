@@ -987,32 +987,45 @@ app.fillAggregatedInvoicesTable = function (invoicesRows)
             if (i ===  (invoicesRows.length - 1) ) {
                 var templateContent_1 = document.importNode(templateItem.content, true);
                 var templateContent_2 = document.importNode(templateItem.content, true);
+                var templateContent_3 = document.importNode(templateItem.content, true);
                 
                 templateContent_1.querySelector(".Customer").innerHTML = currentCustomerDenomination;
                 templateContent_1.querySelector(".OrderCode").innerHTML = (currentOrderCode === '') ? '----' : currentOrderCode;
                 templateContent_1.querySelector(".OrderCodeCosts").innerHTML = progressiveOrderCodeCosts === null ? '' : progressiveOrderCodeCosts.toFixed(2);
                 templateContent_1.querySelector(".TaxableAmount").innerHTML = progressiveOrderCodeTaxableAmount === null ? '' : progressiveOrderCodeTaxableAmount.toFixed(2);
-                let margin = ((1 - (progressiveOrderCodeCosts / progressiveOrderCodeTaxableAmount)) * 100);
-                templateContent_1.querySelector(".Margin").innerHTML = margin === null ? '' : margin.toFixed(2);
-                if( margin !== null && margin < 0 ){
+                let margin_1 = ((1 - (progressiveOrderCodeCosts / progressiveOrderCodeTaxableAmount)) * 100);
+                templateContent_1.querySelector(".Margin").innerHTML = margin_1 === null ? '' : margin_1.toFixed(2);
+                if( margin_1 !== null && margin_1 < 0 ){
                     templateContent_1.querySelector(".Margin").classList.add('redText');
                 }else{
                     templateContent_1.querySelector(".Margin").classList.remove('redText');
                 }
                 
-                templateContent_2.querySelector(".Customer").innerHTML = 'TOTALE';
-                templateContent_2.querySelector(".CustomerCosts").innerHTML = totalCosts === null ? '' : totalCosts.toFixed(2);
-                templateContent_2.querySelector(".TaxableAmount").innerHTML = totalTaxable === null ? '' : totalTaxable.toFixed(2);
-                let margin_1 = ((1 - ( totalCosts / totalTaxable)) * 100);
-                templateContent_2.querySelector(".Margin").innerHTML = margin_1 === null ? '' : margin_1.toFixed(2);
-                if( margin !== null && margin < 0 ){
+                templateContent_2.querySelector(".Customer").innerHTML = currentCustomerDenomination;
+                templateContent_2.querySelector(".CustomerCosts").innerHTML = progressiveCustomerCosts === null ? '' : progressiveCustomerCosts.toFixed(2);
+                templateContent_2.querySelector(".TaxableAmount").innerHTML = progressiveCustomerTaxableAmount === null ? '' : progressiveCustomerTaxableAmount.toFixed(2);
+                let margin_2 = ((1 - (progressiveCustomerCosts / progressiveCustomerTaxableAmount)) * 100);
+                templateContent_2.querySelector(".Margin").innerHTML = margin_2 === null ? '' : margin_2.toFixed(2);
+                if( margin_2 !== null && margin_2 < 0 ){
                     templateContent_2.querySelector(".Margin").classList.add('redText');
                 }else{
                     templateContent_2.querySelector(".Margin").classList.remove('redText');
                 }
                 
+                templateContent_3.querySelector(".Customer").innerHTML = 'TOTALE';
+                templateContent_3.querySelector(".CustomerCosts").innerHTML = totalCosts === null ? '' : totalCosts.toFixed(2);
+                templateContent_3.querySelector(".TaxableAmount").innerHTML = totalTaxable === null ? '' : totalTaxable.toFixed(2);
+                let margin_3 = ((1 - ( totalCosts / totalTaxable)) * 100);
+                templateContent_3.querySelector(".Margin").innerHTML = margin_3 === null ? '' : margin_3.toFixed(2);
+                if( margin_3 !== null && margin_3 < 0 ){
+                    templateContent_3.querySelector(".Margin").classList.add('redText');
+                }else{
+                    templateContent_3.querySelector(".Margin").classList.remove('redText');
+                }
+                
                 itemsContainer.appendChild(templateContent_1);
                 itemsContainer.appendChild(templateContent_2);
+                itemsContainer.appendChild(templateContent_3);
             }
         
     }
