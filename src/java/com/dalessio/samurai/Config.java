@@ -35,5 +35,5 @@ public class Config
     public static final String SERVER_ADDRESS = "jdbc:sqlserver://giugno2021.cuoogivijdct.eu-west-1.rds.amazonaws.com;databaseName=WorkLine;TrustServerCertificate=True;";
             //"jdbc:sqlserver://giugno2021.cuoogivijdct.eu-west-1.rds.amazonaws.com;databaseName=WorkLine;integratedSecurity=true;encrypt=true;trustServerCertificate=true;trustStore=storeName;trustStorePassword=storePassword";
     // inserts automatically the credentials : paolo paolo
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
 }

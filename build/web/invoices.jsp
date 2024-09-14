@@ -118,6 +118,8 @@
             </table>
 
             <div id="refresh" class="Button" onclick="app.filterInvoices();"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>RICERCA</div>
+    
+            <div id="aggregatedViewButton" class="Button" onclick="app.openAggregatedInvoicesPage();">VISTA AGGREGATA</div>
         </div> 
 
         <div class="Content WithFilter">

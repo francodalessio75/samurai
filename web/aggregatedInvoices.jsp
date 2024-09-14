@@ -53,7 +53,7 @@
         <link href="/Samurai/invoices.css" rel="stylesheet">
         <link href="/Samurai/Resources/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
     </head>
-    <body onload="app.filterInvoices();">
+    <body onload="app.filterAggregatedInvoicesRows();">
 
         <div class="loader" id="loader"></div>
         <div id="modal" class="modal"></div>
@@ -98,16 +98,15 @@
 
             <div class="Filters_label">RICERCA</div>
 
-            <div class="Filters_number_label">NUMERO FATTURA</div>
-            <div><input id="numberFilter" value="<%= filter.get("number").getAsString().equals("") ? "" : filter.get("number").getAsString()%>"></div>
-
             <!--input id="customer_denomination_Hint" placeholder="NOME CLIENTE"-->
-            <select id="customer_select_options">
+            <select id="customer_select_options" value="<%=filter.get("customer_id")%>">
                 <option value="" >CLIENTE</option>
                 <%for (int i = 0; i < dbr_customers.rowsCount(); i++) {%>
                 <option value="<%=dbr_customers.getLong(i, "customer_id")%>"><%=dbr_customers.getString(i, "denomination")%></option>
                 <%}%>
-            </select>                
+            </select>       
+            
+            <input id="order_code_Hint" placeholder="CODICE LAVORO">
 
 
             <div class="Filters_period_label">PERIODO</div>
@@ -117,26 +116,25 @@
                 <tr><td>A:</td><td><input type="date" id="to_date" value="<%= filter.get("to_date").getAsString().equals("") ? todayString : filter.get("to_date").getAsString()%>"></td></tr>
             </table>
 
-            <div id="refresh" class="Button" onclick="app.filterInvoices();"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>RICERCA</div>
+            <div id="refresh" class="Button" onclick="app.filterAggregatedInvoicesRows();"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>RICERCA</div>
+            <div id="goBackToInvoices" class="Button" onclick="app.goBackFromAggregateToInvoicesPage();"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i> VISTA PRINCIPALE</div>
         </div> 
 
         <div class="Content WithFilter">
             <table class="Table" >
-                <col width="10%">
-                <col width="10%">
-                <col width="40%">
-                <col width="10%">
-                <col width="10%">
-                <col width="10%">
-                <col width="10%">
+                <col width="25%">
+                <col width="15%">
+                <col width="15%">
+                <col width="15%">
+                <col width="15%">
+                <col width="15%">
                 <thead>
-                <th class="ThList">NUMERO</th>
-                <th class="ThList">DATA</th>
-                <th class="ThList">CLIENTE</th>
-                <th class="ThList">IMPONIBILE</th>
-                <th class="ThList">TOTALE</th>
-                <th class="ThList">PROGRESSIVO</th>
-                <th class="ThList">PDF</th>
+                    <th class="ThList">CLIENTE</th>
+                    <th class="ThList">CODICE</th>
+                    <th class="ThList">COSTI CODICE</th>
+                    <th class="ThList">COSTI CLIENTE</th>
+                    <th class="ThList">FATTURATO</th>
+                    <th class="ThList">MARGINE</th>
                 </thead>
                 <tbody></tbody>
             </table>   
@@ -149,15 +147,14 @@
 
     </body>
 
-    <template id="invoiceTableRow">
+    <template id="AggregatedInvoiceTableRow">
         <tr class="InvoiceTableRow">
-            <td class="InvoiceNumber"></td>
-            <td class="InvoiceDate"></td>
             <td class="Customer"></td>
-            <td class="Taxable"></td>
-            <td class="Total"></td>
-            <td class="Progressive"></td>
-            <td class="Pdf">PDF</td>
+            <td class="OrderCode"></td>
+            <td class="OrderCodeCosts"></td>
+            <td class="CustomerCosts"></td>
+            <td class="TaxableAmount"></td>
+            <td class="Margin"></td>
         </tr>
     </template>
 

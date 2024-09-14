@@ -1073,7 +1073,7 @@ public class DataAccessObject {
         //adjurns data
         dbi.update("dyn_Orders")
                 .andWhere("order_id = " + order_id)
-                .value("storyData", dbr.getString("storyData") + " " + newData + "; ")
+                .value("storyData", newData + "; ")
                 .go();
     }
 
@@ -2028,14 +2028,13 @@ public class DataAccessObject {
         long start = new Date().getTime();
         System.out.println("READING INVOICES [DataAccessObject.readInvoices]");
 
-        DbResult out = dbi.read("dyn_Invoices_view").order("number")
+        DbResult out = dbi.read("dyn_Invoices_view").order("number").order("date DESC")
                 .andWhere(invoice_id != null, "invoice_id = " + invoice_id)
                 .andWhere(customer_id != null, "customer_id = " + customer_id)
                 .andWhere(number != null && !number.equals(""), "number = " + num)
                 .andWhere(number != null && !number.equals(""), "year = " + year)
                 .andWhere(" date >= '" + fromDateString + "'")
                 .andWhere(" date <= '" + toDateString + "'")
-                .order("year,number")
                 .go();
 
         System.out.println("INVOICES READ [DataAccessObject.readInvoices] : elapsed msec " + (new Date().getTime() - start));
@@ -2065,9 +2064,10 @@ public class DataAccessObject {
 
         System.out.println("READING AGGREGATED INVOICES [DataAccessObject.readInvoices]");
 
-        DbResult out = dbi.read("dyn_Aggregated_Invoices_view")
+        DbResult out = dbi.read("dyn_Aggregated_Invoices_Rows")
                 .andWhere(customer_id != null, "customer_id = " + customer_id)
                 .andWhere(" date >= '" + fromDateString + "'")
+                .andWhere(orderCode != null, "orderCode = " + orderCode)
                 .andWhere(" date <= '" + toDateString + "'")
                 .order("customerDenomination,orderCode")
                 .go();

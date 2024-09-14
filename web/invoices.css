@@ -277,6 +277,10 @@ input[type=text]
    font-weight: bold;
 }
 
+.redText {
+    color:red;
+}
+
 exemption{
     font-size: smaller;
 }

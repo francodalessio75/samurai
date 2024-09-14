@@ -1475,7 +1475,7 @@ app.readAggregatedInvoices = function (customer_id, orderCode, fromDate, toDate,
         url = url + encodeURI("&customer_id=" + customer_id);
 
     if (orderCode !== null && orderCode !== "" )
-        url = url + encodeURI("&customer_id=" + customer_id);
+        url = url + encodeURI("&orderCode=" + orderCode);
 
     if (fromDate !== null && fromDate !== ("") && fromDate !== undefined)
         url = url + encodeURI("&fromDate=" + fromDate);
@@ -1489,7 +1489,7 @@ app.readAggregatedInvoices = function (customer_id, orderCode, fromDate, toDate,
         .then(jsonResponse =>
         {
             if (jsonResponse.success)
-                successCallback(jsonResponse.invoices);
+                successCallback(jsonResponse.invoicesRows);
             else
                 failCallback();
         })

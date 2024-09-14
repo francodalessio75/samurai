@@ -3435,6 +3435,7 @@ public class Gate extends HttpServlet implements HttpSessionListener {
             //invoices rows Json array
             JsonArray invoicesRows = Invoice.getAggregatedJsonArrayByDbResults(invoicesRows_dbr);
 
+            jsonResponse.addProperty("success", true);
             jsonResponse.add("invoicesRows", invoicesRows);
 
         } else {

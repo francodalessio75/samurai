@@ -1,9 +1,10 @@
 /* global fetch, Promise */
 
 //app is global variable implemented as singleton
-if(typeof app==='undefined' || app===null) app = {};
+if (typeof app === 'undefined' || app === null)
+    app = {};
 
-console.log('BEGIN:invoices.js'); 
+console.log('BEGIN:invoices.js');
 
 //contains all filters values
 app.filter = {};
@@ -29,7 +30,7 @@ app.suggestedDeliveryNotesRows = null;
 app.invoiceItemsTBody = document.querySelector("#invoiceItemsTable tbody");
 
 //result message of callValidCode function
-app.resultValidCodeMessage= "";
+app.resultValidCodeMessage = "";
 
 //amounts managment variables
 app.taxable = 0;
@@ -68,33 +69,35 @@ app.thirdDate = document.getElementById('third_amount_date_input');
  * @param {type} state
  * @returns {undefined}
  */
-app.setDuesInputs = function( state, changeDates )/*changeDates avoids dates resetting on the first invoiceDetails.jsp opening in read modality see invoceDetails.jsp onload=""*/
+app.setDuesInputs = function (state, changeDates)/*changeDates avoids dates resetting on the first invoiceDetails.jsp opening in read modality see invoceDetails.jsp onload=""*/
 {
-    if( state === 'single')
+    if (state === 'single')
     {
         app.firstDue.disabled = true;
         app.firstCheckBox.checked = false;
         app.secondCheckBox.disabled = true;
         app.secondCheckBox.checked = false;
         app.secondDate.disabled = true;
-        if(changeDates)app.secondDate.value = "";
-        app.secondDue.disabled=true;
-        if(changeDates)app.thirdDate.value = "";
-        app.thirdDate.disabled=true;
-    }
-    else if ( state === 'double')
+        if (changeDates)
+            app.secondDate.value = "";
+        app.secondDue.disabled = true;
+        if (changeDates)
+            app.thirdDate.value = "";
+        app.thirdDate.disabled = true;
+    } else if (state === 'double')
     {
         app.firstDue.disabled = false;
         app.firstCheckBox.checked = true;
         app.secondCheckBox.disabled = false;
         app.secondCheckBox.checked = false;
         app.secondDate.disabled = false;
-        if(changeDates)app.secondDate.value = "";
-        app.secondDue.disabled=true;
-        if(changeDates)app.thirdDate.value = "";
-        app.thirdDate.disabled=true;
-    }
-    else if( state === 'triple')
+        if (changeDates)
+            app.secondDate.value = "";
+        app.secondDue.disabled = true;
+        if (changeDates)
+            app.thirdDate.value = "";
+        app.thirdDate.disabled = true;
+    } else if (state === 'triple')
     {
         app.firstDue.disabled = false;
         app.firstCheckBox.checked = true;
@@ -102,26 +105,26 @@ app.setDuesInputs = function( state, changeDates )/*changeDates avoids dates res
         app.secondCheckBox.checked = true;
         app.secondDate.disabled = false;
         //app.secondDate.value = "";
-        app.secondDue.disabled=false;
-        if(changeDates)app.thirdDate.value = "";
-        app.thirdDate.disabled=false;
+        app.secondDue.disabled = false;
+        if (changeDates)
+            app.thirdDate.value = "";
+        app.thirdDate.disabled = false;
     }
 };
 
 
 /* the invoice_id value involves wich between creation or update must be done*/
-app.invoiceConfirmed = function(  invoice_id )
+app.invoiceConfirmed = function (invoice_id)
 {
     //if invoice_id is 0 then it is a creation
-    if( invoice_id === 0 )
+    if (invoice_id === 0)
     {
         //creation
         app.createNewInvoice();
-    }
-    else
+    } else
     {
         //update
-        app.callUpdateInvoice( invoice_id );
+        app.callUpdateInvoice(invoice_id);
     }
 };
 
@@ -129,14 +132,14 @@ app.invoiceConfirmed = function(  invoice_id )
  * When the user chooses the customer remaining customer fields will be filled automatically
  * @returns {undefined}
  */
-app.suggestInvoiceFields = function( orderCodeInput )
+app.suggestInvoiceFields = function (orderCodeInput)
 {
     //is the case on customer selecting
-    if( orderCodeInput === null )
+    if (orderCodeInput === null)
     {
         //first delete / reset all items rows
         //iterates all rows beginning from 1 to preserve the first row
-        for( var i = 1; i < app.invoiceItemsTBody.rows.length; i++ )
+        for (var i = 1; i < app.invoiceItemsTBody.rows.length; i++)
         {
             //gathes the current row
             var currentRow = app.invoiceItemsTBody.rows[i];
@@ -150,152 +153,146 @@ app.suggestInvoiceFields = function( orderCodeInput )
 
         app.customer_id = document.getElementById('denomination_select_options').value;
 
-        app.readCustomers( app.customer_id, null, 
-            function( customers )
-            {
-                for( var i = 0; i < customers.length; i++ )
+        app.readCustomers(app.customer_id, null,
+                function (customers)
                 {
-                    document.getElementById('address_input').value = customers[i][9]+"";
-                    document.getElementById('houseNumber_input').value = customers[i][10];
-                    document.getElementById('postalCode_input').value = customers[i][11];
-                    document.getElementById('city_input').value = customers[i][8];
-                    document.getElementById('province_input').value = customers[i][12];
-                    document.getElementById('vatCode_input').value = customers[i][1];
-                    document.getElementById('fiscalCode_input').value = customers[i][2];
-                    document.getElementById('paymentConditions_input').value = customers[i][15];
+                    for (var i = 0; i < customers.length; i++)
+                    {
+                        document.getElementById('address_input').value = customers[i][9] + "";
+                        document.getElementById('houseNumber_input').value = customers[i][10];
+                        document.getElementById('postalCode_input').value = customers[i][11];
+                        document.getElementById('city_input').value = customers[i][8];
+                        document.getElementById('province_input').value = customers[i][12];
+                        document.getElementById('vatCode_input').value = customers[i][1];
+                        document.getElementById('fiscalCode_input').value = customers[i][2];
+                        document.getElementById('paymentConditions_input').value = customers[i][15];
 
+                    }
+                    app.invoiceDetailsChanged("denomination_select_options");
+                    app.invoiceDetailsChanged("address_input");
+                    app.invoiceDetailsChanged("houseNumber_input");
+                    app.invoiceDetailsChanged("postalCode_input");
+                    app.invoiceDetailsChanged("city_input");
+                    app.invoiceDetailsChanged("province_input");
+                    app.invoiceDetailsChanged("vatCode_input");
+                    app.invoiceDetailsChanged("fiscalCode_input");
+                    app.invoiceDetailsChanged("paymentConditions_input");
+
+                    app.getSuggestedRows(orderCodeInput);
+                },
+                function ()
+                {
+                    window.alert("non riesco a prelevare i dati del Cliente.");
+                    document.getElementById("denomination_select_options").textContent = "";
+                    document.getElementById("address_input").textContent = "";
+                    document.getElementById("houseNumber_input").textContent = "";
+                    document.getElementById("postalCode_input").textContent = "";
+                    document.getElementById('city_input').value = "";
+                    document.getElementById('province_input').value = "";
+                    document.getElementById('vatCode_input').value = "";
+                    document.getElementById('fiscalCode_input').value = "";
+                    document.getElementById('paymentConditions_input').value = "";
                 }
-                app.invoiceDetailsChanged("denomination_select_options");  
-                app.invoiceDetailsChanged("address_input"); 
-                app.invoiceDetailsChanged("houseNumber_input"); 
-                app.invoiceDetailsChanged("postalCode_input"); 
-                app.invoiceDetailsChanged("city_input"); 
-                app.invoiceDetailsChanged("province_input"); 
-                app.invoiceDetailsChanged("vatCode_input"); 
-                app.invoiceDetailsChanged("fiscalCode_input"); 
-                app.invoiceDetailsChanged("paymentConditions_input"); 
-
-                app.getSuggestedRows(orderCodeInput);
-            }, 
-            function()
-            {
-                window.alert("non riesco a prelevare i dati del Cliente.");
-                document.getElementById("denomination_select_options").textContent = "";
-                document.getElementById("address_input").textContent ="";
-                document.getElementById("houseNumber_input").textContent = "";
-                document.getElementById("postalCode_input").textContent = "";
-                document.getElementById('city_input').value ="";
-                document.getElementById('province_input').value = "";
-                document.getElementById('vatCode_input').value = "";
-                document.getElementById('fiscalCode_input').value = "";
-                document.getElementById('paymentConditions_input').value = "";
-            }
         );
     }//end if on customer selecting
     else//when the user acts on a single row inserting an order code
     {
         let orderCode = orderCodeInput.value.trim();
         //if a customer has been choosen
-        if( orderCode !== "" && app.customer_id !== "" && app.customer_id !== undefined && app.customer_id !== null )
+        if (orderCode !== "" && app.customer_id !== "" && app.customer_id !== undefined && app.customer_id !== null)
         {
-            app.getValidityMachinaryModelByOrderCode( orderCode,app.customer_id,
-            function ( messages ) 
-            {
-                //cheks th result, only if the code exists and belongs to the customer 
-                //writes machinary model in the cell. If not delete the content
-                if( messages[0] === "NOT VALID" )
-                {
-                    window.alert("codice lavoro non valido!");
-                    orderCodeInput.value = "";
-                }
-                else if( messages[0] === "NOT BELONGS" )
-                {
-                    window.alert("codice lavoro non appartenente al Cliente selezionato!");
-                    orderCodeInput.value = "";
-                }
-                else if( messages[0] === "NOT COMPLETED" )
-                {
-                    window.alert("codice relativo ad un lavoro non completato!");
-                    orderCodeInput.value = "";
-                }
-                //checks if the order has been invoiced
-                else if( messages[0] === "" && messages[1] === " INVOICED" )
-                {
-                    if (confirm('Il lavoro risulta già fatturato, continuare comunque?')) 
+            app.getValidityMachinaryModelByOrderCode(orderCode, app.customer_id,
+                    function (messages)
                     {
-                        /*
-                        let description = '';
+                        //cheks th result, only if the code exists and belongs to the customer 
+                        //writes machinary model in the cell. If not delete the content
+                        if (messages[0] === "NOT VALID")
+                        {
+                            window.alert("codice lavoro non valido!");
+                            orderCodeInput.value = "";
+                        } else if (messages[0] === "NOT BELONGS")
+                        {
+                            window.alert("codice lavoro non appartenente al Cliente selezionato!");
+                            orderCodeInput.value = "";
+                        } else if (messages[0] === "NOT COMPLETED")
+                        {
+                            window.alert("codice relativo ad un lavoro non completato!");
+                            orderCodeInput.value = "";
+                        }
+                        //checks if the order has been invoiced
+                        else if (messages[0] === "" && messages[1] === " INVOICED")
+                        {
+                            if (confirm('Il lavoro risulta già fatturato, continuare comunque?'))
+                            {
+                                /*
+                                 let description = '';
+                                 
+                                 let deliveryNoteData = '';
+                                 
+                                 description += messages[2];//descrizione lavoro
+                                 
+                                 if( messages[3] !== '' )
+                                 description += '; '+messages[3];//ordine
+                                 
+                                 if( messages[4] !== '' )
+                                 description += '; '+messages[4]+';';//commessa
+                                 
+                                 if( messages[5] !== '' )
+                                 deliveryNoteData += deliveryNoteData;//commessa
+                                 
+                                 orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;
+                                 
+                                 orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;*/
+                                app.getSuggestedRows(orderCodeInput);
+                            } else
+                            {
 
-                        let deliveryNoteData = '';
+                            }
+                        } else if (messages[0] === "" && messages[1] === "DELIVERED INVOICED")
+                        {
+                            if (confirm('Il lavoro risulta già consegnato e fatturato, continuare comunque?'))
+                            {
+                                /*
+                                 let description = '';
+                                 
+                                 description += messages[2];//descrizione lavoro
+                                 
+                                 if( messages[3] !== '' )
+                                 description += '; '+messages[3];//ordine
+                                 
+                                 if( messages[4] !== '' )
+                                 description += '; '+messages[4]+';';//commessa
+                                 
+                                 orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;*/
+                                app.getSuggestedRows(orderCodeInput);
+                            } else
+                            {
 
-                        description += messages[2];//descrizione lavoro
-
-                        if( messages[3] !== '' )
-                            description += '; '+messages[3];//ordine
-
-                        if( messages[4] !== '' )
-                            description += '; '+messages[4]+';';//commessa
-
-                        if( messages[5] !== '' )
-                            deliveryNoteData += deliveryNoteData;//commessa
-
-                        orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;
-
-                        orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;*/
-                        app.getSuggestedRows(orderCodeInput);
-                    } 
-                    else
+                            }
+                        }
+                        //if everythink's alright
+                        else if (messages[0] === "" && messages[1] === "" || messages[0] === "" && messages[1] === "DELIVERED")
+                        {
+                            /*
+                             let description = '';
+                             
+                             description += messages[2];//descrizione lavoro
+                             
+                             if( messages[3] !== '' )
+                             description += '; '+messages[3];//ordine
+                             
+                             if( messages[4] !== '' )
+                             description += '; '+messages[4]+';';//commessa
+                             
+                             orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;*/
+                            app.getSuggestedRows(orderCodeInput);
+                        }
+                    },
+                    function ()
                     {
-
-                    }
-                }
-                else if( messages[0] === "" && messages[1] === "DELIVERED INVOICED" )
-                {
-                    if (confirm('Il lavoro risulta già consegnato e fatturato, continuare comunque?')) 
-                    {
-                        /*
-                        let description = '';
-
-                        description += messages[2];//descrizione lavoro
-
-                        if( messages[3] !== '' )
-                            description += '; '+messages[3];//ordine
-
-                        if( messages[4] !== '' )
-                            description += '; '+messages[4]+';';//commessa
-
-                        orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;*/
-                        app.getSuggestedRows(orderCodeInput);
-                    } 
-                    else
-                    {
-
-                    }
-                }
-                //if everythink's alright
-                else if( messages[0] === "" && messages[1] === "" || messages[0] === "" && messages[1] === "DELIVERED" )
-                {
-                    /*
-                    let description = '';
-
-                    description += messages[2];//descrizione lavoro
-
-                    if( messages[3] !== '' )
-                        description += '; '+messages[3];//ordine
-
-                    if( messages[4] !== '' )
-                        description += '; '+messages[4]+';';//commessa
-
-                    orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;*/
-                    app.getSuggestedRows(orderCodeInput);
-                }
-            },
-            function() 
-            {
-                window.alert("non riesco a leggere la descrizione lavoro");
-            });
-        }
-        else
+                        window.alert("non riesco a leggere la descrizione lavoro");
+                    });
+        } else
         {
             window.alert("Prima di inserire un Codice Lavoro seleziona un Cliente");
             orderCodeInput.value = "";
@@ -308,138 +305,132 @@ app.suggestInvoiceFields = function( orderCodeInput )
  * @param {type} orderCodeInput
  * @returns {undefined}
  */
-app.fill_InvoiceOrderMachinaryModel = ( orderCodeInput ) =>
-{
-    var orderCode = orderCodeInput.value.trim();
-    
-    //if a customer has been choosen
-    if( orderCode !== "" && app.customer_id !== "" && app.customer_id !== undefined && app.customer_id !== null )
-    {
-        app.getValidityMachinaryModelByOrderCode( orderCode,app.customer_id,
-        function ( messages ) 
+app.fill_InvoiceOrderMachinaryModel = (orderCodeInput) =>
         {
-            //cheks th result, only if the code exists and belongs to the customer 
-            //writes machinary model in the cell. If not delete the content
-            if( messages[0] === "NOT VALID" )
+            var orderCode = orderCodeInput.value.trim();
+
+            //if a customer has been choosen
+            if (orderCode !== "" && app.customer_id !== "" && app.customer_id !== undefined && app.customer_id !== null)
             {
-                window.alert("codice lavoro non valido!");
+                app.getValidityMachinaryModelByOrderCode(orderCode, app.customer_id,
+                        function (messages)
+                        {
+                            //cheks th result, only if the code exists and belongs to the customer 
+                            //writes machinary model in the cell. If not delete the content
+                            if (messages[0] === "NOT VALID")
+                            {
+                                window.alert("codice lavoro non valido!");
+                                orderCodeInput.value = "";
+                            } else if (messages[0] === "NOT BELONGS")
+                            {
+                                window.alert("codice lavoro non appartenente al Cliente selezionato!");
+                                orderCodeInput.value = "";
+                            } else if (messages[0] === "NOT COMPLETED")
+                            {
+                                window.alert("codice relativo ad un lavoro non completato!");
+                                orderCodeInput.value = "";
+                            }
+                            //checks if the order has been invoiced
+                            else if (messages[0] === "" && messages[1] === " INVOICED")
+                            {
+                                if (confirm('Il lavoro risulta già fatturato, continuare comunque?'))
+                                {
+                                    let description = '';
+
+                                    description += messages[2];//descrizione lavoro
+
+                                    if (messages[3] !== '')
+                                        description += '; ' + messages[3];//ordine
+
+                                    if (messages[4] !== '')
+                                        description += '; ' + messages[4] + ';';//commessa
+
+                                    orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;
+                                } else
+                                {
+
+                                }
+                            } else if (messages[0] === "" && messages[1] === "DELIVERED INVOICED")
+                            {
+                                if (confirm('Il lavoro risulta già consegnato e fatturato, continuare comunque?'))
+                                {
+                                    let description = '';
+
+                                    description += messages[2];//descrizione lavoro
+
+                                    if (messages[3] !== '')
+                                        description += '; ' + messages[3];//ordine
+
+                                    if (messages[4] !== '')
+                                        description += '; ' + messages[4] + ';';//commessa
+
+                                    orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;
+                                } else
+                                {
+
+                                }
+                            }
+                            //if everythink's alright
+                            else if (messages[0] === "" && messages[1] === "" || messages[0] === "" && messages[1] === "DELIVERED")
+                            {
+                                let description = '';
+
+                                description += messages[2];//descrizione lavoro
+
+                                if (messages[3] !== '')
+                                    description += '; ' + messages[3];//ordine
+
+                                if (messages[4] !== '')
+                                    description += '; ' + messages[4] + ';';//commessa
+
+                                orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;
+                            }
+                        },
+                        function ()
+                        {
+                            window.alert("non riesco a leggere la descrizione lavoro");
+                        });
+            } else
+            {
+                window.alert("Prima di inserire un Codice Lavoro seleziona un Cliente");
                 orderCodeInput.value = "";
             }
-            else if( messages[0] === "NOT BELONGS" )
-            {
-                window.alert("codice lavoro non appartenente al Cliente selezionato!");
-                orderCodeInput.value = "";
-            }
-            else if( messages[0] === "NOT COMPLETED" )
-            {
-                window.alert("codice relativo ad un lavoro non completato!");
-                orderCodeInput.value = "";
-            }
-            //checks if the order has been invoiced
-            else if( messages[0] === "" && messages[1] === " INVOICED" )
-            {
-                if (confirm('Il lavoro risulta già fatturato, continuare comunque?')) 
-                {
-                    let description = '';
-                    
-                    description += messages[2];//descrizione lavoro
-
-                    if( messages[3] !== '' )
-                        description += '; '+messages[3];//ordine
-
-                    if( messages[4] !== '' )
-                        description += '; '+messages[4]+';';//commessa
-
-                    orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;
-                } 
-                else
-                {
-                    
-                }
-            }
-            else if( messages[0] === "" && messages[1] === "DELIVERED INVOICED" )
-            {
-                if (confirm('Il lavoro risulta già consegnato e fatturato, continuare comunque?')) 
-                {
-                    let description = '';
-                    
-                    description += messages[2];//descrizione lavoro
-
-                    if( messages[3] !== '' )
-                        description += '; '+messages[3];//ordine
-
-                    if( messages[4] !== '' )
-                        description += '; '+messages[4]+';';//commessa
-
-                    orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;
-                } 
-                else
-                {
-                    
-                }
-            }
-            //if everythink's alright
-            else if( messages[0] === "" && messages[1] === "" || messages[0] === "" && messages[1] === "DELIVERED" )
-            {
-                let description = '';
-                    
-                description += messages[2];//descrizione lavoro
-
-                if( messages[3] !== '' )
-                    description += '; '+messages[3];//ordine
-
-                if( messages[4] !== '' )
-                    description += '; '+messages[4]+';';//commessa
-
-                orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;
-            }
-        },
-        function() 
-        {
-            window.alert("non riesco a leggere la descrizione lavoro");
-        });
-    }
-    else
-    {
-        window.alert("Prima di inserire un Codice Lavoro seleziona un Cliente");
-        orderCodeInput.value = "";
-    }
-};
+        };
 
 /*Makes visible the update button and changes the look of the cell that's been changed*/
-app.invoiceDetailsChanged = function(field_id)
+app.invoiceDetailsChanged = function (field_id)
 {
     //if VAT exemmption checkbox has changed
-    if( field_id === 'vat_exempt_checkbox')
+    if (field_id === 'vat_exempt_checkbox')
     {
         //if has been checked
-        if( document.getElementById(field_id).checked )
+        if (document.getElementById(field_id).checked)
         {
             //fill notes with customer VAT exemption text
-            if( app.customer_id !== null && app.customer_id !== undefined )
+            if (app.customer_id !== null && app.customer_id !== undefined)
             {
                 app.readCustomers(
-                   app.customer_id,
-                    null,
-                   (customers)=>
-                   {
-                       for( var i = 0; i < customers.length; i++)
-                       {   //new rules Agenzia Entrate on January the 1st 2022 
-                           if(customers[i][13] === "IT"){
-                            document.getElementById('notes_input').value = 'Protocollo Esenzione : ' + customers[i][23] + ' del ' +  customers[i][24].substring(6)+"/"+customers[i][24].substring(4,6)+"/"+customers[i][24].substring(0,4);
-                           }else{
-                               document.getElementById('notes_input').value = customers[i][22];
-                           }
-                           
-                       }
-                   },
-                   ()=>
-                   {
-                       window.alert("non riesco a caricare il testo dell'esenzione IVA.");
-                   }
+                        app.customer_id,
+                        null,
+                        (customers) =>
+                {
+                    for (var i = 0; i < customers.length; i++)
+                    {   //new rules Agenzia Entrate on January the 1st 2022 
+                        if (customers[i][13] === "IT") {
+                            document.getElementById('notes_input').value = 'Protocollo Esenzione : ' + customers[i][23] + ' del ' + customers[i][24].substring(6) + "/" + customers[i][24].substring(4, 6) + "/" + customers[i][24].substring(0, 4);
+                        } else {
+                            document.getElementById('notes_input').value = customers[i][22];
+                        }
+
+                    }
+                },
+                        () =>
+                {
+                    window.alert("non riesco a caricare il testo dell'esenzione IVA.");
+                }
                 );
             }
-            
+
             //disables the VAT rate select
             document.getElementById('vatRate').disabled = true;
             //sets the VAT rate select value as exempt
@@ -461,10 +452,10 @@ app.invoiceDetailsChanged = function(field_id)
         }
     }
     //if the vat rate select is changed
-    if( field_id === 'vatRate')
+    if (field_id === 'vatRate')
     {
         //on 'exempt' is the same of checking the exemption checkbox
-        if( document.getElementById(field_id).value === 'exempt')
+        if (document.getElementById(field_id).value === 'exempt')
         {
             //set checked the checkbox
             document.getElementById('vat_exempt_checkbox').checked = true;
@@ -482,41 +473,41 @@ app.invoiceDetailsChanged = function(field_id)
     document.getElementById(field_id).classList.add('Changed');
 };
 
-app.createNewInvoice = function()
-{  
+app.createNewInvoice = function ()
+{
     //alert message
     let message = "";
-   
+
     //general invoice data
     //cheks each field if something is wrong write an alert message
-    
+
     //customer choice
-    if( document.getElementById('denomination_select_options').value === "")
+    if (document.getElementById('denomination_select_options').value === "")
         message += "Scegli un Destinatario!\n";
-    
+
     //amounts dates
-    if ( document.getElementById("first_amount_date_input").value === "" )
+    if (document.getElementById("first_amount_date_input").value === "")
         message += "Inserisici una data per la prima scadenza.\n";
-    
-    if ( document.getElementById("second_amount_input").value !== "0.00" && document.getElementById("second_amount_date_input").value === "" )
+
+    if (document.getElementById("second_amount_input").value !== "0.00" && document.getElementById("second_amount_date_input").value === "")
         message += "Inserisici una data per la seconda scadenza.\n";
-    
-    if ( document.getElementById("third_amount_input").value !== "0.00" && document.getElementById("third_amount_date_input").value === "" )
+
+    if (document.getElementById("third_amount_input").value !== "0.00" && document.getElementById("third_amount_date_input").value === "")
         message += "Inserisici una data per la terza scadenza.\n";
-    
+
     //if there is only one row and it is empty alerts tehe matter
-    if (app.invoiceItemsTBody.rows.length === 1  && app.invoiceItemsTBody.rows[0].querySelector(".Code input").value === "" && app.invoiceItemsTBody.rows[0].querySelector(".Description textarea").value === "" && app.invoiceItemsTBody.rows[0].querySelector(".Quantity input").value === "")
+    if (app.invoiceItemsTBody.rows.length === 1 && app.invoiceItemsTBody.rows[0].querySelector(".Code input").value === "" && app.invoiceItemsTBody.rows[0].querySelector(".Description textarea").value === "" && app.invoiceItemsTBody.rows[0].querySelector(".Quantity input").value === "")
         message += " La fattura non contiene articoli! ";
-    
+
     /* Delivery notes rows section*/
-    if(message === "")
+    if (message === "")
     {
         //if there is unless one row, begins to chek else alerts that the document has no rows
-        if(app.invoiceItemsTBody.rows.length > 0)
+        if (app.invoiceItemsTBody.rows.length > 0)
         {
-                    
+
             //iterates all rows
-            for( var i = 0; i < app.invoiceItemsTBody.rows.length; i++ )
+            for (var i = 0; i < app.invoiceItemsTBody.rows.length; i++)
             {
                 //gathes the current row
                 var currentRow = app.invoiceItemsTBody.rows[i];
@@ -528,31 +519,31 @@ app.createNewInvoice = function()
                 // ****  SUSOPENDED BECOUSE IT WOULD BE POSSIBLE TO DELIVER MORRE THAN ONE TIME THE SAME CODE, 
                 //THAT IS CAN HAPPENS TO FIND MORE THAN ONE INVOICE ROW RELATED TO THE SAME ORDER CODE *********
                 /*
-                if(app.invoiceItemsTBody.rows.length > 1)
-                {
-                    //to avoid to compare the same code, iterates the inserted codes array BEFORE to insert in it 
-                    //the current code. 
-                    for( var j = 0; j < app.invoiceItemsTBody.rows.length; j++ )
-                    {
-                        //if the code is not empty and the iteration is comparing a row susequent of the roe of external iteration : j>i
-                        if( currentCode !== "" && ( j > i ) && currentCode === app.invoiceItemsTBody.rows[j].querySelector(".Code input").value.trim() )
-                            message += " Il codice " + currentCode + "della riga " + (j+1) + " è stato gia inserito nella riga " + (i+1) + "\n";
-                    }
-                }*/
+                 if(app.invoiceItemsTBody.rows.length > 1)
+                 {
+                 //to avoid to compare the same code, iterates the inserted codes array BEFORE to insert in it 
+                 //the current code. 
+                 for( var j = 0; j < app.invoiceItemsTBody.rows.length; j++ )
+                 {
+                 //if the code is not empty and the iteration is comparing a row susequent of the roe of external iteration : j>i
+                 if( currentCode !== "" && ( j > i ) && currentCode === app.invoiceItemsTBody.rows[j].querySelector(".Code input").value.trim() )
+                 message += " Il codice " + currentCode + "della riga " + (j+1) + " è stato gia inserito nella riga " + (i+1) + "\n";
+                 }
+                 }*/
 
                 //if the rows is empty removes it from the table
-                if( currentRow.querySelector(".Code input").value === "" && currentRow.querySelector(".Description textarea").value === "" &&  currentRow.querySelector(".Quantity input").value === "" )
+                if (currentRow.querySelector(".Code input").value === "" && currentRow.querySelector(".Description textarea").value === "" && currentRow.querySelector(".Quantity input").value === "")
                     app.deleteItemRow(currentRow);
                 //if there's no quantity alerts the matter
-                if( !(currentRow.querySelector(".Description textarea").value === "") &&  currentRow.querySelector(".Quantity input").value === "" )
-                    message += " Nessuna quantità nella riga " + (i+1) +"\n";
+                if (!(currentRow.querySelector(".Description textarea").value === "") && currentRow.querySelector(".Quantity input").value === "")
+                    message += " Nessuna quantità nella riga " + (i + 1) + "\n";
                 //if there's no description alerts the matter
-                if( currentRow.querySelector(".Description textarea").value === "" &&  !(currentRow.querySelector(".Quantity input").value === "") )
-                    message += " Nessuna descrizione nella riga " + (i+1)+"\n";
+                if (currentRow.querySelector(".Description textarea").value === "" && !(currentRow.querySelector(".Quantity input").value === ""))
+                    message += " Nessuna descrizione nella riga " + (i + 1) + "\n";
             }
 
             //if message is empty and there is unless one row creates the new delivery note else alerts the message
-            if( message === "" && app.invoiceItemsTBody.rows.length > 0 )
+            if (message === "" && app.invoiceItemsTBody.rows.length > 0)
             {
                 app.newInvoice.customer_id = app.customer_id;
                 app.newInvoice.date = document.getElementById("date_input").value;
@@ -564,7 +555,7 @@ app.createNewInvoice = function()
                 app.newInvoice.thirdAmountDate = document.getElementById("third_amount_date_input").value;
                 app.newInvoice.taxableAmount = document.getElementById("taxable_amount_input").value;
                 app.newInvoice.taxAmount = document.getElementById("tax_amount_input").value;
-                app.newInvoice.vatRate = document.getElementById('vatRate').value === 'exempt' ? '0' : document.getElementById('vatRate').value;  
+                app.newInvoice.vatRate = document.getElementById('vatRate').value === 'exempt' ? '0' : document.getElementById('vatRate').value;
                 app.newInvoice.totalAmount = document.getElementById("total_amount_input").value;
                 app.newInvoice.paymentConditions = document.getElementById("paymentConditions_input").value;
                 app.newInvoice.notes = document.getElementById("notes_input").value;
@@ -573,79 +564,76 @@ app.createNewInvoice = function()
                 app.newInvoice.items = app.invoiceItemsToJson();
 
                 document.querySelector(".Footer_message").innerHTML = " Sto creando la fattura... ";
-                
+
                 let now = new Date();
-                
+
                 let execute =
-                    app.newInvoice.date !== now.toISOString().substring(0, 10)
-                    || (app.newInvoice.date === now.toISOString().substring(0, 10) && confirm("Stai salvando con data odierna, premi ok per continuare altrimenti annulla"));
-                
-                if( execute )
+                        app.newInvoice.date !== now.toISOString().substring(0, 10)
+                        || (app.newInvoice.date === now.toISOString().substring(0, 10) && confirm("Stai salvando con data odierna, premi ok per continuare altrimenti annulla"));
+
+                if (execute)
                 {
-                    
-                    app.createInvoice( app.newInvoice,
-                        (invoice)=>
+
+                    app.createInvoice(app.newInvoice,
+                            (invoice) =>
+                    {
+                        app.printInvoice(invoice.invoice_id,
+                                () =>
                         {
-                            app.printInvoice(invoice.invoice_id,
-                            ()=>
+                            app.getXML(invoice.invoice_id,
+                                    () =>
                             {
-                                app.getXML(invoice.invoice_id,
-                                ()=>
-                                {
-                                     window.open('invoice_details.jsp?invoice_id='+invoice.invoice_id,'_self');
-                                },
-                                (message)=>
-                                {
-                                    window.alert(message);
-                                    document.querySelector(".Footer_message").innerHTML = "non riesco a produrre il file XML! ";
-                                });
+                                window.open('invoice_details.jsp?invoice_id=' + invoice.invoice_id, '_self');
                             },
-                            ()=>
+                                    (message) =>
                             {
-                                document.querySelector(".Footer_message").innerHTML = "non riesco a produrre il pdf della fattura. ";
-                            });    
+                                window.alert(message);
+                                document.querySelector(".Footer_message").innerHTML = "non riesco a produrre il file XML! ";
+                            });
                         },
-                        ()=>
+                                () =>
                         {
-                           window.alert("non riesco a creare la fattura"); 
-                        }
+                            document.querySelector(".Footer_message").innerHTML = "non riesco a produrre il pdf della fattura. ";
+                        });
+                    },
+                            () =>
+                    {
+                        window.alert("non riesco a creare la fattura");
+                    }
                     );
+                } else
+                {
                 }
-                else
-                {}   
-            }
-            else
-                window.alert( message );
-        }
-        else
-            window.alert( "Il documento non ha articoli!" );
-    }
-    else
-        window.alert( message );
+            } else
+                window.alert(message);
+        } else
+            window.alert("Il documento non ha articoli!");
+    } else
+        window.alert(message);
 };
 
 /**/
-app.callUpdateInvoice = function( invoice_id )
-{  
+app.callUpdateInvoice = function (invoice_id)
+{
     document.querySelector(".Footer_message").innerHTML = "Sto modificando la fattura... ";
     app.invoice.invoice_id = invoice_id;
     //alert message
     let message = "";
-   
+
     //general invoice data
     //cheks each field if something is wrong write an alert message
-    if( document.getElementById('denomination_select_options').value === "")
+    if (document.getElementById('denomination_select_options').value === "")
         message += "Scegli un Destinatario!\n";
-           
+
     /* invoice rows section*/
-    if(message === "")
+    if (message === "")
     {
         //if there is unless one row, begins to chek else alerts that the document has no rows
-        if(app.invoiceItemsTBody.rows.length > 0)
+        if (app.invoiceItemsTBody.rows.length > 0)
         {
-                    
+
             //iterates all rows
-            for( var i = 0; i < app.invoiceItemsTBody.rows.length; i++ )
+            for (var i = 0; i < app.invoiceItemsTBody.rows.length; i++)
             {
                 //gathes the current row
                 var currentRow = app.invoiceItemsTBody.rows[i];
@@ -657,33 +645,34 @@ app.callUpdateInvoice = function( invoice_id )
                 // ****  SUSOPENDED BECOUSE IT WOULD BE POSSIBLE TO DELIVER MORRE THAN ONE TIME THE SAME CODE, 
                 //THAT IS CAN HAPPENS TO FIND MORE THAN ONE INVOICE ROW RELATED TO THE SAME ORDER CODE *********
                 /*
-                if(app.invoiceItemsTBody.rows.length > 1)
-                {
-                    //to avoid to compare the same code, iterates the inserted codes array BEFORE to insert in it 
-                    //the current code. 
-                    for( var j = 0; j < app.invoiceItemsTBody.rows.length; j++ )
-                    {
-                        //if the code is not empty and the iteration is comparing a row susequent of the roe of external iteration : j>i
-                        if( currentCode !== "" && ( j > i ) && currentCode === app.invoiceItemsTBody.rows[j].querySelector(".Code input").value.trim() )
-                            message += " Il codice " + currentCode + "della riga " + (j+1) + " è stato gia inserito nella riga " + (i+1) + "\n";
-                    }
-                }*/
+                 if(app.invoiceItemsTBody.rows.length > 1)
+                 {
+                 //to avoid to compare the same code, iterates the inserted codes array BEFORE to insert in it 
+                 //the current code. 
+                 for( var j = 0; j < app.invoiceItemsTBody.rows.length; j++ )
+                 {
+                 //if the code is not empty and the iteration is comparing a row susequent of the roe of external iteration : j>i
+                 if( currentCode !== "" && ( j > i ) && currentCode === app.invoiceItemsTBody.rows[j].querySelector(".Code input").value.trim() )
+                 message += " Il codice " + currentCode + "della riga " + (j+1) + " è stato gia inserito nella riga " + (i+1) + "\n";
+                 }
+                 }*/
 
                 //if the rows is empty removes it from the table
-                if( currentRow.querySelector(".Code input").value === "" && currentRow.querySelector(".Description textarea").value === "" &&  currentRow.querySelector(".Quantity input").value === "" )
+                if (currentRow.querySelector(".Code input").value === "" && currentRow.querySelector(".Description textarea").value === "" && currentRow.querySelector(".Quantity input").value === "")
                     app.deleteItemRow(currentRow);
                 //if there's no quantity alerts the matter
-                if( !(currentRow.querySelector(".Description textarea").value === "") &&  currentRow.querySelector(".Quantity input").value === "" )
-                    message += " Nessuna quantità nella riga " + (i+1) +"\n";
+                if (!(currentRow.querySelector(".Description textarea").value === "") && currentRow.querySelector(".Quantity input").value === "")
+                    message += " Nessuna quantità nella riga " + (i + 1) + "\n";
                 //if there's no description alerts the matter
-                if( currentRow.querySelector(".Description textarea").value === "" &&  !(currentRow.querySelector(".Quantity input").value === "") )
-                    message += " Nessuna descrizione nella riga " + (i+1)+"\n";
+                if (currentRow.querySelector(".Description textarea").value === "" && !(currentRow.querySelector(".Quantity input").value === ""))
+                    message += " Nessuna descrizione nella riga " + (i + 1) + "\n";
             }
 
             //if message is empty and there is unless one row creates the new delivery note else alerts the message
-            if( message === "" && app.invoiceItemsTBody.rows.length > 0 )
+            if (message === "" && app.invoiceItemsTBody.rows.length > 0)
             {
-                app.invoice.customer_id = app.customer_id = document.getElementById('denomination_select_options').value;;
+                app.invoice.customer_id = app.customer_id = document.getElementById('denomination_select_options').value;
+                ;
                 app.invoice.date = document.getElementById("date_input").value;
                 app.invoice.firstAmount = document.getElementById("first_amount_input").value;
                 app.invoice.firstAmountDate = document.getElementById("first_amount_date_input").value;
@@ -693,7 +682,7 @@ app.callUpdateInvoice = function( invoice_id )
                 app.invoice.thirdAmountDate = document.getElementById("third_amount_date_input").value;
                 app.invoice.taxableAmount = document.getElementById("taxable_amount_input").value;
                 app.invoice.taxAmount = document.getElementById("tax_amount_input").value;
-                app.invoice.vatRate = document.getElementById('vatRate').value === 'exempt' ? '0' : document.getElementById('vatRate').value;  
+                app.invoice.vatRate = document.getElementById('vatRate').value === 'exempt' ? '0' : document.getElementById('vatRate').value;
                 app.invoice.totalAmount = document.getElementById("total_amount_input").value;
                 app.invoice.paymentConditions = document.getElementById("paymentConditions_input").value;
                 app.invoice.notes = document.getElementById("notes_input").value;
@@ -701,244 +690,332 @@ app.callUpdateInvoice = function( invoice_id )
 
                 //collects items in a Json object
                 app.invoice.items = app.invoiceItemsToJson();
-                
+
                 document.querySelector(".Footer_message").innerHTML = " Sto modificando la fattura... ";
-                
+
                 var now = new Date();
-                
+
                 let execute =
-                    app.invoice.date !== now.toISOString().substring(0, 10)
-                    || (app.invoice.date === now.toISOString().substring(0, 10) && confirm("Stai salvando con data odierna, premi ok per continuare altrimenti annulla"));
-            
-                if( execute )
+                        app.invoice.date !== now.toISOString().substring(0, 10)
+                        || (app.invoice.date === now.toISOString().substring(0, 10) && confirm("Stai salvando con data odierna, premi ok per continuare altrimenti annulla"));
+
+                if (execute)
                 {
-                    app.updateInvoice( app.invoice,
-                    ()=>
+                    app.updateInvoice(app.invoice,
+                            () =>
                     {
                         app.printInvoice(app.invoice.invoice_id,
-                            ()=>
+                                () =>
+                        {
+                            app.getXML(app.invoice.invoice_id,
+                                    () =>
                             {
-                                app.getXML(app.invoice.invoice_id,
-                                ()=>
-                                {
-                                    window.open('invoice_details.jsp?invoice_id='+app.invoice.invoice_id,'_self');
-                                    document.querySelector(".Footer_message").innerHTML = "";
-                                },
-                                (message)=>
-                                {
-                                    window.alert(message);
-                                    document.querySelector(".Footer_message").innerHTML = "non riesco a produrre il file XML! ";
-                                });
+                                window.open('invoice_details.jsp?invoice_id=' + app.invoice.invoice_id, '_self');
+                                document.querySelector(".Footer_message").innerHTML = "";
                             },
-                            ()=>
+                                    (message) =>
                             {
-                                document.querySelector(".Footer_message").innerHTML = "non riesco a stampare la fattura. ";
-                            });                       
+                                window.alert(message);
+                                document.querySelector(".Footer_message").innerHTML = "non riesco a produrre il file XML! ";
+                            });
+                        },
+                                () =>
+                        {
+                            document.querySelector(".Footer_message").innerHTML = "non riesco a stampare la fattura. ";
+                        });
                     },
-                    ()=>
+                            () =>
                     {
-                       window.alert("non riesco a modificare la fattura"); 
+                        window.alert("non riesco a modificare la fattura");
                     });
                 }
-            }
-            else
-                window.alert( message );
-        }
-        else
-            window.alert( "Il documento non ha articoli!" );
-    }
-    else
-        window.alert( message );
+            } else
+                window.alert(message);
+        } else
+            window.alert("Il documento non ha articoli!");
+    } else
+        window.alert(message);
 };
 
 /*** Invoices page ************************/
 
-app.openInvoicesPage = function()
+app.openInvoicesPage = function ()
 {
     //assigns to app.filter current values
     app.getFiltersValues();
     //opens tasks page       
-    window.open("invoices.jsp?&filter="+encodeURIComponent(JSON.stringify(app.filter)),'_self');
+    window.open("invoices.jsp?&filter=" + encodeURIComponent(JSON.stringify(app.filter)), '_self');
 };
 
+app.goBackFromAggregateToInvoicesPage = function ()
+{
+    //assigns to app.filter current values
+    app.getFiltersValuesToGoBackFromAggregate();
+    //opens tasks page       
+    window.open("invoices.jsp?&filter=" + encodeURIComponent(JSON.stringify(app.filter)), '_self');
+};
+
+app.openAggregatedInvoicesPage = function () {
+    //assigns to app.filter current values
+    app.getFiltersValues();
+    //opens tasks page       
+    window.open("aggregatedInvoices.jsp?&filter=" + encodeURIComponent(JSON.stringify(app.filter)), '_self');
+}
+
 /*retrieves filters values from the page*/
-app.getFiltersValues = function()
+app.getFiltersValues = function ()
 {
     app.filter.customer_id = document.getElementById("customer_select_options").value;
-    
-    app.filter.from_date = document.getElementById("from_date").value; 
-    
+
+    app.filter.from_date = document.getElementById("from_date").value;
+
     app.filter.to_date = document.getElementById("to_date").value;
-    
+
     app.filter.number = document.getElementById("numberFilter").value;
-    
+
+};
+/*retrieves filters values from the page*/
+app.getFiltersValuesToGoBackFromAggregate = function ()
+{
+    app.filter.customer_id = document.getElementById("customer_select_options").value;
+
+    app.filter.from_date = document.getElementById("from_date").value;
+
+    app.filter.to_date = document.getElementById("to_date").value;
+
+    app.filter.number = '';
+
 };
 
 /*retrieves filters values from the page*/
-app.getAggregatedFiltersValues = function()
+app.getAggregatedFiltersValues = function ()
 {
     app.filter.customer_id = document.getElementById("customer_select_options").value;
-    
-    app.filter.from_date = document.getElementById("from_date").value; 
-    
+    app.filter.from_date = document.getElementById("from_date").value;
     app.filter.to_date = document.getElementById("to_date").value;
-    
-    app.filter.order_code = document.getElementById("orderCode").value;
-    
+    app.filter.order_code = document.getElementById("order_code_Hint").value;
 };
 
 /* updtates the tasks variable in acording to current filters values in the page*/
-app.filterInvoices = function()
+app.filterInvoices = function ()
 {
     document.querySelector(".Footer_message").innerHTML = "Sto filtrando le fatture...";
-    
+
     //assigns to app.filter current values
     app.getFiltersValues();
-    
+
     app.readInvoices(// deliveryNote_id, customer_id, transporter_id, number, fromDate, toDate, successCallback, failCallback
-        null,//invoice_id_id
-        app.filter.customer_id,//customer_id
-        app.filter.number,//number
-        app.filter.from_date,//fromDate
-        app.filter.to_date,//toDate
-        function( invoices )//successCallBack
-        {
-            app.fillInvoicesTable(invoices);
-            document.querySelector(".Footer_message").innerHTML = "FATTURE FILTRATE: " + invoices.length;
-        },
-        function()//failCallBack
-        {
-            document.querySelector(".Footer_message").innerHTML = "non riesco a filtrare le fatture! Contattare Assistenza. ";
-        }
+            null, //invoice_id_id
+            app.filter.customer_id, //customer_id
+            app.filter.number, //number
+            app.filter.from_date, //fromDate
+            app.filter.to_date, //toDate
+            function (invoices)//successCallBack
+            {
+                app.fillInvoicesTable(invoices);
+                document.querySelector(".Footer_message").innerHTML = "FATTURE FILTRATE: " + invoices.length;
+            },
+            function ()//failCallBack
+            {
+                document.querySelector(".Footer_message").innerHTML = "non riesco a filtrare le fatture! Contattare Assistenza. ";
+            }
     );
 };
 
 /* updtates the tasks variable in acording to current filters values in the page*/
-app.filterAggregatedInvoicesRows = function()
+app.filterAggregatedInvoicesRows = function ()
 {
     document.querySelector(".Footer_message").innerHTML = "Sto filtrando le fatture...";
-    
+
     //assigns to app.filter current values
     app.getAggregatedFiltersValues();
-    
-    app.readAggregatedInvoices(// deliveryNote_id, customer_id, transporter_id, number, fromDate, toDate, successCallback, failCallback
-        null,//invoice_id_id
-        app.filter.customer_id,//customer_id
-        app.filter.order_code,
-        app.filter.from_date,//fromDate
-        app.filter.to_date,//toDate
-        function( invoicesRows )//successCallBack
-        {
-            app.fillAggregatedInvoicesTable(invoicesRows);
-            document.querySelector(".Footer_message").innerHTML = "RIGHE FATTURE FILTRATE: " + invoicesRows.length;
-        },
-        function()//failCallBack
-        {
-            document.querySelector(".Footer_message").innerHTML = "non riesco a filtrare le fatture! Contattare Assistenza. ";
-        }
+
+    app.readAggregatedInvoices(
+            app.filter.customer_id, //customer_id
+            app.filter.order_code,
+            app.filter.from_date, //fromDate
+            app.filter.to_date, //toDate
+            function (invoicesRows)//successCallBack
+            {
+                app.fillAggregatedInvoicesTable(invoicesRows);
+                document.querySelector(".Footer_message").innerHTML = "RIGHE FATTURE FILTRATE: " + invoicesRows.length;
+            },
+            function ()//failCallBack
+            {
+                document.querySelector(".Footer_message").innerHTML = "non riesco a filtrare le fatture! Contattare Assistenza. ";
+            }
     );
 };
 
 /* refersh table rows*/
-app.fillInvoicesTable = function( invoices )
+app.fillInvoicesTable = function (invoices)
 {
     var templateItem = document.getElementById("invoiceTableRow");
     var itemsContainer = document.querySelector(".Table tbody");
 
     //empty the current content in the table
     itemsContainer.innerHTML = null;
-    
-    let progressiveAmount = 0.0;
-     
-    for(var i=0; i<invoices.length; i++)
-    {
-        var templateContent =  document.importNode(templateItem.content,true);
 
-        templateContent.querySelector(".InvoiceTableRow").id = "row_"+invoices[i].invoice_id;
-        
+    let progressiveAmount = 0.0;
+
+    for (var i = 0; i < invoices.length; i++)
+    {
+        var templateContent = document.importNode(templateItem.content, true);
+
+        templateContent.querySelector(".InvoiceTableRow").id = "row_" + invoices[i].invoice_id;
+
         templateContent.querySelector(".InvoiceTableRow").onclick = app.setCurrentInvoiceId(invoices[i].invoice_id);
 
-        templateContent.querySelector(".InvoiceNumber").innerHTML = invoices[i].number+"-"+invoices[i].year;
-        
+        templateContent.querySelector(".InvoiceNumber").innerHTML = invoices[i].number + "-" + invoices[i].year;
+
         //formats the date
         var date = invoices[i].date;
-        var year = date.substring(0,4);
-        var month = date.substring(4,6);
-        var day = date.substring(6,8);
-        date = day+"/"+month+"/"+year;
+        var year = date.substring(0, 4);
+        var month = date.substring(4, 6);
+        var day = date.substring(6, 8);
+        date = day + "/" + month + "/" + year;
         templateContent.querySelector(".InvoiceDate").innerHTML = date;
-        
+
         templateContent.querySelector(".Customer").innerHTML = invoices[i].denomination;
-        
+
         templateContent.querySelector(".Taxable").innerHTML = invoices[i].taxableAmount.toFixed(2);
-        
+
         templateContent.querySelector(".Total").innerHTML = invoices[i].totalAmount.toFixed(2);
-        
+
         progressiveAmount += parseFloat(invoices[i].taxableAmount);
-        
+
         templateContent.querySelector(".Progressive").innerHTML = progressiveAmount.toFixed(2);
-        
+
         let number = invoices[i].number;
         let shortYear = invoices[i].year;
-        
-        templateContent.querySelector(".Pdf").onclick = (event)=>
+
+        templateContent.querySelector(".Pdf").onclick = (event) =>
         {
             event.stopPropagation();
-            window.open("resources/INVOICES/FATTURA_DUESSE_"+number+"_"+shortYear+".pdf","_blank");
+            window.open("resources/INVOICES/FATTURA_DUESSE_" + number + "_" + shortYear + ".pdf", "_blank");
         };
-        
-        itemsContainer.appendChild(templateContent); 
-    }   
+
+        itemsContainer.appendChild(templateContent);
+    }
 };
 
 /* refersh table rows*/
-app.fillAggregatedInvoicesTable = function( invoicesRows )
+app.fillAggregatedInvoicesTable = function (invoicesRows)
 {
     var templateItem = document.getElementById("AggregatedInvoiceTableRow");
     var itemsContainer = document.querySelector(".Table tbody");
 
     //empty the current content in the table
     itemsContainer.innerHTML = null;
+
+    let currentOrderCode = '';
+    let currentCustomerDenomination = '';
+
+    let progressiveOrderCodeCosts = 0.0;
+    let progressiveOrderCodeTaxableAmount = 0.0;
     
-    let progressiveAmount = 0.0;
-     
-    for(var i=0; i<invoicesRows.length; i++)
+    let progressiveCustomerCosts = 0.0;
+    let progressiveCustomerTaxableAmount = 0.0;
+
+    let totalCosts = 0.0;
+    let totalTaxable = 0.0;
+
+    for (var i = 0; i < invoicesRows.length; i++)
     {
-        var templateContent =  document.importNode(templateItem.content,true);
 
-        templateContent.querySelector(".AggregatedInvoiceTableRow").id = "row_"+invoicesRows[i].invoice_id;
+            totalCosts += invoicesRows[i].totalCosts;
+            totalTaxable += invoicesRows[i].taxableAmount;
 
-        templateContent.querySelector(".InvoiceNumber").innerHTML = invoices[i].number+"-"+invoices[i].year;
+            if (i === 0) {
+                currentOrderCode = invoicesRows[i].orderCode;
+                currentCustomerDenomination = invoicesRows[i].customerDenomination;
+            }
+
+            if (currentOrderCode !== invoicesRows[i].orderCode) {
+                var templateContent = document.importNode(templateItem.content, true);
+                templateContent.querySelector(".Customer").innerHTML = currentCustomerDenomination;
+                templateContent.querySelector(".OrderCode").innerHTML = (currentOrderCode === '') ? '----' : currentOrderCode;
+                templateContent.querySelector(".OrderCodeCosts").innerHTML = progressiveOrderCodeCosts === null ? '' : progressiveOrderCodeCosts.toFixed(2);
+                templateContent.querySelector(".TaxableAmount").innerHTML = progressiveOrderCodeTaxableAmount === null ? '' : progressiveOrderCodeTaxableAmount.toFixed(2);
+                
+                let margin = ((1 - (progressiveOrderCodeCosts / progressiveOrderCodeTaxableAmount)) * 100);
+                templateContent.querySelector(".Margin").innerHTML = margin === null ? '' : margin.toFixed(2);
+                if( margin !== null && margin < 0 ){
+                    templateContent.querySelector(".Margin").classList.add('redText');
+                }else{
+                    templateContent.querySelector(".Margin").classList.remove('redText');
+                }
+                
+                currentOrderCode = invoicesRows[i].orderCode;
+                progressiveOrderCodeCosts = invoicesRows[i].totalCosts;
+                progressiveOrderCodeTaxableAmount = invoicesRows[i].taxableAmount; 
+
+                itemsContainer.appendChild(templateContent);
+                
+                if (currentCustomerDenomination !== invoicesRows[i].customerDenomination) {
+                    var templateContent = document.importNode(templateItem.content, true);
+                    templateContent.querySelector(".Customer").innerHTML = currentCustomerDenomination;
+                    templateContent.querySelector(".CustomerCosts").innerHTML = progressiveCustomerCosts === null ? '' : progressiveCustomerCosts.toFixed(2);
+                    templateContent.querySelector(".TaxableAmount").innerHTML = progressiveCustomerTaxableAmount === null ? '' : progressiveCustomerTaxableAmount.toFixed(2);
+                    
+                    let margin_1 = ((1 - (progressiveCustomerCosts / progressiveCustomerTaxableAmount)) * 100);
+                    templateContent.querySelector(".Margin").innerHTML = margin_1 === null ? '' : margin_1.toFixed(2);
+                    if( margin_1 !== null && margin < 0 ){
+                        templateContent.querySelector(".Margin").classList.add('redText');
+                    }else{
+                        templateContent.querySelector(".Margin").classList.remove('redText');
+                    }
+                    
+                    currentCustomerDenomination = invoicesRows[i].customerDenomination;
+
+                    progressiveCustomerCosts = invoicesRows[i].totalCosts;
+                    progressiveCustomerTaxableAmount = invoicesRows[i].taxableAmount;
+
+                    itemsContainer.appendChild(templateContent);
+                } else {
+                    progressiveCustomerCosts += invoicesRows[i].totalCosts;
+                    progressiveCustomerTaxableAmount += invoicesRows[i].taxableAmount;
+                }
+
+            } else {
+                progressiveOrderCodeCosts += invoicesRows[i].totalCosts;
+                progressiveOrderCodeTaxableAmount += invoicesRows[i].taxableAmount; 
+                progressiveCustomerCosts += invoicesRows[i].totalCosts;
+                progressiveCustomerTaxableAmount += invoicesRows[i].taxableAmount;
+            }
+            
+            if (i ===  (invoicesRows.length - 1) ) {
+                var templateContent_1 = document.importNode(templateItem.content, true);
+                var templateContent_2 = document.importNode(templateItem.content, true);
+                
+                templateContent_1.querySelector(".Customer").innerHTML = currentCustomerDenomination;
+                templateContent_1.querySelector(".OrderCode").innerHTML = (currentOrderCode === '') ? '----' : currentOrderCode;
+                templateContent_1.querySelector(".OrderCodeCosts").innerHTML = progressiveOrderCodeCosts === null ? '' : progressiveOrderCodeCosts.toFixed(2);
+                templateContent_1.querySelector(".TaxableAmount").innerHTML = progressiveOrderCodeTaxableAmount === null ? '' : progressiveOrderCodeTaxableAmount.toFixed(2);
+                let margin = ((1 - (progressiveOrderCodeCosts / progressiveOrderCodeTaxableAmount)) * 100);
+                templateContent_1.querySelector(".Margin").innerHTML = margin === null ? '' : margin.toFixed(2);
+                if( margin !== null && margin < 0 ){
+                    templateContent_1.querySelector(".Margin").classList.add('redText');
+                }else{
+                    templateContent_1.querySelector(".Margin").classList.remove('redText');
+                }
+                
+                templateContent_2.querySelector(".Customer").innerHTML = 'TOTALE';
+                templateContent_2.querySelector(".CustomerCosts").innerHTML = totalCosts === null ? '' : totalCosts.toFixed(2);
+                templateContent_2.querySelector(".TaxableAmount").innerHTML = totalTaxable === null ? '' : totalTaxable.toFixed(2);
+                let margin_1 = ((1 - ( totalCosts / totalTaxable)) * 100);
+                templateContent_2.querySelector(".Margin").innerHTML = margin_1 === null ? '' : margin_1.toFixed(2);
+                if( margin !== null && margin < 0 ){
+                    templateContent_2.querySelector(".Margin").classList.add('redText');
+                }else{
+                    templateContent_2.querySelector(".Margin").classList.remove('redText');
+                }
+                
+                itemsContainer.appendChild(templateContent_1);
+                itemsContainer.appendChild(templateContent_2);
+            }
         
-        //formats the date
-        var date = invoices[i].date;
-        var year = date.substring(0,4);
-        var month = date.substring(4,6);
-        var day = date.substring(6,8);
-        date = day+"/"+month+"/"+year;
-        templateContent.querySelector(".InvoiceDate").innerHTML = date;
-        
-        templateContent.querySelector(".Customer").innerHTML = invoices[i].denomination;
-        
-        templateContent.querySelector(".Taxable").innerHTML = invoices[i].taxableAmount.toFixed(2);
-        
-        templateContent.querySelector(".Total").innerHTML = invoices[i].totalAmount.toFixed(2);
-        
-        progressiveAmount += parseFloat(invoices[i].taxableAmount);
-        
-        templateContent.querySelector(".Progressive").innerHTML = progressiveAmount.toFixed(2);
-        
-        let number = invoices[i].number;
-        let shortYear = invoices[i].year;
-        
-        templateContent.querySelector(".Pdf").onclick = (event)=>
-        {
-            event.stopPropagation();
-            window.open("resources/INVOICES/FATTURA_DUESSE_"+number+"_"+shortYear+".pdf","_blank");
-        };
-        
-        itemsContainer.appendChild(templateContent); 
-    }   
+    }
 };
 
 /**
@@ -946,104 +1023,104 @@ app.fillAggregatedInvoicesTable = function( invoicesRows )
  * @param {type} invoice_id
  * @returns {Function}
  */
-app.setCurrentInvoiceId = function( invoice_id )
+app.setCurrentInvoiceId = function (invoice_id)
 {
-    return function()
+    return function ()
     {
-        window.open("invoice_details.jsp?invoice_id=" + invoice_id,'_self');
+        window.open("invoice_details.jsp?invoice_id=" + invoice_id, '_self');
     };
 };
 
 //fills rows table in invoce_details.jsp
-app.getInvoiceRows = function( invoice_id, changeDates )
+app.getInvoiceRows = function (invoice_id, changeDates)
 {
     //sets current customer_id
     app.customer_id = document.getElementById('denomination_select_options').value;
-    
-    app.readInvoiceRows( invoice_id,
-        function(rows)
-        {
-            //gets the table
-            var table = document.querySelector("#invoiceItemsTable tbody");
 
-            //adds empty rows ( all  less one because the table already has an empty row)
-            for( var i = 0; i < rows.length-1; i++ )
+    app.readInvoiceRows(invoice_id,
+            function (rows)
             {
-                //gets a new table row 
-                var tableRow = app.newItemRow();
-                table.appendChild(tableRow);
-            }
+                //gets the table
+                var table = document.querySelector("#invoiceItemsTable tbody");
 
-            //fills contents
-            for( var i = 0; i < table.rows.length; i++)
-            {
-                for( var j = 0; j < table.rows[i].cells.length; j++ )
+                //adds empty rows ( all  less one because the table already has an empty row)
+                for (var i = 0; i < rows.length - 1; i++)
                 {
-                    //inserts code and disables the cell
-                    table.rows[i].cells[0].firstChild.value = rows[i][0];
-                    table.rows[i].cells[0].firstChild.setAttribute("disabled","true");
-
-                    //inserts the description
-                    table.rows[i].cells[1].firstChild.value = rows[i][1];
-
-                    //inserts delivery note reference
-                    table.rows[i].cells[2].firstChild.value = rows[i][2]; 
-                    table.rows[i].cells[2].firstChild.setAttribute("disabled","true");
-                    
-
-                    //inserts the quantity if there'e a deliverynote row related else sets 1
-                    table.rows[i].cells[3].firstChild.value = rows[i][3]; 
-                    
-                    //inserts the single amont
-                    table.rows[i].cells[4].firstChild.value = rows[i][4].toFixed(3);
-                    
-                    //inserts the total amount
-                    table.rows[i].cells[5].firstChild.value = rows[i][5];
-                    
-                    //inserts in dataset deliveryNoteRow_id necessary to create deliveryNoteRow Json Object in elasticTable.js
-                    table.rows[i].dataset.deliveryNoteRow_id = rows[i][6]; 
+                    //gets a new table row 
+                    var tableRow = app.newItemRow();
+                    table.appendChild(tableRow);
                 }
-            }
-            //refreshes variables
-            app.firstDue = document.getElementById('first_amount_input');
-            app.secondDue = document.getElementById('second_amount_input');
-            app.thirdDue = document.getElementById('third_amount_input');
-            
-            //updates taxable, tax, and total
-            app.taxable = parseFloat(document.querySelector("#taxable_amount_input").value); 
-            app.tax = parseFloat(document.querySelector("#tax_amount_input").value);  
-            app.total = parseFloat(document.querySelector("#total_amount_input").value);  
-            
-            //sets correct states of dues inputs in according to how many dues does the invoice have
-            //one due : simulates transition from two dues to one
-            if( app.secondDue.value === '0.00' )
-            {
-                app.firstCheckboxState.wasChecked = true;
-                app.secondCheckboxState.wasChecked = false;
-                app.checkBoxChanged('second_amount_checkbox', changeDates);
-            }
-            //two dues: simulates transition from three dues to two dues
-            if( app.secondDue.value !== '0.00' && app.thirdDue.value === '0.00')
-            {
-                app.firstCheckboxState.wasChecked = true;
-                app.secondCheckboxState.wasChecked = true;
-                app.checkBoxChanged('third_amount_checkbox', changeDates);
-            }
-            //three dues: simulates transition from two dues to three dues
-            if( app.secondDue.value !== '0.00' && app.thirdDue.value !== '0.00')
-            {
-                app.firstCheckboxState.wasChecked = true;
-                app.secondCheckboxState.wasChecked = false;
-                app.checkBoxChanged('third_amount_checkbox', changeDates);
-            }
 
-        },
-        function()
-        {
-            window.alert("non riesco a caricare le righe della fattura.");
-        }
+                //fills contents
+                for (var i = 0; i < table.rows.length; i++)
+                {
+                    for (var j = 0; j < table.rows[i].cells.length; j++)
+                    {
+                        //inserts code and disables the cell
+                        table.rows[i].cells[0].firstChild.value = rows[i][0];
+                        table.rows[i].cells[0].firstChild.setAttribute("disabled", "true");
+
+                        //inserts the description
+                        table.rows[i].cells[1].firstChild.value = rows[i][1];
+
+                        //inserts delivery note reference
+                        table.rows[i].cells[2].firstChild.value = rows[i][2];
+                        table.rows[i].cells[2].firstChild.setAttribute("disabled", "true");
+
+
+                        //inserts the quantity if there'e a deliverynote row related else sets 1
+                        table.rows[i].cells[3].firstChild.value = rows[i][3];
+
+                        //inserts the single amont
+                        table.rows[i].cells[4].firstChild.value = rows[i][4].toFixed(3);
+
+                        //inserts the total amount
+                        table.rows[i].cells[5].firstChild.value = rows[i][5];
+
+                        //inserts in dataset deliveryNoteRow_id necessary to create deliveryNoteRow Json Object in elasticTable.js
+                        table.rows[i].dataset.deliveryNoteRow_id = rows[i][6];
+                    }
+                }
+                //refreshes variables
+                app.firstDue = document.getElementById('first_amount_input');
+                app.secondDue = document.getElementById('second_amount_input');
+                app.thirdDue = document.getElementById('third_amount_input');
+
+                //updates taxable, tax, and total
+                app.taxable = parseFloat(document.querySelector("#taxable_amount_input").value);
+                app.tax = parseFloat(document.querySelector("#tax_amount_input").value);
+                app.total = parseFloat(document.querySelector("#total_amount_input").value);
+
+                //sets correct states of dues inputs in according to how many dues does the invoice have
+                //one due : simulates transition from two dues to one
+                if (app.secondDue.value === '0.00')
+                {
+                    app.firstCheckboxState.wasChecked = true;
+                    app.secondCheckboxState.wasChecked = false;
+                    app.checkBoxChanged('second_amount_checkbox', changeDates);
+                }
+                //two dues: simulates transition from three dues to two dues
+                if (app.secondDue.value !== '0.00' && app.thirdDue.value === '0.00')
+                {
+                    app.firstCheckboxState.wasChecked = true;
+                    app.secondCheckboxState.wasChecked = true;
+                    app.checkBoxChanged('third_amount_checkbox', changeDates);
+                }
+                //three dues: simulates transition from two dues to three dues
+                if (app.secondDue.value !== '0.00' && app.thirdDue.value !== '0.00')
+                {
+                    app.firstCheckboxState.wasChecked = true;
+                    app.secondCheckboxState.wasChecked = false;
+                    app.checkBoxChanged('third_amount_checkbox', changeDates);
+                }
+
+            },
+            function ()
+            {
+                window.alert("non riesco a caricare le righe della fattura.");
+            }
     );
-    
+
 };
 
 
@@ -1053,14 +1130,14 @@ app.getInvoiceRows = function( invoice_id, changeDates )
  *  deliveryNoteRows not invoiced;
  * @returns {undefined}
  */
-app.getSuggestedRows = function( orderCodeInput )
+app.getSuggestedRows = function (orderCodeInput)
 {
     //is the case on customer selecting
-    if(orderCodeInput === null)
+    if (orderCodeInput === null)
     {
         //if there chosen customer is empty just reloads the page
-        if( app.customer_id === "")
-            window.open('invoice_details.jsp','_self');
+        if (app.customer_id === "")
+            window.open('invoice_details.jsp', '_self');
         else
         {
             //gets the table
@@ -1068,27 +1145,27 @@ app.getSuggestedRows = function( orderCodeInput )
 
             //retrieves from the database all delivery notes rows not invoiced and 
             //related to the customer
-            app.getSuggestedDeliveryNotesRows(app.customer_id,null,
-            (deliveryNotesRows) =>
+            app.getSuggestedDeliveryNotesRows(app.customer_id, null,
+                    (deliveryNotesRows) =>
             {
                 app.deliveryNotesRows = deliveryNotesRows;
                 //adds so many riws as hoe many deliveryNoteRows suggested there are
                 // lesss one because tha table already has got one ampty row
-                for( var i = 0; i < deliveryNotesRows.length-1; i++ )
+                for (var i = 0; i < deliveryNotesRows.length - 1; i++)
                 {
                     //gets a new table row 
                     var tableRow = app.newItemRow();
                     table.appendChild(tableRow);
                 }
                 //if there are deliveryNoteRows to be suggested fills contents
-                if( deliveryNotesRows.length > 0 )
+                if (deliveryNotesRows.length > 0)
                 {
                     //fills rows except the last one that is just an available empty row
-                    for( var i = 0; i < table.rows.length; i++)
+                    for (var i = 0; i < table.rows.length; i++)
                     {
                         //inserts code and disables the cell
                         table.rows[i].cells[0].firstChild.value = deliveryNotesRows[i][6];
-                        table.rows[i].cells[0].firstChild.setAttribute("disabled","true");
+                        table.rows[i].cells[0].firstChild.setAttribute("disabled", "true");
 
 
                         //if the row refers to an order code fetchs ordine and commessa: look if this informations can be already contained in delivery note row description
@@ -1097,13 +1174,13 @@ app.getSuggestedRows = function( orderCodeInput )
                         //produced we must accept the possibility that the application will insert two times this informations
                         //inserts the description
                         let description = '';
-                        description = deliveryNotesRows[i][7]+";  ";
+                        description = deliveryNotesRows[i][7] + ";  ";
                         description += deliveryNotesRows[i][12] === '' ? '' : deliveryNotesRows[i][12] + "; ";
-                        description += deliveryNotesRows[i][13] === '' ? '' : deliveryNotesRows[i][13]+";";
+                        description += deliveryNotesRows[i][13] === '' ? '' : deliveryNotesRows[i][13] + ";";
                         table.rows[i].cells[1].firstChild.value = description;
 
                         //inserts delivery note reference wich cell is always disabled
-                        table.rows[i].cells[2].firstChild.value =  " ddt N° " + deliveryNotesRows[i][3] + " del " + deliveryNotesRows[i][4]; 
+                        table.rows[i].cells[2].firstChild.value = " ddt N° " + deliveryNotesRows[i][3] + " del " + deliveryNotesRows[i][4];
 
                         //inserts quantity
                         table.rows[i].cells[3].firstChild.value = deliveryNotesRows[i][11];
@@ -1115,83 +1192,82 @@ app.getSuggestedRows = function( orderCodeInput )
 
                 //THIS FEATURE HAS BEEN ELIINATED BECOUSE THERE ARE TO MANY ORDERS TO BE SUGGESTED
                 /*checks if there are orders completed and not delivered to be invoiced
-                app.getSuggestedOrders(app.customer_id, 
-                (orders) =>
-                {
-                    app.suggestedOrders = orders;
-                    //adds empty rows 
-                    for( var i = 0; i < orders.length; i++ )
-                    {
-                        //gets a new table row 
-                         var tableRow = app.newItemRow();
-                        table.appendChild(tableRow);
-                    }
-                    //if there are orders to be suggested fills contents
-                    if( orders.length > 0 )
-                    {
-                        //fills rows starting from the first empty row that is just after the last related deliveryNote row creates before.
-                        // The table has an ampty row at the beginning. Since has been added a table row for each related order, from the iteration upper limit 
-                        //has been subtracted 1
-                        for( var i = app.deliveryNotesRows.length; i < table.rows.length; i++)
-                        {
-                            //fills code and disables the cell and description
-                            table.rows[i].cells[0].firstChild.value = orders[i-app.deliveryNotesRows.length][2];
-                            table.rows[i].cells[0].firstChild.setAttribute("disabled","true");  
-                            //inserts description
-                            table.rows[i].cells[1].firstChild.value = orders[i-app.deliveryNotesRows.length][12];
-
-                        }
-
-                },
-                () =>
-                {
-                    window.alert("non riesco a caricare i lavori completati da fatturare.");
-                });*/
+                 app.getSuggestedOrders(app.customer_id, 
+                 (orders) =>
+                 {
+                 app.suggestedOrders = orders;
+                 //adds empty rows 
+                 for( var i = 0; i < orders.length; i++ )
+                 {
+                 //gets a new table row 
+                 var tableRow = app.newItemRow();
+                 table.appendChild(tableRow);
+                 }
+                 //if there are orders to be suggested fills contents
+                 if( orders.length > 0 )
+                 {
+                 //fills rows starting from the first empty row that is just after the last related deliveryNote row creates before.
+                 // The table has an ampty row at the beginning. Since has been added a table row for each related order, from the iteration upper limit 
+                 //has been subtracted 1
+                 for( var i = app.deliveryNotesRows.length; i < table.rows.length; i++)
+                 {
+                 //fills code and disables the cell and description
+                 table.rows[i].cells[0].firstChild.value = orders[i-app.deliveryNotesRows.length][2];
+                 table.rows[i].cells[0].firstChild.setAttribute("disabled","true");  
+                 //inserts description
+                 table.rows[i].cells[1].firstChild.value = orders[i-app.deliveryNotesRows.length][12];
+                 
+                 }
+                 
+                 },
+                 () =>
+                 {
+                 window.alert("non riesco a caricare i lavori completati da fatturare.");
+                 });*/
             },
-            () =>
+                    () =>
             {
                 window.alert("non riesco a caricare i lavori consegnati da fatturare.");
-            });    
-             //If VAT exemption check box is checked fills note with VAT exemption text
-            if( document.getElementById('vat_exempt_checkbox').checked)
+            });
+            //If VAT exemption check box is checked fills note with VAT exemption text
+            if (document.getElementById('vat_exempt_checkbox').checked)
             {
-                if( app.customer_id !== null && app.customer_id !== undefined )
+                if (app.customer_id !== null && app.customer_id !== undefined)
                 {
                     app.readCustomers(
-                       app.customer_id,
-                        null,
-                       (customers)=>
-                       {
-                           for( var i = 0; i < customers.length; i++)
-                           {
-                               document.getElementById('notes_input').value = customers[i][22];
-                           }
-                       },
-                       ()=>
-                       {
-                           window.alert("non riesco a caricare il testo dell'esenzione IVA.");
-                       }
+                            app.customer_id,
+                            null,
+                            (customers) =>
+                    {
+                        for (var i = 0; i < customers.length; i++)
+                        {
+                            document.getElementById('notes_input').value = customers[i][22];
+                        }
+                    },
+                            () =>
+                    {
+                        window.alert("non riesco a caricare il testo dell'esenzione IVA.");
+                    }
                     );
                 }
             }
         }
-    }
-    else//is the case on orderCode inserting on a single row
+    } else//is the case on orderCode inserting on a single row
     {
         //gets the orderCode
         let code = orderCodeInput.value.trim();
-        
+
         //retrieves from the database all delivery notes rows not invoiced and 
         //related to the customer
-        app.getSuggestedDeliveryNotesRows(app.customer_id,code,
-        (deliveryNotesRows) =>
+        app.getSuggestedDeliveryNotesRows(app.customer_id, code,
+                (deliveryNotesRows) =>
         {
             //app.deliveryNotesRows = deliveryNotesRows; PROBABLY NOT CORRECT BECOUSE IT IS ONLY ONE ROW
-            if( deliveryNotesRows.length > 0 )
+            if (deliveryNotesRows.length > 0)
             {
                 //inserts code and disables the cell
                 orderCodeInput.value = deliveryNotesRows[0][6];
-                orderCodeInput.setAttribute("disabled","true");
+                orderCodeInput.setAttribute("disabled", "true");
 
                 //if the row refers to an order code fetchs ordine and commessa: look if this informations can be already contained in delivery note row description
                 //in this case they will be duplicated and the user must delete them manually. The problem is that if we want in any case that ordine and commessa 
@@ -1199,13 +1275,13 @@ app.getSuggestedRows = function( orderCodeInput )
                 //produced we must accept the possibility that the application will insert two times this informations
                 //inserts the description
                 let description = '';
-                description = deliveryNotesRows[0][7]+";  ";
+                description = deliveryNotesRows[0][7] + ";  ";
                 description += deliveryNotesRows[0][12] === '' ? '' : deliveryNotesRows[0][12] + "; ";
-                description += deliveryNotesRows[0][13] === '' ? '' : deliveryNotesRows[0][13]+";";
+                description += deliveryNotesRows[0][13] === '' ? '' : deliveryNotesRows[0][13] + ";";
                 orderCodeInput.parentNode.parentNode.cells[1].firstChild.value = description;
 
                 //inserts delivery note reference wich cell is always disabled
-                orderCodeInput.parentNode.parentNode.cells[2].firstChild.value =  " ddt N° " + deliveryNotesRows[0][3] + " del " + deliveryNotesRows[0][4]; 
+                orderCodeInput.parentNode.parentNode.cells[2].firstChild.value = " ddt N° " + deliveryNotesRows[0][3] + " del " + deliveryNotesRows[0][4];
 
                 //inserts quantity
                 orderCodeInput.parentNode.parentNode.cells[3].firstChild.value = deliveryNotesRows[0][11];
@@ -1214,13 +1290,12 @@ app.getSuggestedRows = function( orderCodeInput )
                 orderCodeInput.parentNode.parentNode.dataset.deliveryNoteRow_id = deliveryNotesRows[0][0];
 
                 // is the useful snippet orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;
-            }
-            else 
+            } else
             {
                 app.fill_InvoiceOrderMachinaryModel(orderCodeInput);
             }
         },
-        () =>
+                () =>
         {
             window.alert("non riesco a caricare i dati del lavoro del codice inserito.");
         });
@@ -1231,32 +1306,32 @@ app.getSuggestedRows = function( orderCodeInput )
  * Called each time a row amount has been changed / inserted
  * first adjustes taxable tax and total then calls refreshDues function
  */
-app.refreshAmounts = function()
+app.refreshAmounts = function ()
 {
     //updates application variable
     app.invoiceItemsTBody = document.querySelector("#invoiceItemsTable tbody");
-    
+
     //resets totals
     app.total = 0;
     app.tax = 0;
-    app. taxable = 0;
-    
+    app.taxable = 0;
+
     //resets inputs fields
     document.querySelector("#taxable_amount_input").value = "";
     document.querySelector("#tax_amount_input").value = "";
     document.querySelector("#total_amount_input").value = "";
-    
-   //iterates all amounts in the table and adds them to obtain the total
-    for( var i = 0; i < app.invoiceItemsTBody.rows.length; i++ )
+
+    //iterates all amounts in the table and adds them to obtain the total
+    for (var i = 0; i < app.invoiceItemsTBody.rows.length; i++)
     {
         //puts zero when there's nothing inside the cell to do correct number conversion 
-        if(app.invoiceItemsTBody.rows[i].querySelector(".SingleAmount input").value === "" )
+        if (app.invoiceItemsTBody.rows[i].querySelector(".SingleAmount input").value === "")
             app.invoiceItemsTBody.rows[i].querySelector(".SingleAmount input").value = "0.000";
-        if(app.invoiceItemsTBody.rows[i].querySelector(".TotalAmount input").value === "" )
+        if (app.invoiceItemsTBody.rows[i].querySelector(".TotalAmount input").value === "")
             app.invoiceItemsTBody.rows[i].querySelector(".TotalAmount input").value = "0.00";
         //truncates to two decimals 
-        var singleAmount = Math.round( parseFloat(app.invoiceItemsTBody.rows[i].querySelector(".SingleAmount input").value)*1000)/1000;
-        var totalAmount = singleAmount * (parseFloat(app.invoiceItemsTBody.rows[i].querySelector(".Quantity input").value)) ;
+        var singleAmount = Math.round(parseFloat(app.invoiceItemsTBody.rows[i].querySelector(".SingleAmount input").value) * 1000) / 1000;
+        var totalAmount = singleAmount * (parseFloat(app.invoiceItemsTBody.rows[i].querySelector(".Quantity input").value));
         //displays in two decimals
         app.invoiceItemsTBody.rows[i].querySelector(".SingleAmount input").value = singleAmount.toFixed(3);
         app.invoiceItemsTBody.rows[i].querySelector(".TotalAmount input").value = totalAmount.toFixed(2);
@@ -1264,22 +1339,22 @@ app.refreshAmounts = function()
         app.taxable += totalAmount;
 
     }
-    
-  //updates taxable, tax, and total
-  document.querySelector("#taxable_amount_input").value = (Math.round(app.taxable*100)/100).toFixed(2);
-  
-  //if exempt tax are zero
-  let vatRate = document.getElementById('vatRate').value !== 'exempt' ? Number(document.getElementById('vatRate').value) : 0 ;
-  
-  app.tax = document.getElementById('vat_exempt_checkbox').checked ? 0 : Math.round(((app.taxable/100)*vatRate)*100)/100;
-  
-  document.querySelector("#tax_amount_input").value = (Math.round(app.tax*100)/100).toFixed(2);
-  app.total = parseFloat(app.taxable) + parseFloat(app.tax) ;
-  document.querySelector("#total_amount_input").value =  app.total.toFixed(2);
-  
-  
-  /*refreshes dues*/
-  app.refreshDues(null, true);
+
+    //updates taxable, tax, and total
+    document.querySelector("#taxable_amount_input").value = (Math.round(app.taxable * 100) / 100).toFixed(2);
+
+    //if exempt tax are zero
+    let vatRate = document.getElementById('vatRate').value !== 'exempt' ? Number(document.getElementById('vatRate').value) : 0;
+
+    app.tax = document.getElementById('vat_exempt_checkbox').checked ? 0 : Math.round(((app.taxable / 100) * vatRate) * 100) / 100;
+
+    document.querySelector("#tax_amount_input").value = (Math.round(app.tax * 100) / 100).toFixed(2);
+    app.total = parseFloat(app.taxable) + parseFloat(app.tax);
+    document.querySelector("#total_amount_input").value = app.total.toFixed(2);
+
+
+    /*refreshes dues*/
+    app.refreshDues(null, true);
 };
 
 /**
@@ -1291,29 +1366,29 @@ app.refreshAmounts = function()
  *               dues have been modified
  * @returns {undefined}
  */
-app.refreshDues = function( dueInput_id, toBeRefreshed)/* to be refreshed together with changeData is a boolean that avoids that amounts are changed when 
-                                                        * an invoice is opened for the first time*/
+app.refreshDues = function (dueInput_id, toBeRefreshed)/* to be refreshed together with changeData is a boolean that avoids that amounts are changed when 
+ * an invoice is opened for the first time*/
 {
-    if( toBeRefreshed )
+    if (toBeRefreshed)
     {
         //rounded total invoice amount
-        var total = Math.round( app.total*100)/100;
+        var total = Math.round(app.total * 100) / 100;
         //rounded first due value
-        var firstValue = Math.round( app.firstDue.value*100)/100;
+        var firstValue = Math.round(app.firstDue.value * 100) / 100;
         //rounded second due value
-        var secondValue = Math.round( app.secondDue.value*100)/100;
+        var secondValue = Math.round(app.secondDue.value * 100) / 100;
         //total invoice amount / 2
-        var halfDifference = Math.round( ( ( total)/2 )*100 ) / 100 ;
+        var halfDifference = Math.round(((total) / 2) * 100) / 100;
         //total invoice amount / 3
-        var thirdDifference = Math.round( ( ( total)/3 )*100 ) / 100 ;
+        var thirdDifference = Math.round(((total) / 3) * 100) / 100;
 
         //if dueInput is null user has modified rows but not dues
         //just updates active dues inputs
-        if( dueInput_id === null )
+        if (dueInput_id === null)
         {
             //refreshes the total
             //if there's only one active amount input updates only it
-            if( !app.firstCheckBox.checked && !app.secondCheckBox.checked )
+            if (!app.firstCheckBox.checked && !app.secondCheckBox.checked)
             {
                 app.firstDue.value = (total).toFixed(2);
                 app.secondDue.value = (0).toFixed(2);
@@ -1322,7 +1397,7 @@ app.refreshDues = function( dueInput_id, toBeRefreshed)/* to be refreshed togeth
             }
 
             //if there are two  active amounts distributes the total on both
-            if( app.firstCheckBox.checked && !app.secondCheckBox.checked )
+            if (app.firstCheckBox.checked && !app.secondCheckBox.checked)
             {
                 app.firstDue.value = (halfDifference).toFixed(2);
                 app.secondDue.value = (total - halfDifference).toFixed(2);
@@ -1331,19 +1406,19 @@ app.refreshDues = function( dueInput_id, toBeRefreshed)/* to be refreshed togeth
             }
 
             //if there are three  active amounts distributes the total between them
-            if( app.firstCheckBox.checked && app.secondCheckBox.checked )
+            if (app.firstCheckBox.checked && app.secondCheckBox.checked)
             {
                 app.firstDue.value = (thirdDifference).toFixed(2);
                 app.secondDue.value = (thirdDifference).toFixed(2);
-                app.thirdDue.value = (total - thirdDifference -thirdDifference ).toFixed(2); 
+                app.thirdDue.value = (total - thirdDifference - thirdDifference).toFixed(2);
             }
         }
         //if dueInput_id is the first one
-        if( dueInput_id === "first_amount_input")
+        if (dueInput_id === "first_amount_input")
         {
             //if the amount inserted in the first amount input is greater then the total the application just 
             //make it equals to the total
-            if( firstValue > total )
+            if (firstValue > total)
             {
                 app.firstDue.value = (total).toFixed(2);
                 firstValue = total;
@@ -1351,10 +1426,10 @@ app.refreshDues = function( dueInput_id, toBeRefreshed)/* to be refreshed togeth
 
             //computes the difference
             var difference = total - firstValue;
-            var halfDifference = Math.round( ( difference / 2 )*100 ) / 100 ;
+            var halfDifference = Math.round((difference / 2) * 100) / 100;
 
             //if there are three  active amounts distributes the difference between the second and the third
-            if( app.firstCheckBox.checked && app.secondCheckBox.checked )
+            if (app.firstCheckBox.checked && app.secondCheckBox.checked)
             {
                 app.firstDue.value = (firstValue).toFixed(2);
 
@@ -1364,7 +1439,7 @@ app.refreshDues = function( dueInput_id, toBeRefreshed)/* to be refreshed togeth
             }
 
             //if there are two  active amounts puts the difference on the second one
-            if( app.firstCheckBox.checked && !app.secondCheckBox.checked )
+            if (app.firstCheckBox.checked && !app.secondCheckBox.checked)
             {
                 //rounds the first value
                 app.firstDue.value = (firstValue).toFixed(2);
@@ -1379,11 +1454,11 @@ app.refreshDues = function( dueInput_id, toBeRefreshed)/* to be refreshed togeth
         }
 
         //if dueInput_id is the second one forced there are three dues and the first and second amount inputs active
-        if( dueInput_id === "second_amount_input")
+        if (dueInput_id === "second_amount_input")
         {
             //if the amount inserted in the first amount input is greater then the total the application just 
             //make it equals to the total
-            if( secondValue > ( total - firstValue ) )
+            if (secondValue > (total - firstValue))
             {
                 app.secondDue.value = (total - firstValue).toFixed(2);
                 secondValue = total - firstValue;
@@ -1411,38 +1486,38 @@ app.refreshDues = function( dueInput_id, toBeRefreshed)/* to be refreshed togeth
  * @param {type} checkbox_id : wich checkbox is the source of the user action
  * @returns {undefined}
  */
-app.checkBoxChanged = function( checkbox_id, changeData )/*if change data is false dates and amounts won't be resettted look at invoiceDetails.jsp onload value*/
+app.checkBoxChanged = function (checkbox_id, changeData)/*if change data is false dates and amounts won't be resettted look at invoiceDetails.jsp onload value*/
 {
     //event from first checkbox
-    if( checkbox_id === 'second_amount_checkbox')
+    if (checkbox_id === 'second_amount_checkbox')
     {
         //if was checked we move from double dues to single or from triple to single
-        if( app.firstCheckboxState.wasChecked )
+        if (app.firstCheckboxState.wasChecked)
         {
             app.firstCheckboxState.wasChecked = false;
-            app.setDuesInputs( 'single', changeData );
+            app.setDuesInputs('single', changeData);
             //also second checkbox state must be resetted in according to single amount state
             app.secondCheckboxState.wasChecked = false;
             //calls refreshDues to update amounts
-            app.refreshDues(null,changeData);
+            app.refreshDues(null, changeData);
         }
         //if was unchecked we move from single due to double due
         else
         {
             app.firstCheckboxState.wasChecked = true;
-            app.setDuesInputs( 'double', changeData );
+            app.setDuesInputs('double', changeData);
             //calls refreshDues to update amounts
             app.refreshDues(null, changeData);
         }
     }
     //event from second checkbox
-    if( checkbox_id === 'third_amount_checkbox')
+    if (checkbox_id === 'third_amount_checkbox')
     {
         //if was checked we move from triple due to double 
-        if( app.secondCheckboxState.wasChecked )
+        if (app.secondCheckboxState.wasChecked)
         {
             app.secondCheckboxState.wasChecked = false;
-            app.setDuesInputs( 'double', changeData );
+            app.setDuesInputs('double', changeData);
             //calls refreshDues to update amounts
             app.refreshDues(null, changeData);
         }
@@ -1450,50 +1525,49 @@ app.checkBoxChanged = function( checkbox_id, changeData )/*if change data is fal
         else
         {
             app.secondCheckboxState.wasChecked = true;
-            app.setDuesInputs( 'triple', changeData );
+            app.setDuesInputs('triple', changeData);
             //calls refreshDues to update amounts
             app.refreshDues(null, changeData);
         }
-            
+
     }
 };
 
-app.checkCustomerChoosen = (input)=>
-{
-    
-    if( app.customer_id === '' || app.customer_id === null || app.customer_id === undefined )
-    {
-        input.value = '';
-        window.alert("Seleziona un Cliente!");
-    }
-};
+app.checkCustomerChoosen = (input) =>
+        {
 
-app.changeInvoiceDate = ()=>
-{
-    let date = document.getElementById("date_input").value;
-    let completeNumber = document.getElementById("number_input").value;
-    let number = completeNumber.substring(0,completeNumber.indexOf("-")).trim();
-    let year = completeNumber.substring(completeNumber.indexOf("-")).replace("-","").trim();
-    
-    if( date !== "" && number !== "" && year !== "" )
-    {
-        app.updateInvoiceDate(// deliveryNote_id, customer_id, transporter_id, number, fromDate, toDate, successCallback, failCallback
-        date,//invoice_id_id
-        number,//customer_id
-        year,//number
-        function()//successCallBack
+            if (app.customer_id === '' || app.customer_id === null || app.customer_id === undefined)
+            {
+                input.value = '';
+                window.alert("Seleziona un Cliente!");
+            }
+        };
+
+app.changeInvoiceDate = () =>
         {
-            window.alert("Data fattura modificata! E' necessario ora allineare i dati eseguendo una modifica dalla vista di dettaglio fattura.");
-            document.querySelector(".Footer_message").innerHTML = "Data fattura modificata!";
-        },
-        function()//failCallBack
-        {
-            window.alert("Operazione fallita!");
-            document.querySelector(".Footer_message").innerHTML = "Non riesco a modificare la data della fattura!";
-        }
-    );
-    }
-    else
-        window.alert("Formato dati non valido!");
-};    
+            let date = document.getElementById("date_input").value;
+            let completeNumber = document.getElementById("number_input").value;
+            let number = completeNumber.substring(0, completeNumber.indexOf("-")).trim();
+            let year = completeNumber.substring(completeNumber.indexOf("-")).replace("-", "").trim();
+
+            if (date !== "" && number !== "" && year !== "")
+            {
+                app.updateInvoiceDate(// deliveryNote_id, customer_id, transporter_id, number, fromDate, toDate, successCallback, failCallback
+                        date, //invoice_id_id
+                        number, //customer_id
+                        year, //number
+                        function ()//successCallBack
+                        {
+                            window.alert("Data fattura modificata! E' necessario ora allineare i dati eseguendo una modifica dalla vista di dettaglio fattura.");
+                            document.querySelector(".Footer_message").innerHTML = "Data fattura modificata!";
+                        },
+                        function ()//failCallBack
+                        {
+                            window.alert("Operazione fallita!");
+                            document.querySelector(".Footer_message").innerHTML = "Non riesco a modificare la data della fattura!";
+                        }
+                );
+            } else
+                window.alert("Formato dati non valido!");
+        };
 console.log('END:invoices.js');

@@ -303,7 +303,7 @@ public class Invoice
         {
             JsonObject row = new JsonObject();
             row.addProperty("customerDenomination", items_dbr.getString(i,"customerDenomination"));
-            row.addProperty("invoiceDate", items_dbr.getString(i,"invoiceDate"));
+            row.addProperty("date", items_dbr.getString(i,"date"));
             row.addProperty("orderCode", items_dbr.getString(i,"orderCode"));
             row.addProperty("variouseMaterialCost", items_dbr.getDouble(i,"variouseMaterialCost"));
             row.addProperty("translationCost", items_dbr.getDouble(i,"translationCost"));

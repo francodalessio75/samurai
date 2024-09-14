@@ -279,6 +279,17 @@ body > div  /*Selects all <div> elements where the parent is body*/
     text-align:center;
 }
 
+.Filters #goBackToInvoices
+{
+    position: relative;
+    top: 4rem;
+}
+
+#aggregatedViewButton {
+    position: relative;
+    top: 4rem;
+}
+
 /*******************************************************************************
 /************** CONTENT : ALL BETWEEN MENU  AND FOOTER *********************/
 /******************************************************************************/
@@ -425,6 +436,7 @@ input[type="button"]
     border: thin solid blue;
     border-radius: .250rem;
     cursor: pointer;
+    text-align: center;
 }
 
 
