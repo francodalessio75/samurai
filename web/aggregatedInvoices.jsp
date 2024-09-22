@@ -123,17 +123,21 @@
         <div class="Content WithFilter">
             <table class="Table" >
                 <col width="25%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="8%">
+                <col width="14%">
                 <col width="15%">
-                <col width="15%">
-                <col width="15%">
-                <col width="15%">
-                <col width="15%">
+                <col width="8%">
                 <thead>
                     <th class="ThList">CLIENTE</th>
                     <th class="ThList">CODICE</th>
                     <th class="ThList">COSTI CODICE</th>
+                    <th class="ThList">FATTURATO CODICE</th>
+                    <th class="ThList">MARGINE CODICE</th>
                     <th class="ThList">COSTI CLIENTE</th>
-                    <th class="ThList">FATTURATO</th>
+                    <th class="ThList">FATTURATO CLIENTE</th>
                     <th class="ThList">MARGINE</th>
                 </thead>
                 <tbody></tbody>
@@ -152,9 +156,11 @@
             <td class="Customer" style="text-align: center"></td>
             <td class="OrderCode" style="text-align: center"></td>
             <td class="OrderCodeCosts" style="text-align: right"></td>
+            <td class="OrderCodeAmount" style="text-align: right"></td>
+            <td class="OrderCodeMargin" style="text-align: right"></td>
             <td class="CustomerCosts" style="text-align: right"></td>
-            <td class="TaxableAmount" style="text-align: right"></td>
-            <td class="Margin" style="text-align: center"></td>
+            <td class="CustomerAmount" style="text-align: right"></td>
+            <td class="CustomerMargin" style="text-align: center"></td>
         </tr>
     </template>
 

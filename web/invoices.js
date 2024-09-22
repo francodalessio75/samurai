@@ -306,96 +306,96 @@ app.suggestInvoiceFields = function (orderCodeInput)
  * @returns {undefined}
  */
 app.fill_InvoiceOrderMachinaryModel = (orderCodeInput) =>
-        {
-            var orderCode = orderCodeInput.value.trim();
+{
+    var orderCode = orderCodeInput.value.trim();
 
-            //if a customer has been choosen
-            if (orderCode !== "" && app.customer_id !== "" && app.customer_id !== undefined && app.customer_id !== null)
-            {
-                app.getValidityMachinaryModelByOrderCode(orderCode, app.customer_id,
-                        function (messages)
+    //if a customer has been choosen
+    if (orderCode !== "" && app.customer_id !== "" && app.customer_id !== undefined && app.customer_id !== null)
+    {
+        app.getValidityMachinaryModelByOrderCode(orderCode, app.customer_id,
+                function (messages)
+                {
+                    //cheks th result, only if the code exists and belongs to the customer 
+                    //writes machinary model in the cell. If not delete the content
+                    if (messages[0] === "NOT VALID")
+                    {
+                        window.alert("codice lavoro non valido!");
+                        orderCodeInput.value = "";
+                    } else if (messages[0] === "NOT BELONGS")
+                    {
+                        window.alert("codice lavoro non appartenente al Cliente selezionato!");
+                        orderCodeInput.value = "";
+                    } else if (messages[0] === "NOT COMPLETED")
+                    {
+                        window.alert("codice relativo ad un lavoro non completato!");
+                        orderCodeInput.value = "";
+                    }
+                    //checks if the order has been invoiced
+                    else if (messages[0] === "" && messages[1] === " INVOICED")
+                    {
+                        if (confirm('Il lavoro risulta già fatturato, continuare comunque?'))
                         {
-                            //cheks th result, only if the code exists and belongs to the customer 
-                            //writes machinary model in the cell. If not delete the content
-                            if (messages[0] === "NOT VALID")
-                            {
-                                window.alert("codice lavoro non valido!");
-                                orderCodeInput.value = "";
-                            } else if (messages[0] === "NOT BELONGS")
-                            {
-                                window.alert("codice lavoro non appartenente al Cliente selezionato!");
-                                orderCodeInput.value = "";
-                            } else if (messages[0] === "NOT COMPLETED")
-                            {
-                                window.alert("codice relativo ad un lavoro non completato!");
-                                orderCodeInput.value = "";
-                            }
-                            //checks if the order has been invoiced
-                            else if (messages[0] === "" && messages[1] === " INVOICED")
-                            {
-                                if (confirm('Il lavoro risulta già fatturato, continuare comunque?'))
-                                {
-                                    let description = '';
+                            let description = '';
 
-                                    description += messages[2];//descrizione lavoro
+                            description += messages[2];//descrizione lavoro
 
-                                    if (messages[3] !== '')
-                                        description += '; ' + messages[3];//ordine
+                            if (messages[3] !== '')
+                                description += '; ' + messages[3];//ordine
 
-                                    if (messages[4] !== '')
-                                        description += '; ' + messages[4] + ';';//commessa
+                            if (messages[4] !== '')
+                                description += '; ' + messages[4] + ';';//commessa
 
-                                    orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;
-                                } else
-                                {
-
-                                }
-                            } else if (messages[0] === "" && messages[1] === "DELIVERED INVOICED")
-                            {
-                                if (confirm('Il lavoro risulta già consegnato e fatturato, continuare comunque?'))
-                                {
-                                    let description = '';
-
-                                    description += messages[2];//descrizione lavoro
-
-                                    if (messages[3] !== '')
-                                        description += '; ' + messages[3];//ordine
-
-                                    if (messages[4] !== '')
-                                        description += '; ' + messages[4] + ';';//commessa
-
-                                    orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;
-                                } else
-                                {
-
-                                }
-                            }
-                            //if everythink's alright
-                            else if (messages[0] === "" && messages[1] === "" || messages[0] === "" && messages[1] === "DELIVERED")
-                            {
-                                let description = '';
-
-                                description += messages[2];//descrizione lavoro
-
-                                if (messages[3] !== '')
-                                    description += '; ' + messages[3];//ordine
-
-                                if (messages[4] !== '')
-                                    description += '; ' + messages[4] + ';';//commessa
-
-                                orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;
-                            }
-                        },
-                        function ()
+                            orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;
+                        } else
                         {
-                            window.alert("non riesco a leggere la descrizione lavoro");
-                        });
-            } else
-            {
-                window.alert("Prima di inserire un Codice Lavoro seleziona un Cliente");
-                orderCodeInput.value = "";
-            }
-        };
+
+                        }
+                    } else if (messages[0] === "" && messages[1] === "DELIVERED INVOICED")
+                    {
+                        if (confirm('Il lavoro risulta già consegnato e fatturato, continuare comunque?'))
+                        {
+                            let description = '';
+
+                            description += messages[2];//descrizione lavoro
+
+                            if (messages[3] !== '')
+                                description += '; ' + messages[3];//ordine
+
+                            if (messages[4] !== '')
+                                description += '; ' + messages[4] + ';';//commessa
+
+                            orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;
+                        } else
+                        {
+
+                        }
+                    }
+                    //if everythink's alright
+                    else if (messages[0] === "" && messages[1] === "" || messages[0] === "" && messages[1] === "DELIVERED")
+                    {
+                        let description = '';
+
+                        description += messages[2];//descrizione lavoro
+
+                        if (messages[3] !== '')
+                            description += '; ' + messages[3];//ordine
+
+                        if (messages[4] !== '')
+                            description += '; ' + messages[4] + ';';//commessa
+
+                        orderCodeInput.parentNode.nextElementSibling.firstElementChild.value = description;
+                    }
+                },
+                function ()
+                {
+                    window.alert("non riesco a leggere la descrizione lavoro");
+                });
+    } else
+    {
+        window.alert("Prima di inserire un Codice Lavoro seleziona un Cliente");
+        orderCodeInput.value = "";
+    }
+};
 
 /*Makes visible the update button and changes the look of the cell that's been changed*/
 app.invoiceDetailsChanged = function (field_id)
@@ -902,133 +902,145 @@ app.fillInvoicesTable = function (invoices)
 /* refersh table rows*/
 app.fillAggregatedInvoicesTable = function (invoicesRows)
 {
-    var templateItem = document.getElementById("AggregatedInvoiceTableRow");
-    var itemsContainer = document.querySelector(".Table tbody");
+    let tableTemplate = document.getElementById("AggregatedInvoiceTableRow");
+    let tableBody = document.querySelector(".Table tbody");
 
     //empty the current content in the table
-    itemsContainer.innerHTML = null;
+    tableBody.innerHTML = null;
 
-    let currentOrderCode = '';
-    let currentCustomerDenomination = '';
+    let currentCode = '';
+    let currentCustomer = '';
 
-    let progressiveOrderCodeCosts = 0.0;
-    let progressiveOrderCodeTaxableAmount = 0.0;
-    
+    let progressiveCodeCosts = 0.0;
+    let progressiveCodeAmount = 0.0;
+
     let progressiveCustomerCosts = 0.0;
-    let progressiveCustomerTaxableAmount = 0.0;
+    let progressiveCustomerAmount = 0.0;
 
     let totalCosts = 0.0;
-    let totalTaxable = 0.0;
+    let totalAmount = 0.0;
 
     for (var i = 0; i < invoicesRows.length; i++)
     {
-
+        //if is the first line initializes code and customer
+        if (i === 0) {
+            currentCode = invoicesRows[i].orderCode;
+            currentCustomer = invoicesRows[i].customerDenomination;
+        }
+        //if the cusotmer has changed then also the code must be  changed, so addds code row and customer row and resets code data and customer data
+        if( currentCustomer !== invoicesRows[i].customerDenomination ){
+            //fills code row
+            app.fillCodeRow(tableTemplate, tableBody, currentCustomer, currentCode, progressiveCodeCosts, progressiveCodeAmount);
+            //fills customer row
+            app.fillCustomerRow(tableTemplate, tableBody, currentCustomer, progressiveCustomerCosts, progressiveCustomerAmount);
+            //assigns code to new code
+            currentCode = invoicesRows[i].orderCode;
+            //assigns customer to new customer
+            currentCustomer = invoicesRows[i].customerDenomination;
+            //starts from scratch progressive code cost
+            progressiveCodeCosts = invoicesRows[i].totalCosts;
+            //starts from scratch progressive code amount
+            progressiveCodeAmount = invoicesRows[i].taxableAmount;
+            //starts from scratch progressive customer cost
+            progressiveCustomerCosts = invoicesRows[i].totalCosts;
+            //starts from scratch progressive customer amount
+            progressiveCustomerAmount = invoicesRows[i].taxableAmount;
+            //increments total costs
             totalCosts += invoicesRows[i].totalCosts;
-            totalTaxable += invoicesRows[i].taxableAmount;
-
-            if (i === 0) {
-                currentOrderCode = invoicesRows[i].orderCode;
-                currentCustomerDenomination = invoicesRows[i].customerDenomination;
-            }
-
-            if (currentOrderCode !== invoicesRows[i].orderCode) {
-                var templateContent = document.importNode(templateItem.content, true);
-                templateContent.querySelector(".Customer").innerHTML = currentCustomerDenomination;
-                templateContent.querySelector(".OrderCode").innerHTML = (currentOrderCode === '') ? '----' : currentOrderCode;
-                templateContent.querySelector(".OrderCodeCosts").innerHTML = progressiveOrderCodeCosts === null ? '' : progressiveOrderCodeCosts.toFixed(2);
-                templateContent.querySelector(".TaxableAmount").innerHTML = progressiveOrderCodeTaxableAmount === null ? '' : progressiveOrderCodeTaxableAmount.toFixed(2);
-                
-                let margin = ((1 - (progressiveOrderCodeCosts / progressiveOrderCodeTaxableAmount)) * 100);
-                templateContent.querySelector(".Margin").innerHTML = margin === null ? '' : margin.toFixed(2);
-                if( margin !== null && margin < 0 ){
-                    templateContent.querySelector(".Margin").classList.add('redText');
-                }else{
-                    templateContent.querySelector(".Margin").classList.remove('redText');
-                }
-                
-                currentOrderCode = invoicesRows[i].orderCode;
-                progressiveOrderCodeCosts = invoicesRows[i].totalCosts;
-                progressiveOrderCodeTaxableAmount = invoicesRows[i].taxableAmount; 
-
-                itemsContainer.appendChild(templateContent);
-                
-                if (currentCustomerDenomination !== invoicesRows[i].customerDenomination) {
-                    var templateContent = document.importNode(templateItem.content, true);
-                    templateContent.querySelector(".Customer").innerHTML = currentCustomerDenomination;
-                    templateContent.querySelector(".CustomerCosts").innerHTML = progressiveCustomerCosts === null ? '' : progressiveCustomerCosts.toFixed(2);
-                    templateContent.querySelector(".TaxableAmount").innerHTML = progressiveCustomerTaxableAmount === null ? '' : progressiveCustomerTaxableAmount.toFixed(2);
-                    
-                    let margin_1 = ((1 - (progressiveCustomerCosts / progressiveCustomerTaxableAmount)) * 100);
-                    templateContent.querySelector(".Margin").innerHTML = margin_1 === null ? '' : margin_1.toFixed(2);
-                    if( margin_1 !== null && margin < 0 ){
-                        templateContent.querySelector(".Margin").classList.add('redText');
-                    }else{
-                        templateContent.querySelector(".Margin").classList.remove('redText');
-                    }
-                    
-                    currentCustomerDenomination = invoicesRows[i].customerDenomination;
-
-                    progressiveCustomerCosts = invoicesRows[i].totalCosts;
-                    progressiveCustomerTaxableAmount = invoicesRows[i].taxableAmount;
-
-                    itemsContainer.appendChild(templateContent);
-                } else {
-                    progressiveCustomerCosts += invoicesRows[i].totalCosts;
-                    progressiveCustomerTaxableAmount += invoicesRows[i].taxableAmount;
-                }
-
-            } else {
-                progressiveOrderCodeCosts += invoicesRows[i].totalCosts;
-                progressiveOrderCodeTaxableAmount += invoicesRows[i].taxableAmount; 
-                progressiveCustomerCosts += invoicesRows[i].totalCosts;
-                progressiveCustomerTaxableAmount += invoicesRows[i].taxableAmount;
-            }
-            
-            if (i ===  (invoicesRows.length - 1) ) {
-                var templateContent_1 = document.importNode(templateItem.content, true);
-                var templateContent_2 = document.importNode(templateItem.content, true);
-                var templateContent_3 = document.importNode(templateItem.content, true);
-                
-                templateContent_1.querySelector(".Customer").innerHTML = currentCustomerDenomination;
-                templateContent_1.querySelector(".OrderCode").innerHTML = (currentOrderCode === '') ? '----' : currentOrderCode;
-                templateContent_1.querySelector(".OrderCodeCosts").innerHTML = progressiveOrderCodeCosts === null ? '' : progressiveOrderCodeCosts.toFixed(2);
-                templateContent_1.querySelector(".TaxableAmount").innerHTML = progressiveOrderCodeTaxableAmount === null ? '' : progressiveOrderCodeTaxableAmount.toFixed(2);
-                let margin_1 = ((1 - (progressiveOrderCodeCosts / progressiveOrderCodeTaxableAmount)) * 100);
-                templateContent_1.querySelector(".Margin").innerHTML = margin_1 === null ? '' : margin_1.toFixed(2);
-                if( margin_1 !== null && margin_1 < 0 ){
-                    templateContent_1.querySelector(".Margin").classList.add('redText');
-                }else{
-                    templateContent_1.querySelector(".Margin").classList.remove('redText');
-                }
-                
-                templateContent_2.querySelector(".Customer").innerHTML = currentCustomerDenomination;
-                templateContent_2.querySelector(".CustomerCosts").innerHTML = progressiveCustomerCosts === null ? '' : progressiveCustomerCosts.toFixed(2);
-                templateContent_2.querySelector(".TaxableAmount").innerHTML = progressiveCustomerTaxableAmount === null ? '' : progressiveCustomerTaxableAmount.toFixed(2);
-                let margin_2 = ((1 - (progressiveCustomerCosts / progressiveCustomerTaxableAmount)) * 100);
-                templateContent_2.querySelector(".Margin").innerHTML = margin_2 === null ? '' : margin_2.toFixed(2);
-                if( margin_2 !== null && margin_2 < 0 ){
-                    templateContent_2.querySelector(".Margin").classList.add('redText');
-                }else{
-                    templateContent_2.querySelector(".Margin").classList.remove('redText');
-                }
-                
-                templateContent_3.querySelector(".Customer").innerHTML = 'TOTALE';
-                templateContent_3.querySelector(".CustomerCosts").innerHTML = totalCosts === null ? '' : totalCosts.toFixed(2);
-                templateContent_3.querySelector(".TaxableAmount").innerHTML = totalTaxable === null ? '' : totalTaxable.toFixed(2);
-                let margin_3 = ((1 - ( totalCosts / totalTaxable)) * 100);
-                templateContent_3.querySelector(".Margin").innerHTML = margin_3 === null ? '' : margin_3.toFixed(2);
-                if( margin_3 !== null && margin_3 < 0 ){
-                    templateContent_3.querySelector(".Margin").classList.add('redText');
-                }else{
-                    templateContent_3.querySelector(".Margin").classList.remove('redText');
-                }
-                
-                itemsContainer.appendChild(templateContent_1);
-                itemsContainer.appendChild(templateContent_2);
-                itemsContainer.appendChild(templateContent_3);
-            }
-        
+            //increments totalAmount
+            totalAmount += invoicesRows[i].taxableAmount;
+        //else, if only the code has changed then writes only the code line then resets code data and incrementd customer data 
+        }else if ( currentCode !== invoicesRows[i].orderCode ){
+            //fills code row 
+            app.fillCodeRow(tableTemplate, tableBody, currentCustomer, currentCode, progressiveCodeCosts, progressiveCodeAmount);
+            //assigns code to new code
+            currentCode = invoicesRows[i].orderCode;
+            //starts from scratch code progressive cost
+            progressiveCodeCosts = invoicesRows[i].totalCosts;
+            //starts from scratch code progressive amount
+            progressiveCodeAmount = invoicesRows[i].taxableAmount;
+            //increments progressive customer cost
+            progressiveCustomerCosts += invoicesRows[i].totalCosts;
+            //increments progressive cusomer amount 
+            progressiveCustomerAmount += invoicesRows[i].taxableAmount;
+            //increments total costs
+            totalCosts += invoicesRows[i].totalCosts;
+            //increments totalAmount
+            totalAmount += invoicesRows[i].taxableAmount;
+        } else {
+            //increments progressive code cost
+            progressiveCodeCosts += invoicesRows[i].totalCosts;
+            //increments progressive code amount
+            progressiveCodeAmount += invoicesRows[i].taxableAmount;
+            //increments progressive customer cost
+            progressiveCustomerCosts += invoicesRows[i].totalCosts;
+            //increments progressive cusomer amount 
+            progressiveCustomerAmount += invoicesRows[i].taxableAmount;
+            //increments total costs
+            totalCosts += invoicesRows[i].totalCosts;
+            //increments totalAmount
+            totalAmount += invoicesRows[i].taxableAmount;
+        }
+        if( i === (invoicesRows.length - 1)){
+            //fills code row 
+            app.fillCodeRow(tableTemplate, tableBody, currentCustomer, currentCode, progressiveCodeCosts, progressiveCodeAmount);
+            //fills customer row
+            app.fillCustomerRow(tableTemplate, tableBody, currentCustomer, progressiveCustomerCosts, progressiveCustomerAmount);
+            //fills last total row 
+            app.fillLastRow(tableBody,tableTemplate, totalCosts, totalAmount);
+        }
     }
+};
+
+app.fillCodeRow = function ( tableTemplate, tableBody, currentCustomer, currentCode, progressiveCodeCosts, progressiveCodeAmount){
+    //imports node from tableTemplate
+    let templateContent = document.importNode(tableTemplate.content, true);
+    //fills row cells
+    templateContent.querySelector(".Customer").innerHTML = currentCustomer;
+    templateContent.querySelector(".OrderCode").innerHTML = (currentCode === '') ? '----' : currentCode;
+    templateContent.querySelector(".OrderCodeCosts").innerHTML = progressiveCodeCosts === null ? '' : progressiveCodeCosts.toFixed(2);
+    templateContent.querySelector(".OrderCodeAmount").innerHTML = progressiveCodeAmount === null ? '' : progressiveCodeAmount.toFixed(2);
+
+    let margin = ((progressiveCodeAmount - progressiveCodeCosts) / progressiveCodeAmount) * 100;
+    templateContent.querySelector(".OrderCodeMargin").innerHTML = margin === null ? '' : margin.toFixed(2);
+    if (margin !== null && margin < 0) {
+        templateContent.querySelector(".OrderCodeMargin").classList.add('redText');
+    } else {
+        templateContent.querySelector(".OrderCodeMargin").classList.remove('redText');
+    }
+    tableBody.appendChild(templateContent);
+};
+
+app.fillCustomerRow = function(tableTemplate, tableBody, currentCustomer, progressiveCustomerCosts, progressiveCustomerAmount){
+    let templateContent = document.importNode(tableTemplate.content, true);
+    templateContent.querySelector(".Customer").innerHTML = currentCustomer;
+    templateContent.querySelector(".CustomerCosts").innerHTML = progressiveCustomerCosts === null ? '' : progressiveCustomerCosts.toFixed(2);
+    templateContent.querySelector(".CustomerAmount").innerHTML = progressiveCustomerAmount === null ? '' : progressiveCustomerAmount.toFixed(2);
+
+    let margin = ((progressiveCustomerAmount - progressiveCustomerCosts) / progressiveCustomerAmount) * 100;
+    templateContent.querySelector(".CustomerMargin").innerHTML = margin === null ? '' : margin.toFixed(2);
+    if (margin !== null && margin < 0) {
+        templateContent.querySelector(".CustomerMargin").classList.add('redText');
+    } else {
+        templateContent.querySelector(".CustomerMargin").classList.remove('redText');
+    }
+
+    tableBody.appendChild(templateContent);
+};
+
+app.fillLastRow = function(tableBody,tableTemplate, totalCosts, totalAmount){
+    let templateContent = document.importNode(tableTemplate.content, true);
+    templateContent.querySelector(".Customer").innerHTML = 'TOTALE';
+    templateContent.querySelector(".CustomerCosts").innerHTML = totalCosts === null ? '' : totalCosts.toFixed(2);
+    templateContent.querySelector(".CustomerAmount").innerHTML = totalAmount === null ? '' : totalAmount.toFixed(2);
+    let margin = (( totalAmount - totalCosts ) / totalAmount) * 100;
+    templateContent.querySelector(".CustomerMargin").innerHTML = margin === null ? '' : margin.toFixed(2);
+    if (margin !== null && margin < 0) {
+        templateContent.querySelector(".CustomerMargin").classList.add('redText');
+    } else {
+        templateContent.querySelector(".CustomerMargin").classList.remove('redText');
+    }
+    tableBody.appendChild(templateContent);
 };
 
 /**
@@ -1547,40 +1559,40 @@ app.checkBoxChanged = function (checkbox_id, changeData)/*if change data is fals
 };
 
 app.checkCustomerChoosen = (input) =>
-        {
+{
 
-            if (app.customer_id === '' || app.customer_id === null || app.customer_id === undefined)
-            {
-                input.value = '';
-                window.alert("Seleziona un Cliente!");
-            }
-        };
+    if (app.customer_id === '' || app.customer_id === null || app.customer_id === undefined)
+    {
+        input.value = '';
+        window.alert("Seleziona un Cliente!");
+    }
+};
 
 app.changeInvoiceDate = () =>
-        {
-            let date = document.getElementById("date_input").value;
-            let completeNumber = document.getElementById("number_input").value;
-            let number = completeNumber.substring(0, completeNumber.indexOf("-")).trim();
-            let year = completeNumber.substring(completeNumber.indexOf("-")).replace("-", "").trim();
+{
+    let date = document.getElementById("date_input").value;
+    let completeNumber = document.getElementById("number_input").value;
+    let number = completeNumber.substring(0, completeNumber.indexOf("-")).trim();
+    let year = completeNumber.substring(completeNumber.indexOf("-")).replace("-", "").trim();
 
-            if (date !== "" && number !== "" && year !== "")
-            {
-                app.updateInvoiceDate(// deliveryNote_id, customer_id, transporter_id, number, fromDate, toDate, successCallback, failCallback
-                        date, //invoice_id_id
-                        number, //customer_id
-                        year, //number
-                        function ()//successCallBack
-                        {
-                            window.alert("Data fattura modificata! E' necessario ora allineare i dati eseguendo una modifica dalla vista di dettaglio fattura.");
-                            document.querySelector(".Footer_message").innerHTML = "Data fattura modificata!";
-                        },
-                        function ()//failCallBack
-                        {
-                            window.alert("Operazione fallita!");
-                            document.querySelector(".Footer_message").innerHTML = "Non riesco a modificare la data della fattura!";
-                        }
-                );
-            } else
-                window.alert("Formato dati non valido!");
-        };
+    if (date !== "" && number !== "" && year !== "")
+    {
+        app.updateInvoiceDate(// deliveryNote_id, customer_id, transporter_id, number, fromDate, toDate, successCallback, failCallback
+                date, //invoice_id_id
+                number, //customer_id
+                year, //number
+                function ()//successCallBack
+                {
+                    window.alert("Data fattura modificata! E' necessario ora allineare i dati eseguendo una modifica dalla vista di dettaglio fattura.");
+                    document.querySelector(".Footer_message").innerHTML = "Data fattura modificata!";
+                },
+                function ()//failCallBack
+                {
+                    window.alert("Operazione fallita!");
+                    document.querySelector(".Footer_message").innerHTML = "Non riesco a modificare la data della fattura!";
+                }
+        );
+    } else
+        window.alert("Formato dati non valido!");
+};
 console.log('END:invoices.js');
