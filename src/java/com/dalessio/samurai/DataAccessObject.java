@@ -2028,7 +2028,7 @@ public class DataAccessObject {
         long start = new Date().getTime();
         System.out.println("READING INVOICES [DataAccessObject.readInvoices]");
 
-        DbResult out = dbi.read("dyn_Invoices_view").order("number").order("date,number DESC")
+        DbResult out = dbi.read("dyn_Invoices_view").order("number").order("number DESC")
                 .andWhere(invoice_id != null, "invoice_id = " + invoice_id)
                 .andWhere(customer_id != null, "customer_id = " + customer_id)
                 .andWhere(number != null && !number.equals(""), "number = " + num)
