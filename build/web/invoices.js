@@ -908,104 +908,71 @@ app.fillAggregatedInvoicesTable = function (invoicesRows)
     //empty the current content in the table
     tableBody.innerHTML = null;
 
+    //total variables
+    let totalCost = 0.0;
+    let totalAmount = 0.0;
+    
+    //partial variables
+    let codeCost = 0.0;
+    let codeAmount = 0.0;
+    let customerCost = 0.0;
+    let customerAmount = 0.0;
+    
+    //buffer variables
     let currentCode = '';
     let currentCustomer = '';
 
-    let progressiveCodeCosts = 0.0;
-    let progressiveCodeAmount = 0.0;
-
-    let progressiveCustomerCosts = 0.0;
-    let progressiveCustomerAmount = 0.0;
-
-    let totalCosts = 0.0;
-    let totalAmount = 0.0;
-
+    
     for (var i = 0; i < invoicesRows.length; i++)
     {
-        //if code is changed, customer is the same and is not the last line and resultset has more than one line
-        if( currentCode !== invoicesRows[i].orderCode && currentCustomer === invoicesRows[i].customerDenomination && i < ( invoicesRows.length - 1 ) && ( invoicesRows.length !== 1 )) {
-            //writes code row
-            app.fillCodeRow(tableTemplate, tableBody, currentCustomer, currentCode, progressiveCodeCosts, progressiveCodeAmount);
+        if( i === 0 ){
+            currentCode = invoicesRows[i].orderCode;
+            currentCustomer = invoicesRows[i].customerDenomination;
+            codeCost = customerCost = totalCost = invoicesRows[i].totalCosts;
+            codeAmount = customerAmount = totalAmount = invoicesRows[i].taxableAmount;
+        }
+        if( i !== 0 && currentCode === invoicesRows[i].orderCode ){
+            codeCost += invoicesRows[i].totalCosts;
+            customerCost += invoicesRows[i].totalCosts;
+            //customerAmount += invoicesRows[i].taxableAmount;
+        }
+        totalCost += invoicesRows[i].totalCosts;
+        if(currentCode !== invoicesRows[i].orderCode || (i === ( invoicesRows.length - 1))){
+            totalAmount += invoicesRows[i].taxableAmount;
+        }
+        if( currentCode !== invoicesRows[i].orderCode ){
+            app.fillCodeRow(tableTemplate, tableBody, currentCustomer, currentCode, codeCost, codeAmount);
+            currentCode = invoicesRows[i].orderCode;
+            codeCost = invoicesRows[i].totalCosts === null ? 0 : invoicesRows[i].totalCosts;
+            codeAmount = invoicesRows[i].taxableAmount;
             
-            //all data updating are made in last line case when the result has only one record
-            //if( invoicesRows.length !== 1 ){
-                //increments progressive customer cost
-                progressiveCustomerCosts += invoicesRows[i].totalCosts;
-                //increments total costs
-                totalCosts += invoicesRows[i].totalCosts;
-                //increments progressive customer amount
-                progressiveCustomerAmount += invoicesRows[i].taxableAmount;
-                //increments totalAmount
-                totalAmount += invoicesRows[i].taxableAmount;
-                //resets order code
-                currentCode = invoicesRows[i].orderCode;
-                //starts from scratch progressive code cost
-                progressiveCodeCosts = invoicesRows[i].totalCosts;
-                //starts from scratch progressive code amount
-                progressiveCodeAmount = invoicesRows[i].taxableAmount;
-            //}
-        }
-        //if customer is changed and is not the last line and resultset has more than one line
-        if( currentCustomer !== invoicesRows[i].customerDenomination && i < ( invoicesRows.length - 1 ) && ( invoicesRows.length !== 1 ) ){
-            //avoids customer row writing at the first iteration
-            if( i !== 0 ){
-                //fills code row 
-                app.fillCodeRow(tableTemplate, tableBody, currentCustomer, currentCode, progressiveCodeCosts, progressiveCodeAmount);
-                //fills customer row
-                app.fillCustomerRow(tableTemplate, tableBody, currentCustomer, progressiveCustomerCosts, progressiveCustomerAmount);
-            }
-            //all data updating are made in last line case when the result has only one record
-            //if( invoicesRows.length !== 1 ){
-                //increments total costs
-                totalCosts += invoicesRows[i].totalCosts;
-                //increments totalAmount
-                totalAmount += invoicesRows[i].taxableAmount;
-                //resets order code
-                currentCode = invoicesRows[i].orderCode;
-                //resets custmer name
+            if( currentCustomer !== invoicesRows[i].customerDenomination) {
+                app.fillCustomerRow(tableTemplate, tableBody, currentCustomer, customerCost, customerAmount);
                 currentCustomer = invoicesRows[i].customerDenomination;
-                //starts from scratch progressive code cost
-                progressiveCodeCosts = invoicesRows[i].totalCosts;
-                //starts from scratch progressive customer cost
-                progressiveCustomerCosts = invoicesRows[i].totalCosts;
-                //starts from scratch progressive code amount
-                progressiveCodeAmount = invoicesRows[i].taxableAmount;
-                //starts from scratch progressive customer amount
-                progressiveCustomerAmount = invoicesRows[i].taxableAmount;
-            //}
+                customerCost = invoicesRows[i].totalCosts === null ? 0 : invoicesRows[i].totalCosts;
+                customerAmount = invoicesRows[i].taxableAmount;
+            }
+            else{
+                customerCost += invoicesRows[i].totalCosts === null ? 0 : invoicesRows[i].totalCosts;
+                customerAmount += invoicesRows[i].taxableAmount;
+            }
+            /**
+                customerCost = invoicesRows[i].totalCosts;
+                customerAmount = invoicesRows[i].taxableAmount;
+            } else {
+                customerAmount += invoicesRows[i].taxableAmount;
+                customerCost += invoicesRows[i].totalCosts;
+            }
+             * */
         }
-        //if is the last line
         if( i === ( invoicesRows.length - 1 ) ){
-            //avoids duplicated operations in case of result having one record
-            //if( invoicesRows.length !== 1 ){ 
-                //starts from scratch progressive code cost
-                progressiveCodeCosts += invoicesRows[i].totalCosts;
-                //starts from scratch progressive customer cost
-                progressiveCustomerCosts += invoicesRows[i].totalCosts;
-                //starts from scratch progressive code amount
-                progressiveCodeAmount += invoicesRows[i].taxableAmount;
-                //starts from scratch progressive customer amount
-                progressiveCustomerAmount += invoicesRows[i].taxableAmount;
-                 //increments total costs
-                totalCosts += invoicesRows[i].totalCosts;
-                //increments totalAmount
-                totalAmount += invoicesRows[i].taxableAmount;
-            //}
-            //fills code row 
-            app.fillCodeRow(tableTemplate, tableBody, currentCustomer, currentCode, progressiveCodeCosts, progressiveCodeAmount);
-            //fills customer row
-            app.fillCustomerRow(tableTemplate, tableBody, currentCustomer, progressiveCustomerCosts, progressiveCustomerAmount);
-            //fills last total row 
-            app.fillLastRow(tableBody,tableTemplate, totalCosts, totalAmount);
-        }
-        //if the code is not changed and is not the last line and resultset has more than one lne
-        if( currentCode === invoicesRows[i].orderCode && i < ( invoicesRows.length - 1 ) && ( invoicesRows.length !== 1 )){
-            //progressive code cost
-            progressiveCodeCosts += invoicesRows[i].totalCosts;
-            //starts from scratch progressive customer cost
-            progressiveCustomerCosts += invoicesRows[i].totalCosts;
-            //increments total costs
-            totalCosts += invoicesRows[i].totalCosts;
+            if( currentCode === invoicesRows[i].orderCode ){
+               app.fillCodeRow(tableTemplate, tableBody, currentCustomer, currentCode, codeCost, codeAmount);
+            }
+            if( currentCustomer === invoicesRows[i].customerDenomination) {
+                app.fillCustomerRow(tableTemplate, tableBody, currentCustomer, customerCost, customerAmount);
+            }
+            app.fillLastRow(tableBody,tableTemplate, totalCost, totalAmount);
         }
     }
 };
