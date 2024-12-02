@@ -305,15 +305,14 @@ public class Invoice
             row.addProperty("customerDenomination", items_dbr.getString(i,"customerDenomination"));
             row.addProperty("date", items_dbr.getString(i,"date"));
             row.addProperty("orderCode", items_dbr.getString(i,"orderCode"));
+            row.addProperty("invoiceRow_id", items_dbr.getLong(i,"invoiceRow_id"));
             row.addProperty("variouseMaterialCost", items_dbr.getDouble(i,"variouseMaterialCost"));
             row.addProperty("translationCost", items_dbr.getDouble(i,"translationCost"));
             row.addProperty("transfertCost", items_dbr.getDouble(i,"transfertCost"));
             row.addProperty("externalJobsCost", items_dbr.getDouble(i,"externalJobsCost"));
             row.addProperty("hourlyCost", items_dbr.getDouble(i,"hourlyCost"));
             row.addProperty("hours", items_dbr.getDouble(i,"hours"));
-            row.addProperty("totalCosts", items_dbr.getDouble(i,"totalCosts"));
             row.addProperty("taxableAmount", items_dbr.getDouble(i,"taxableAmount"));
-            row.addProperty("margin", items_dbr.getDouble(i,"margin"));
             
             items.add(row);
         }

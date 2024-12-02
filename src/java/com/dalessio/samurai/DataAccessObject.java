@@ -2064,7 +2064,7 @@ public class DataAccessObject {
 
         System.out.println("READING AGGREGATED INVOICES [DataAccessObject.readInvoices]");
 
-        DbResult out = dbi.read("dyn_Aggregated_Invoices_Rows")
+        DbResult out = dbi.read("dyn_Aggregated_Invoices_Rows_View")
                 .andWhere(customer_id != null, "customer_id = " + customer_id)
                 .andWhere(" date >= '" + fromDateString + "'")
                 .andWhere(orderCode != null, "orderCode = " + orderCode)
