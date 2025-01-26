@@ -6,6 +6,8 @@ if (typeof app === 'undefined' || app === null)
 
 console.log('BEGIN:invoices.js');
 
+app.systemLanguage = navigator.language;
+
 //contains all filters values
 app.filter = {};
 
@@ -513,7 +515,7 @@ app.createNewInvoice = function ()
                 var currentRow = app.invoiceItemsTBody.rows[i];
 
                 //gathes the current code withut spaces
-                //var currentCode = currentRow.querySelector(".Code input").value.trim();
+                //var lastCode = currentRow.querySelector(".Code input").value.trim();
 
                 //if there are more than one row checks for duplication
                 // ****  SUSOPENDED BECOUSE IT WOULD BE POSSIBLE TO DELIVER MORRE THAN ONE TIME THE SAME CODE, 
@@ -526,8 +528,8 @@ app.createNewInvoice = function ()
                  for( var j = 0; j < app.invoiceItemsTBody.rows.length; j++ )
                  {
                  //if the code is not empty and the iteration is comparing a row susequent of the roe of external iteration : j>i
-                 if( currentCode !== "" && ( j > i ) && currentCode === app.invoiceItemsTBody.rows[j].querySelector(".Code input").value.trim() )
-                 message += " Il codice " + currentCode + "della riga " + (j+1) + " è stato gia inserito nella riga " + (i+1) + "\n";
+                 if( lastCode !== "" && ( j > i ) && lastCode === app.invoiceItemsTBody.rows[j].querySelector(".Code input").value.trim() )
+                 message += " Il codice " + lastCode + "della riga " + (j+1) + " è stato gia inserito nella riga " + (i+1) + "\n";
                  }
                  }*/
 
@@ -639,7 +641,7 @@ app.callUpdateInvoice = function (invoice_id)
                 var currentRow = app.invoiceItemsTBody.rows[i];
 
                 //gathes the current code withut spaces
-                //var currentCode = currentRow.querySelector(".Code input").value.trim();
+                //var lastCode = currentRow.querySelector(".Code input").value.trim();
 
                 //if there are more than one row checks for duplication
                 // ****  SUSOPENDED BECOUSE IT WOULD BE POSSIBLE TO DELIVER MORRE THAN ONE TIME THE SAME CODE, 
@@ -652,8 +654,8 @@ app.callUpdateInvoice = function (invoice_id)
                  for( var j = 0; j < app.invoiceItemsTBody.rows.length; j++ )
                  {
                  //if the code is not empty and the iteration is comparing a row susequent of the roe of external iteration : j>i
-                 if( currentCode !== "" && ( j > i ) && currentCode === app.invoiceItemsTBody.rows[j].querySelector(".Code input").value.trim() )
-                 message += " Il codice " + currentCode + "della riga " + (j+1) + " è stato gia inserito nella riga " + (i+1) + "\n";
+                 if( lastCode !== "" && ( j > i ) && lastCode === app.invoiceItemsTBody.rows[j].querySelector(".Code input").value.trim() )
+                 message += " Il codice " + lastCode + "della riga " + (j+1) + " è stato gia inserito nella riga " + (i+1) + "\n";
                  }
                  }*/
 
@@ -743,6 +745,7 @@ app.openInvoicesPage = function ()
 {
     //assigns to app.filter current values
     app.getFiltersValues();
+    console.log('app.filter', app.filter);
     //opens tasks page       
     window.open("invoices.jsp?&filter=" + encodeURIComponent(JSON.stringify(app.filter)), '_self');
 };
@@ -765,15 +768,37 @@ app.openAggregatedInvoicesPage = function () {
 /*retrieves filters values from the page*/
 app.getFiltersValues = function ()
 {
+    let fromDate = document.getElementById("from_date").value;
+    let toDate = document.getElementById("to_date").value;
+    
+    console.log('fromDate', fromDate);
+    console.log('toDate', toDate);
+    
+//    if(app.systemLanguage === 'en'){
+//        console.log('ENGLISH');
+//        fromDate = app.getItalianFormatDateFromEnglish(fromDate);
+//        toDate = app.getItalianFormatDateFromEnglish(toDate);
+//    }
+    console.log('fromDate', fromDate);
+    console.log('toDate', toDate);
     app.filter.customer_id = document.getElementById("customer_select_options").value;
 
-    app.filter.from_date = document.getElementById("from_date").value;
+    app.filter.from_date = fromDate;
 
-    app.filter.to_date = document.getElementById("to_date").value;
+    app.filter.to_date = toDate;
 
     app.filter.number = document.getElementById("numberFilter").value;
-
+    console.log('app.filter', app.filter);
 };
+
+app.getItalianFormatDateFromEnglish = function ( englishDate ) {
+    const year = englishDate.substring(0,4);
+    const month = englishDate.substring(8,10);
+    const day = englishDate.substring(5,7);
+    const italianFormat = year + '-' + month + '-' + day;
+    return italianFormat;
+};
+
 /*retrieves filters values from the page*/
 app.getFiltersValuesToGoBackFromAggregate = function ()
 {
@@ -822,6 +847,7 @@ app.filterInvoices = function ()
     );
 };
 
+
 /* updtates the tasks variable in acording to current filters values in the page*/
 app.filterAggregatedInvoicesRows = function ()
 {
@@ -829,21 +855,22 @@ app.filterAggregatedInvoicesRows = function ()
 
     //assigns to app.filter current values
     app.getAggregatedFiltersValues();
-
-    app.readAggregatedInvoices(
-            app.filter.customer_id, //customer_id
-            app.filter.order_code,
-            app.filter.from_date, //fromDate
-            app.filter.to_date, //toDate
-            function (invoicesRows)//successCallBack
-            {
-                app.fillAggregatedInvoicesTable(invoicesRows);
-                document.querySelector(".Footer_message").innerHTML = "RIGHE FATTURE FILTRATE: " + invoicesRows.length;
-            },
-            function ()//failCallBack
-            {
-                document.querySelector(".Footer_message").innerHTML = "non riesco a filtrare le fatture! Contattare Assistenza. ";
-            }
+    
+    app.readMergedRowsAmountsTasksCosts(
+        app.filter.customer_id, //customer_id
+        app.filter.order_code,
+        app.filter.from_date, //fromDate
+        app.filter.to_date, //toDate
+        function (mergedAmountsAndCosts)//successCallBack
+        {
+            console.log('invocesRowsAmount', mergedAmountsAndCosts);
+            app.fillAggregatedInvoicesTable(mergedAmountsAndCosts);
+            document.querySelector(".Footer_message").innerHTML = "RIGHE DATI AGGREGATI: " + mergedAmountsAndCosts.length;
+        },
+        function ()//failCallBack
+        {
+            document.querySelector(".Footer_message").innerHTML = "non riesco a filtrare le fatture! Contattare Assistenza. ";
+        }
     );
 };
 
@@ -900,7 +927,7 @@ app.fillInvoicesTable = function (invoices)
 };
 
 /* refersh table rows*/
-app.fillAggregatedInvoicesTable = function (invoicesRows)
+app.fillAggregatedInvoicesTable = function (mergedAmountsAndCosts)
 {
     let tableTemplate = document.getElementById("AggregatedInvoiceTableRow");
     let tableBody = document.querySelector(".Table tbody");
@@ -911,82 +938,33 @@ app.fillAggregatedInvoicesTable = function (invoicesRows)
     //total variables
     let totalCost = 0.0;
     let totalAmount = 0.0;
-    
-    //partial variables
-    let codeCost = 0.0;
-    let codeAmount = 0.0;
-    let customerCost = 0.0;
-    let customerAmount = 0.0;
-    
-    //buffer variables
-    let currentCode = '';
-    let currentCustomer = '';
 
-    
-    for (var i = 0; i < invoicesRows.length; i++)
+    for (var i = 0; i < mergedAmountsAndCosts.length; i++)
     {
-        if( i === 0 ){
-            currentCode = invoicesRows[i].orderCode;
-            currentCustomer = invoicesRows[i].customerDenomination;
-            codeCost = customerCost = totalCost = invoicesRows[i].totalCosts;
-            codeAmount = customerAmount = totalAmount = invoicesRows[i].taxableAmount;
+        totalCost += mergedAmountsAndCosts[i].cost;
+        totalAmount += mergedAmountsAndCosts[i].amount;
+        
+        let templateContent = document.importNode(tableTemplate.content, true);
+        
+        //fills row cells
+        templateContent.querySelector(".Customer").innerHTML = mergedAmountsAndCosts[i].denomination;
+        templateContent.querySelector(".OrderCode").innerHTML = mergedAmountsAndCosts[i].code;
+        templateContent.querySelector(".OrderCodeCosts").innerHTML = mergedAmountsAndCosts[i].cost.toFixed(2);
+        templateContent.querySelector(".OrderCodeAmount").innerHTML = mergedAmountsAndCosts[i].amount.toFixed(2);
+        let margin = mergedAmountsAndCosts[i].margin.toFixed(2);
+        templateContent.querySelector(".OrderCodeMargin").innerHTML = margin;
+        if (margin !== null && margin < 0) {
+            templateContent.querySelector(".OrderCodeMargin").classList.add('redText');
+        } else {
+            templateContent.querySelector(".OrderCodeMargin").classList.remove('redText');
         }
-        if( i !== 0 && currentCode === invoicesRows[i].orderCode ){
-            codeCost += invoicesRows[i].totalCosts;
-            customerCost += invoicesRows[i].totalCosts;
-            //customerAmount += invoicesRows[i].taxableAmount;
-        }
-        totalCost += invoicesRows[i].totalCosts;
-        if(currentCode !== invoicesRows[i].orderCode || (i === ( invoicesRows.length - 1))){
-            totalAmount += invoicesRows[i].taxableAmount;
-        }
-        if( currentCode !== invoicesRows[i].orderCode ){
-            app.fillCodeRow(tableTemplate, tableBody, currentCustomer, currentCode, codeCost, codeAmount);
-            currentCode = invoicesRows[i].orderCode;
-            codeCost = invoicesRows[i].totalCosts === null ? 0 : invoicesRows[i].totalCosts;
-            codeAmount = invoicesRows[i].taxableAmount;
-            
-            if( currentCustomer !== invoicesRows[i].customerDenomination) {
-                app.fillCustomerRow(tableTemplate, tableBody, currentCustomer, customerCost, customerAmount);
-                currentCustomer = invoicesRows[i].customerDenomination;
-                customerCost = invoicesRows[i].totalCosts === null ? 0 : invoicesRows[i].totalCosts;
-                customerAmount = invoicesRows[i].taxableAmount;
-            }
-            else{
-                customerCost += invoicesRows[i].totalCosts === null ? 0 : invoicesRows[i].totalCosts;
-                customerAmount += invoicesRows[i].taxableAmount;
-            }
-            /**
-                customerCost = invoicesRows[i].totalCosts;
-                customerAmount = invoicesRows[i].taxableAmount;
-            } else {
-                customerAmount += invoicesRows[i].taxableAmount;
-                customerCost += invoicesRows[i].totalCosts;
-            }
-             * */
-        }
-        if( i === ( invoicesRows.length - 1 ) ){
-            if( currentCode === invoicesRows[i].orderCode ){
-               app.fillCodeRow(tableTemplate, tableBody, currentCustomer, currentCode, codeCost, codeAmount);
-            }
-            if( currentCustomer === invoicesRows[i].customerDenomination) {
-                app.fillCustomerRow(tableTemplate, tableBody, currentCustomer, customerCost, customerAmount);
-            }
-            app.fillLastRow(tableBody,tableTemplate, totalCost, totalAmount);
-        }
-    }
-};
-
-app.fillCodeRow = function ( tableTemplate, tableBody, currentCustomer, currentCode, progressiveCodeCosts, progressiveCodeAmount){
-    //imports node from tableTemplate
+        tableBody.appendChild(templateContent);
+    } 
     let templateContent = document.importNode(tableTemplate.content, true);
-    //fills row cells
-    templateContent.querySelector(".Customer").innerHTML = currentCustomer;
-    templateContent.querySelector(".OrderCode").innerHTML = (currentCode === '') ? '----' : currentCode;
-    templateContent.querySelector(".OrderCodeCosts").innerHTML = progressiveCodeCosts === null ? '' : progressiveCodeCosts.toFixed(2);
-    templateContent.querySelector(".OrderCodeAmount").innerHTML = progressiveCodeAmount === null ? '' : progressiveCodeAmount.toFixed(2);
-
-    let margin = ((progressiveCodeAmount - progressiveCodeCosts) / progressiveCodeAmount) * 100;
+    templateContent.querySelector(".Customer").innerHTML = 'TOTALE';
+    templateContent.querySelector(".OrderCodeCosts").innerHTML = totalCost.toFixed(2);
+    templateContent.querySelector(".OrderCodeAmount").innerHTML = totalAmount.toFixed(2);
+    let margin = (( totalAmount - totalCost ) / totalAmount) * 100;
     templateContent.querySelector(".OrderCodeMargin").innerHTML = margin === null ? '' : margin.toFixed(2);
     if (margin !== null && margin < 0) {
         templateContent.querySelector(".OrderCodeMargin").classList.add('redText');
@@ -996,13 +974,47 @@ app.fillCodeRow = function ( tableTemplate, tableBody, currentCustomer, currentC
     tableBody.appendChild(templateContent);
 };
 
-app.fillCustomerRow = function(tableTemplate, tableBody, currentCustomer, progressiveCustomerCosts, progressiveCustomerAmount){
+/** check to be deleted **/
+app.getRowCosts = function ( translationCostP, externalJobsCostP, variouseMaterialCostP, transfertCostP, hoursP, hourlyCostP ) {
+    console.log( 'inside getRowCost');
+    const translationCost = translationCostP ? translationCostP : 0;
+    const externalJobsCost = externalJobsCostP ? externalJobsCostP : 0;
+    const variouseMaterialCost = variouseMaterialCostP ? variouseMaterialCostP : 0;
+    const transfertCost = transfertCostP ? transfertCostP : 0;
+    const hours = hoursP ? hoursP : 0;
+    const hourlyCost = hourlyCostP ? hourlyCostP : 0;
+    console.log(translationCost + externalJobsCost + variouseMaterialCost + transfertCost + ( hours *  hourlyCost ));
+    return translationCost + externalJobsCost + variouseMaterialCost + transfertCost + ( hours *  hourlyCost );
+};
+
+/** check to be deleted **/
+app.fillCodeRow = function ( tableTemplate, tableBody, lastCustomer, lastCode, progressiveCodeCosts, progressiveCodeAmount){
+    //imports node from tableTemplate
     let templateContent = document.importNode(tableTemplate.content, true);
-    templateContent.querySelector(".Customer").innerHTML = currentCustomer;
+    //fills row cells
+    templateContent.querySelector(".Customer").innerHTML = lastCustomer;
+    templateContent.querySelector(".OrderCode").innerHTML = (lastCode === '') ? '----' : lastCode;
+    templateContent.querySelector(".OrderCodeCosts").innerHTML = progressiveCodeCosts === null ? '' : progressiveCodeCosts.toFixed(2);
+    templateContent.querySelector(".OrderCodeAmount").innerHTML = progressiveCodeAmount === null ? '' : progressiveCodeAmount.toFixed(2);
+
+    let margin = progressiveCodeAmount > 0 ? 
+        ((progressiveCodeAmount - progressiveCodeCosts) / progressiveCodeAmount) * 100 : 0;
+    templateContent.querySelector(".OrderCodeMargin").innerHTML = margin === null ? '' : margin.toFixed(2);
+    if (margin !== null && margin < 0) {
+        templateContent.querySelector(".OrderCodeMargin").classList.add('redText');
+    } else {
+        templateContent.querySelector(".OrderCodeMargin").classList.remove('redText');
+    }
+    tableBody.appendChild(templateContent);
+};
+
+app.fillCustomerRow = function(tableTemplate, tableBody, lastCustomer, progressiveCustomerCosts, progressiveCustomerAmount){
+    let templateContent = document.importNode(tableTemplate.content, true);
+    templateContent.querySelector(".Customer").innerHTML = lastCustomer;
     templateContent.querySelector(".CustomerCosts").innerHTML = progressiveCustomerCosts === null ? '' : progressiveCustomerCosts.toFixed(2);
     templateContent.querySelector(".CustomerAmount").innerHTML = progressiveCustomerAmount === null ? '' : progressiveCustomerAmount.toFixed(2);
-
-    let margin = ((progressiveCustomerAmount - progressiveCustomerCosts) / progressiveCustomerAmount) * 100;
+    let margin = progressiveCustomerAmount > 0 ? 
+        ((progressiveCustomerAmount - progressiveCustomerCosts) / progressiveCustomerAmount) * 100 : 0;
     templateContent.querySelector(".CustomerMargin").innerHTML = margin === null ? '' : margin.toFixed(2);
     if (margin !== null && margin < 0) {
         templateContent.querySelector(".CustomerMargin").classList.add('redText');

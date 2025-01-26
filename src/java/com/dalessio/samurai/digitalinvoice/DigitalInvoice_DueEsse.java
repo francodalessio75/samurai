@@ -189,7 +189,7 @@ public class DigitalInvoice_DueEsse extends DigitalInvoice
         if( view_DigInvoice_dbr.getDouble("thirdAmount") != 0 )
         {
             DettaglioPagamento pagamento_3 = this.nuovoPagamento();
-            pagamento_3.dataScadenzaPagamento(SDF.parse(view_DigInvoice_dbr.getString("thirdAmountDate").substring(0, 4)+"-"+view_DigInvoice_dbr.getString("secondAmountDate").substring(4, 6)+"-"+view_DigInvoice_dbr.getString("secondAmountDate").substring(6)))
+            pagamento_3.dataScadenzaPagamento(SDF.parse(view_DigInvoice_dbr.getString("thirdAmountDate").substring(0, 4)+"-"+view_DigInvoice_dbr.getString("thirdAmountDate").substring(4, 6)+"-"+view_DigInvoice_dbr.getString("thirdAmountDate").substring(6)))
             .importoPagamento(view_DigInvoice_dbr.getDouble("thirdAmount"));
         
             if( view_DigInvoice_dbr.getString("modalitaPagamento").equals("MP05") )

@@ -36,6 +36,7 @@ import javax.servlet.http.HttpSessionListener;
 import javax.servlet.http.Part;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import util.JsonTasksAndRowsAggregator;
 
 /**
  *
@@ -251,8 +252,8 @@ public class Gate extends HttpServlet implements HttpSessionListener {
                     case "read_invoices":
                         readInvoices(request, jsonResponse);
                         break;
-                    case "read_aggregated_invoices":
-                        readAggregatedInvoices(request, jsonResponse);
+                    case "read_merged_rows_amounts_tasks_costs":
+                        readMergedRowsAmountsTasksCosts(request, jsonResponse);
                         break;
                     case "read_invoice_rows":
                         readInvoiceRows(request, jsonResponse);
@@ -3407,7 +3408,7 @@ public class Gate extends HttpServlet implements HttpSessionListener {
         }
     }
     
-    private void readAggregatedInvoices (HttpServletRequest request, JsonObject jsonResponse) throws SQLException {
+    private void readMergedRowsAmountsTasksCosts (HttpServletRequest request, JsonObject jsonResponse) throws SQLException {
         /*ask for a session, if it doesn't exist, it won't be created. 
         Note that this mechanism of session checking avoids malware attempts
         to enter the system without executing log-in procedure*/
@@ -3429,14 +3430,20 @@ public class Gate extends HttpServlet implements HttpSessionListener {
 
             LocalDate toDate = request.getParameter("toDate") == null || request.getParameter("toDate").equals("") ? null : LocalDate.parse(request.getParameter("toDate"));
 
-            // asks DB for invoices
-            DbResult invoicesRows_dbr = dao.readAggregatedInvoices( customer_id, orderCode, fromDate, toDate);
+            DbResult rowsAmount_dbr = dao.readInvoicesRowsAmountView(customer_id, orderCode, fromDate, toDate);
+            DbResult tasksCosts_dbr = dao.readTasksCostsView(customer_id, orderCode, fromDate, toDate);
 
             //invoices rows Json array
-            JsonArray invoicesRows = Invoice.getAggregatedJsonArrayByDbResults(invoicesRows_dbr);
+            JsonArray rowsAmount = Invoice.getInvoicesRowsAmountJsonArrayByDbResults(rowsAmount_dbr);
+            JsonArray tasksCosts = Invoice.getTasksCostsJsonArrayByDbResults(tasksCosts_dbr);
+            
+            JsonArray aggregatedRowsAmount = JsonTasksAndRowsAggregator.processAndGroupJsonRowsArray(rowsAmount);
+            JsonArray aggregatedTasksCosts = JsonTasksAndRowsAggregator.processAndGroupJsonTasksArray(tasksCosts);
+            
+            JsonArray mergedAmountsAndCosts = JsonTasksAndRowsAggregator.mergeRowsAndTasks(aggregatedRowsAmount, aggregatedTasksCosts);
 
             jsonResponse.addProperty("success", true);
-            jsonResponse.add("invoicesRows", invoicesRows);
+            jsonResponse.add("mergedAmountsAndCosts", mergedAmountsAndCosts);
 
         } else {
             jsonResponse.addProperty("success", false);

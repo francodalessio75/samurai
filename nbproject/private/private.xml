@@ -12,18 +12,12 @@
         <group name="my-first-app"/>
         <group name="Work"/>
         <group>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/common.css</file>
             <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/aggregatedInvoices.jsp</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/invoice_details.jsp</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/src/java/com/dalessio/samurai/Config.java</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/src/java/util/JsonTasksAndRowsAggregator.java</file>
             <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/invoices.js</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/src/java/com/dalessio/samurai/Invoice.java</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/invoices.css</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/dbi.js</file>
             <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/src/java/com/dalessio/samurai/DataAccessObject.java</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/invoices.jsp</file>
+            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/dbi.js</file>
             <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/src/java/com/dalessio/samurai/Gate.java</file>
-            <file>file:/C:/Users/franc/OneDrive/Documents/NetBeansProjects/samurai/web/tasks.js</file>
         </group>
     </open-files>
 </project-private>
