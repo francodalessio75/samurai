@@ -294,30 +294,64 @@ public class Invoice
         return jsonDN;
     };
     
-     public static JsonArray getAggregatedJsonArrayByDbResults( DbResult items_dbr ){
-         //creates items array
-        JsonArray items = new JsonArray();
-        
-        //fills the array with delivery note rows JsonObjects
-        for( int i=0; i < items_dbr.rowsCount(); i++ )
-        {
-            JsonObject row = new JsonObject();
-            row.addProperty("customerDenomination", items_dbr.getString(i,"customerDenomination"));
-            row.addProperty("date", items_dbr.getString(i,"date"));
-            row.addProperty("orderCode", items_dbr.getString(i,"orderCode"));
-            row.addProperty("invoiceRow_id", items_dbr.getLong(i,"invoiceRow_id"));
-            row.addProperty("variouseMaterialCost", items_dbr.getDouble(i,"variouseMaterialCost"));
-            row.addProperty("translationCost", items_dbr.getDouble(i,"translationCost"));
-            row.addProperty("transfertCost", items_dbr.getDouble(i,"transfertCost"));
-            row.addProperty("externalJobsCost", items_dbr.getDouble(i,"externalJobsCost"));
-            row.addProperty("hourlyCost", items_dbr.getDouble(i,"hourlyCost"));
-            row.addProperty("hours", items_dbr.getDouble(i,"hours"));
-            row.addProperty("taxableAmount", items_dbr.getDouble(i,"taxableAmount"));
-            
-            items.add(row);
-        }
-        
-        return items;
-     }
+    public static JsonArray getAggregatedJsonArrayByDbResults( DbResult items_dbr ){
+        //creates items array
+       JsonArray items = new JsonArray();
+
+       //fills the array with delivery note rows JsonObjects
+       for( int i=0; i < items_dbr.rowsCount(); i++ )
+       {
+           JsonObject row = new JsonObject();
+           row.addProperty("customerDenomination", items_dbr.getString(i,"customerDenomination"));
+           row.addProperty("date", items_dbr.getString(i,"date"));
+           row.addProperty("orderCode", items_dbr.getString(i,"orderCode"));
+           row.addProperty("invoiceRow_id", items_dbr.getLong(i,"invoiceRow_id"));
+           row.addProperty("variouseMaterialCost", items_dbr.getDouble(i,"variouseMaterialCost"));
+           row.addProperty("translationCost", items_dbr.getDouble(i,"translationCost"));
+           row.addProperty("transfertCost", items_dbr.getDouble(i,"transfertCost"));
+           row.addProperty("externalJobsCost", items_dbr.getDouble(i,"externalJobsCost"));
+           row.addProperty("hourlyCost", items_dbr.getDouble(i,"hourlyCost"));
+           row.addProperty("hours", items_dbr.getDouble(i,"hours"));
+           row.addProperty("taxableAmount", items_dbr.getDouble(i,"taxableAmount"));
+
+           items.add(row);
+       }
+
+       return items;
+    }
+    
+    public static JsonArray getTasksCostsJsonArrayByDbResults( DbResult items_dbr ){
+        //creates items array
+       JsonArray items = new JsonArray();
+
+       //fills the array with delivery note rows JsonObjects
+       for( int i=0; i < items_dbr.rowsCount(); i++ )
+       {
+           JsonObject row = new JsonObject();
+           row.addProperty("denomination", items_dbr.getString(i,"denomination"));
+           row.addProperty("date", items_dbr.getString(i,"date"));
+           row.addProperty("code", items_dbr.getString(i,"code"));
+           row.addProperty("cost", items_dbr.getDouble(i,"cost"));
+           items.add(row);
+       }
+       return items;
+    }
+    
+    public static JsonArray getInvoicesRowsAmountJsonArrayByDbResults( DbResult items_dbr ){
+        //creates items array
+       JsonArray items = new JsonArray();
+
+       //fills the array with delivery note rows JsonObjects
+       for( int i=0; i < items_dbr.rowsCount(); i++ )
+       {
+           JsonObject row = new JsonObject();
+           row.addProperty("denomination", items_dbr.getString(i,"denomination"));
+           row.addProperty("date", items_dbr.getString(i,"date"));
+           row.addProperty("code", items_dbr.getString(i,"code"));
+           row.addProperty("amount", items_dbr.getDouble(i,"amount"));
+           items.add(row);
+       }
+       return items;
+    }
   
 }

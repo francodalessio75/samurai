@@ -1464,12 +1464,13 @@ app.readInvoices = function (invoice_id, customer_id, number, fromDate, toDate, 
             });
 };
 
-app.readAggregatedInvoices = function (customer_id, orderCode, fromDate, toDate, successCallback, failCallback)
+app.readMergedRowsAmountsTasksCosts = function (customer_id, orderCode, fromDate, toDate, successCallback, failCallback)
 {
+    console.log('inside');
     document.getElementById("modal").style.display = "block";
     document.getElementById("loader").style.display = "block";
     //all tasks
-    var url = encodeURI("/Samurai/gate?&op=read_aggregated_invoices");
+    var url = encodeURI("/Samurai/gate?&op=read_merged_rows_amounts_tasks_costs");
 
     if (customer_id !== null && customer_id !== undefined)
         url = url + encodeURI("&customer_id=" + customer_id);
@@ -1489,7 +1490,7 @@ app.readAggregatedInvoices = function (customer_id, orderCode, fromDate, toDate,
         .then(jsonResponse =>
         {
             if (jsonResponse.success)
-                successCallback(jsonResponse.invoicesRows);
+                successCallback(jsonResponse.mergedAmountsAndCosts);
             else
                 failCallback();
         })

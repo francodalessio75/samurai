@@ -6,6 +6,8 @@ if (typeof app === 'undefined' || app === null)
 
 console.log('BEGIN:invoices.js');
 
+app.systemLanguage = navigator.language;
+
 //contains all filters values
 app.filter = {};
 
@@ -743,6 +745,7 @@ app.openInvoicesPage = function ()
 {
     //assigns to app.filter current values
     app.getFiltersValues();
+    console.log('app.filter', app.filter);
     //opens tasks page       
     window.open("invoices.jsp?&filter=" + encodeURIComponent(JSON.stringify(app.filter)), '_self');
 };
@@ -765,15 +768,37 @@ app.openAggregatedInvoicesPage = function () {
 /*retrieves filters values from the page*/
 app.getFiltersValues = function ()
 {
+    let fromDate = document.getElementById("from_date").value;
+    let toDate = document.getElementById("to_date").value;
+    
+    console.log('fromDate', fromDate);
+    console.log('toDate', toDate);
+    
+//    if(app.systemLanguage === 'en'){
+//        console.log('ENGLISH');
+//        fromDate = app.getItalianFormatDateFromEnglish(fromDate);
+//        toDate = app.getItalianFormatDateFromEnglish(toDate);
+//    }
+    console.log('fromDate', fromDate);
+    console.log('toDate', toDate);
     app.filter.customer_id = document.getElementById("customer_select_options").value;
 
-    app.filter.from_date = document.getElementById("from_date").value;
+    app.filter.from_date = fromDate;
 
-    app.filter.to_date = document.getElementById("to_date").value;
+    app.filter.to_date = toDate;
 
     app.filter.number = document.getElementById("numberFilter").value;
-
+    console.log('app.filter', app.filter);
 };
+
+app.getItalianFormatDateFromEnglish = function ( englishDate ) {
+    const year = englishDate.substring(0,4);
+    const month = englishDate.substring(8,10);
+    const day = englishDate.substring(5,7);
+    const italianFormat = year + '-' + month + '-' + day;
+    return italianFormat;
+};
+
 /*retrieves filters values from the page*/
 app.getFiltersValuesToGoBackFromAggregate = function ()
 {
@@ -822,6 +847,7 @@ app.filterInvoices = function ()
     );
 };
 
+
 /* updtates the tasks variable in acording to current filters values in the page*/
 app.filterAggregatedInvoicesRows = function ()
 {
@@ -829,21 +855,22 @@ app.filterAggregatedInvoicesRows = function ()
 
     //assigns to app.filter current values
     app.getAggregatedFiltersValues();
-
-    app.readAggregatedInvoices(
-            app.filter.customer_id, //customer_id
-            app.filter.order_code,
-            app.filter.from_date, //fromDate
-            app.filter.to_date, //toDate
-            function (invoicesRows)//successCallBack
-            {
-                app.fillAggregatedInvoicesTable(invoicesRows);
-                document.querySelector(".Footer_message").innerHTML = "RIGHE FATTURE FILTRATE: " + invoicesRows.length;
-            },
-            function ()//failCallBack
-            {
-                document.querySelector(".Footer_message").innerHTML = "non riesco a filtrare le fatture! Contattare Assistenza. ";
-            }
+    
+    app.readMergedRowsAmountsTasksCosts(
+        app.filter.customer_id, //customer_id
+        app.filter.order_code,
+        app.filter.from_date, //fromDate
+        app.filter.to_date, //toDate
+        function (mergedAmountsAndCosts)//successCallBack
+        {
+            console.log('invocesRowsAmount', mergedAmountsAndCosts);
+            app.fillAggregatedInvoicesTable(mergedAmountsAndCosts);
+            document.querySelector(".Footer_message").innerHTML = "RIGHE DATI AGGREGATI: " + mergedAmountsAndCosts.length;
+        },
+        function ()//failCallBack
+        {
+            document.querySelector(".Footer_message").innerHTML = "non riesco a filtrare le fatture! Contattare Assistenza. ";
+        }
     );
 };
 
@@ -900,7 +927,7 @@ app.fillInvoicesTable = function (invoices)
 };
 
 /* refersh table rows*/
-app.fillAggregatedInvoicesTable = function (invoicesRows)
+app.fillAggregatedInvoicesTable = function (mergedAmountsAndCosts)
 {
     let tableTemplate = document.getElementById("AggregatedInvoiceTableRow");
     let tableBody = document.querySelector(".Table tbody");
@@ -911,187 +938,43 @@ app.fillAggregatedInvoicesTable = function (invoicesRows)
     //total variables
     let totalCost = 0.0;
     let totalAmount = 0.0;
-    
-    //partial variables
-    let codeCost = 0.0;
-    let rowCosts = 0.0;
-    let codeAmount = 0.0;
-    let customerCost = 0.0;
-    let customerAmount = 0.0;
-    
-    //buffer variables
-    let lastCode = '';
-    let lastCustomer = '';
-    let lastRowId = '';
 
-    
-    for (var i = 0; i < invoicesRows.length; i++)
+    for (var i = 0; i < mergedAmountsAndCosts.length; i++)
     {
-        if( i === 0 ){
-            lastCustomer = invoicesRows[i].customerDenomination;
-            lastCode = invoicesRows[i].orderCode;
-            lastRowId = invoicesRows[i].invoiceRow_id;
-            console.log(`in first row. index:${i}, currentRowID: ${invoicesRows[i].invoiceRow_id}, lastRowId: ${lastRowId}`);
+        totalCost += mergedAmountsAndCosts[i].cost;
+        totalAmount += mergedAmountsAndCosts[i].amount;
+        
+        let templateContent = document.importNode(tableTemplate.content, true);
+        
+        //fills row cells
+        templateContent.querySelector(".Customer").innerHTML = mergedAmountsAndCosts[i].denomination;
+        templateContent.querySelector(".OrderCode").innerHTML = mergedAmountsAndCosts[i].code;
+        templateContent.querySelector(".OrderCodeCosts").innerHTML = mergedAmountsAndCosts[i].cost.toFixed(2);
+        templateContent.querySelector(".OrderCodeAmount").innerHTML = mergedAmountsAndCosts[i].amount.toFixed(2);
+        let margin = mergedAmountsAndCosts[i].margin.toFixed(2);
+        templateContent.querySelector(".OrderCodeMargin").innerHTML = margin;
+        if (margin !== null && margin < 0) {
+            templateContent.querySelector(".OrderCodeMargin").classList.add('redText');
+        } else {
+            templateContent.querySelector(".OrderCodeMargin").classList.remove('redText');
         }
-        //same customer, same code and same rowId
-        if( lastCustomer === invoicesRows[i].customerDenomination && lastCode === invoicesRows[i].orderCode && lastRowId === invoicesRows[i].invoiceRow_id){
-            console.log('Inside same customer, same code and same rowId ' + i);
-            //compute the rowCost
-            rowCosts = rowCosts = app.getRowCosts(
-                invoicesRows[i].translationCost, 
-                invoicesRows[i].externalJobsCost, 
-                invoicesRows[i].variouseMaterialCost, 
-                invoicesRows[i].transfertCost,
-                invoicesRows[i].hours,
-                invoicesRows[i].hourlyCost
-            );
-            //code cost must be added
-            codeCost += rowCosts;
-            //customer cost must be added
-            customerCost += rowCosts;
-            //total cost must be added
-            totalCost += rowCosts;
-            //code amount doesn't change
-            codeAmount = invoicesRows[i].taxableAmount;
-            //customer amount doesn't change
-            //total amount doesn't change
-            
-            console.log('current Code', lastCode);
-            console.log('last row Id', lastRowId);
-            console.log('current row id', invoicesRows[i].invoiceRow_id);
-            console.log('code Cost', codeCost);
-            console.log('Customer Cost', customerCost);
-            console.log('Total Cost', totalCost);
-            console.log('invoicesRows[i].taxableAmount', invoicesRows[i].taxableAmount);
-            console.log('code Amount', codeAmount);
-            console.log('CustomerAmount', customerAmount);
-            console.log('Total Amount', totalAmount);
-        };
-        //same customer and different code or same customer and different row id
-        if( ( lastCustomer === invoicesRows[i].customerDenomination && lastCode !== invoicesRows[i].orderCode ) || (lastCustomer === invoicesRows[i].customerDenomination && lastRowId !== invoicesRows[i].invoiceRow_id)){
-            console.log(`Inside same customer and different code. index: ${i}, lastCustomer: ${lastCustomer}, 
-                        currentCustomer: ${invoicesRows[i].customerDenomination}, lastCode: ${lastCode}, 
-                        currentCode: ${invoicesRows[i].orderCode}, currentRowID: ${invoicesRows[i].invoiceRow_id}, lastRowId: ${lastRowId}`);
-            //now must be insert a table code row so
-            //the code cost since here has been always added correctly so nothing must be done on code cost
-            //the code amount is correct  since it has been assigned on previous iteration ( both, same code or different code )
-            app.fillCodeRow(tableTemplate, tableBody, lastCustomer, lastCode, codeCost, codeAmount);
-            //after inserted the table row
-            //code cost must be updated
-            rowCosts = app.getRowCosts(
-                invoicesRows[i].translationCost, 
-                invoicesRows[i].externalJobsCost, 
-                invoicesRows[i].variouseMaterialCost, 
-                invoicesRows[i].transfertCost,
-                invoicesRows[i].hours,
-                invoicesRows[i].hourlyCost);
-            codeCost = rowCosts;
-            //customer cost must be added
-            customerCost += codeCost;
-            //total cost must be added 
-            totalCost += codeCost;
-            //customer amount must be added
-            customerAmount += codeAmount;
-            //total amount must be added
-            //totalAmount += codeAmount;
-            //code amount must be updated
-            codeAmount = invoicesRows[i].taxableAmount;
-            //code must be updated
-            lastCode = invoicesRows[i].orderCode;
-            
-            console.log('current Code', lastCode);
-            console.log('last row Id', lastRowId);
-            console.log('current row id', invoicesRows[i].invoiceRow_id);
-            console.log('code Cost', codeCost);
-            console.log('Customer Cost', customerCost);
-            console.log('Total Cost', totalCost);
-            console.log('invoicesRows[i].taxableAmount', invoicesRows[i].taxableAmount);
-            console.log('code Amount', codeAmount);
-            console.log('CustomerAmount', customerAmount);
-            console.log('Total Amount', totalAmount);
-        };
-        //different customer
-        if( lastCustomer !== invoicesRows[i].customerDenomination ) {
-            console.log(`Inside different. index: ${i}, lastCustomer: ${lastCustomer}, 
-                        currentCustomer: ${invoicesRows[i].customerDenomination}, lastCode: ${lastCode}, 
-                        currentCode: ${invoicesRows[i].orderCode}, currentRowID: ${invoicesRows[i].invoiceRow_id}, lastRowId: ${lastRowId}`);
-            //now both code table row and customer table row must be inserted in table
-            //the code cost since here has been always added correctly so nothing must be done on code cost
-            //the code amount is correct  since it has been assigned on previous iteration (all, same code, different code and this one at the end when the customer changes after one row )
-            //the customer cost is ok since it has been updated in previous iterations included this
-            //the customer amount is ok since it has been updated in previous iterations included this
-            app.fillCodeRow(tableTemplate, tableBody, lastCustomer, lastCode, codeCost, codeAmount);
-            //customer amount must be added
-            customerAmount += codeAmount;
-            app.fillCustomerRow(tableTemplate, tableBody, lastCustomer, customerCost, customerAmount);
-            //after inserted the code and customer rows in table
-            //total cost must be added
-            //totalCost += codeCost;
-            //total amount bust be added
-            totalAmount += customerAmount;
-            //code cost must be updated
-            rowCosts = app.getRowCosts(
-                invoicesRows[i].translationCost, 
-                invoicesRows[i].externalJobsCost, 
-                invoicesRows[i].variouseMaterialCost, 
-                invoicesRows[i].transfertCost,
-                invoicesRows[i].hours,
-                invoicesRows[i].hourlyCost);
-            codeCost = rowCosts;
-            //customer cost must be updated
-            customerCost = codeCost;
-            //total cost must be added 
-            totalCost += codeCost;
-            //code amount must be updated
-            codeAmount = invoicesRows[i].taxableAmount;
-            //customer amount must be resetted since it will be updated in subsequent
-            customerAmount = 0;
-            //total amount must be added
-            //totalAmount += codeAmount;
-            //code must be updated
-            lastCode = invoicesRows[i].orderCode;
-            //customer must be updted
-            lastCustomer = invoicesRows[i].customerDenomination;
-            console.log('current Code', lastCode);
-            console.log('last row Id', lastRowId);
-            console.log('current row id', invoicesRows[i].invoiceRow_id);
-            console.log('code Cost', codeCost);
-            console.log('Customer Cost', customerCost);
-            console.log('Total Cost', totalCost);
-            console.log('invoicesRows[i].taxableAmount', invoicesRows[i].taxableAmount);
-            console.log('code Amount', codeAmount);
-            console.log('CustomerAmount', customerAmount);
-            console.log('Total Amount', totalAmount);
-        };
-        if( i === (invoicesRows.length - 1) ) {
-            //if we are in the same rowId the total amount  amust be added
-            //if( lastCustomer === invoicesRows[i].customerDenomination && lastCode === invoicesRows[i].orderCode && lastRowId === invoicesRows[i].invoiceRow_id){
-                //totalAmount += codeAmount;
-            //}
-            app.fillCodeRow(tableTemplate, tableBody, lastCustomer, lastCode, codeCost, codeAmount);
-            //customer amount must be added
-            customerAmount += codeAmount;
-            //total amount must be added
-            totalAmount += customerAmount;
-            app.fillCustomerRow(tableTemplate, tableBody, lastCustomer, customerCost, customerAmount);
-            app.fillLastRow(tableBody,tableTemplate, totalCost, totalAmount);
-            console.log('current Code', lastCode);
-            console.log('last row Id', lastRowId);
-            console.log('current row id', invoicesRows[i].invoiceRow_id);
-            console.log('code Cost', codeCost);
-            console.log('Customer Cost', customerCost);
-            console.log('Total Cost', totalCost);
-            console.log('invoicesRows[i].taxableAmount', invoicesRows[i].taxableAmount);
-            console.log('code Amount', codeAmount);
-            console.log('CustomerAmount', customerAmount);
-            console.log('Total Amount', totalAmount);
-        }
-        //always at the end current row id must be updated
-        console.log('at the end');
-        lastRowId = invoicesRows[i].invoiceRow_id;
-    }  
+        tableBody.appendChild(templateContent);
+    } 
+    let templateContent = document.importNode(tableTemplate.content, true);
+    templateContent.querySelector(".Customer").innerHTML = 'TOTALE';
+    templateContent.querySelector(".OrderCodeCosts").innerHTML = totalCost.toFixed(2);
+    templateContent.querySelector(".OrderCodeAmount").innerHTML = totalAmount.toFixed(2);
+    let margin = (( totalAmount - totalCost ) / totalAmount) * 100;
+    templateContent.querySelector(".OrderCodeMargin").innerHTML = margin === null ? '' : margin.toFixed(2);
+    if (margin !== null && margin < 0) {
+        templateContent.querySelector(".OrderCodeMargin").classList.add('redText');
+    } else {
+        templateContent.querySelector(".OrderCodeMargin").classList.remove('redText');
+    }
+    tableBody.appendChild(templateContent);
 };
 
+/** check to be deleted **/
 app.getRowCosts = function ( translationCostP, externalJobsCostP, variouseMaterialCostP, transfertCostP, hoursP, hourlyCostP ) {
     console.log( 'inside getRowCost');
     const translationCost = translationCostP ? translationCostP : 0;
@@ -1104,6 +987,7 @@ app.getRowCosts = function ( translationCostP, externalJobsCostP, variouseMateri
     return translationCost + externalJobsCost + variouseMaterialCost + transfertCost + ( hours *  hourlyCost );
 };
 
+/** check to be deleted **/
 app.fillCodeRow = function ( tableTemplate, tableBody, lastCustomer, lastCode, progressiveCodeCosts, progressiveCodeAmount){
     //imports node from tableTemplate
     let templateContent = document.importNode(tableTemplate.content, true);
