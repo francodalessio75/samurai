@@ -158,7 +158,7 @@
             <!-- any straight search by number  needed? -->
             <div id="refresh" class="Button" onclick="app.openDeliveryNotesPage();"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i> RICERCA</div>
 
-            <% if ((deliveryNote == null && user_role.equals("operator")) || (deliveryNote == null && user_role.equals("admin")) || (deliveryNote != null)) {%>
+            <% if ((deliveryNote == null && user_role.equals("operator")) || (deliveryNote == null && user_role.equals("admin")) || (deliveryNote == null && user_role.equals("consultant")) || (deliveryNote != null)) {%>
             <div id="confirm_label" class="Filters_label">OPERAZIONI</div>
 
             <div id="deliveryNoteConfirmedButton" class="Button Operation Confirm" onclick="app.deliveryNoteConfirmed(<%=deliveryNote_id%>, <%=user_id%>);"  <% if (deliveryNote != null && user_role.equals("operator")) {%> display ="none" <%}%> ><%=confirmButtonText%></div>
