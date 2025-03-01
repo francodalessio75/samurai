@@ -162,7 +162,7 @@
 
             <div class="Filters_label">RICERCA</div>
 
-            <% if (user_role.equals("admin")) {%>
+            <% if ( user_role.equals("admin") || user_role.equals("consultant")) {%>
             <select id="operator_select_options" >
                 <option value="" >OPERATORE</option>
                 <%for (int i = 0; i < dbr_operators.rowsCount(); i++) {%>

@@ -350,21 +350,6 @@ app.openDetailedTasksPage = function(user_role)
     window.open("detailedTasks.jsp?&filter="+encodeURIComponent(JSON.stringify(app.filter)),'_self');
 };
 
-/* when the user presses the "RICERCA" button on task_details page, tasks page must be shown.
- * depending on filtering criteria all tasks satisfying them are put in the 
- * list. Only tasks related to the logged user will be shown, unless he's administrator.
- * In this case all tasks satisfying criteria will be shown
- */
-app.openAggregatedTasksPage = function(user_role)
-{
-    document.querySelector(".Footer_message").innerHTML = "Sto caricando i dati aggregati... ";
-    app.user_role = user_role;
-    //assigns to app.filter current values
-    app.getFiltersValues();
-    
-    //opens tasks page       
-    window.open("aggregatedTasks.jsp?&filter="+encodeURIComponent(JSON.stringify(app.filter)),'_self');
-};
 
 /*retrieves filters values from the page*/
 app.getFiltersValues = function()
@@ -373,7 +358,7 @@ app.getFiltersValues = function()
 
     //the adminstrator GUI has the filter by operator while the operator one not. Then if the user is not administrator
     //operator_id is equal to user_id and only tasks of the requester will be shown
-    if( app.user_role === "admin" )
+    if( app.user_role === "admin" || app.user_role === "consultant" )
         app.filter.operator_id = document.getElementById('operator_select_options').value; 
     else 
         app.filter.operator_id = app.user_id;
@@ -482,7 +467,7 @@ app.fillDetailedTasksTable = function(tasks)
         templateContent.querySelector(".Hours").innerHTML = tasks[i][5];
         
          //table columns only for administrators
-        if( app.user_role === "admin")
+        if( app.user_role === "admin" )
         {
             templateContent.querySelector(".HourlyCost").innerHTML = Math.trunc(tasks[i][29]).toFixed(2);
             
@@ -509,7 +494,8 @@ app.fillDetailedTasksTable = function(tasks)
             templateContent.querySelector(".TransfertCost").innerHTML = Math.trunc(tasks[i][11]).toFixed(2);      
             //increases variable
             totalTransfertCost += tasks[i][11];
-        
+        }
+        if( app.user_role === "admin" || app.user_role === "consultant" ){
             //operator total hours
             //Since in the DB the readTasks result is ordered by operator_id it is possible
             //to compute total operator hours by reading the operator id.
@@ -632,8 +618,32 @@ app.fillDetailedTasksTable = function(tasks)
         valueCell.innerHTML = generalTotalCost;
         generalTotalRow.appendChild(valueCell);
         detailedTableBody.appendChild(generalTotalRow);  
-        
-        
+    }
+    
+    if( app.user_role === "consultant")
+    {
+        //creates the last row
+        let lastRow = document.createElement("tr");
+
+        let rowCells = 12;//row cells number
+
+        //adds cells and contents in the last row
+        for( var i = 0; i < rowCells; i++)
+        {
+            var cell = document.createElement("td");
+
+            //fills cell if necessary
+            if( i === 10 )
+                cell.innerHTML = "Totale";
+            else if( i === 11 )
+                cell.innerHTML = totalHours;
+
+            //adds cell in the row
+            lastRow.appendChild(cell);
+        }
+
+        //adds last row to the table
+        detailedTableBody.appendChild(lastRow);   
     }
 };
 

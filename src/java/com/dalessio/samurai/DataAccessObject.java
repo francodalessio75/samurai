@@ -1319,6 +1319,7 @@ public class DataAccessObject {
                 .andWhere(toDate != null && !toDate.equals(""), " taskDate <= " + toDate)
                 .andWhere(completion_state_id != null && completion_state_id > 0, "completion_state_id = " + completion_state_id)
                 .go();
+                System.out.println(getUserRole(user_id));
 
         return tasks_dbr;
     }

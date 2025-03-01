@@ -106,7 +106,7 @@
 
             <div class="Filters_label">RICERCA</div>
 
-            <% if (user_role.equals("admin")) {%>
+            <% if (user_role.equals("admin") || user_role.equals("consultant") ) {%>
             <select id="operator_select_options" >
                 <option value="" >OPERATORE</option>
                 <%for (int i = 0; i < dbr_operators.rowsCount(); i++) {%>
@@ -114,7 +114,7 @@
                 <%}
                         }%>
             </select>
-            <% if (user_role.equals("admin")) {%>
+            <% if ( user_role.equals("admin") || user_role.equals("consultant") ) {%>
             <script>document.getElementById('operator_select_options').value = "<%= filter != null ? filter.get("operator_id").getAsString() : ""%>";</script>
             <%}%>
             

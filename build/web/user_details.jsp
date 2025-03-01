@@ -107,6 +107,7 @@
                             <select id="role_select_options" onchange="app.userDetailsChanged('#role_select_options');" >
                                 <option value="admin">Amministratore</option>
                                 <option value="operator">Operatore</option>
+                                <option value="consultant">Consulente</option>
                             </select>
                             <script>document.getElementById("role_select_options").value = "<%=dbr_selected_user.getString("role")%>"</script>
                         </td>
