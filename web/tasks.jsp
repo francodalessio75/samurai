@@ -169,9 +169,9 @@
                 <th>TIPO LAVORO</th>
                 <th>TIPO LAVOR.NE</th>
                 <th>ORE</th>
-                <th>TOTALE ORE</th>
            <%if ("admin".equals(user_role)) {%>
                 <th>COSTO ORARIO<p>(A)</p></th>
+                <th>TOTALE ORE</th>
                 <th>COSTO TRAD.</th>
                 <th>IMPORTO TRAD.<p>(B)</p></th>
                 <th>ORE LAV. EST.</th>
@@ -205,9 +205,9 @@
             <td class = "JobType"></td>
             <td class = "JobSubtype"></td>
             <td class = "Hours"></td>
-            <td class = "TotalHours"></td>
             <%if ("admin".equals(user_role)) {%>
             <td class="HourlyCost"></td>
+            <td class = "TotalHours"></td>
             <td class = "TranslationCost"></td>
             <td class = "TranslationPrice"></td>
             <td class = "ExternalJobsHours"></td>

@@ -420,8 +420,10 @@ app.filterTasks = function( user_id, user_role )
 /* refersh table rows in according to the user role*/
 app.fillDetailedTasksTable = function(tasks)
 {
-    var templateItem = document.getElementById("detailedTaskTableRow");
-    var detailedTableBody = document.querySelector(".DetailedTable tbody");
+    let templateItem = document.getElementById("detailedTaskTableRow");
+    let detailedTableBody = document.querySelector(".DetailedTable tbody");
+    
+    let operatorChanged = false;
 
     //empty the current content in the detailed table
     detailedTableBody.innerHTML = null;
@@ -469,8 +471,9 @@ app.fillDetailedTasksTable = function(tasks)
          //table columns only for administrators
         if( app.user_role === "admin" )
         {
-            templateContent.querySelector(".HourlyCost").innerHTML = Math.trunc(tasks[i][29]).toFixed(2);
+            templateContent.querySelector(".HourlyCost").innerHTML = tasks[i][29].toFixed(2);
             
+            templateContent.querySelector(".TotalHours").innerHTML = (tasks[i][29].toFixed(2) * tasks[i][5].toFixed(2)).toFixed(2);
             templateContent.querySelector(".TranslationCost").innerHTML = Math.trunc(tasks[i][7]).toFixed(2);
             //increases variable
             totalTranslationsCost += tasks[i][7];
@@ -515,22 +518,18 @@ app.fillDetailedTasksTable = function(tasks)
                 operatorTotalHours += tasks[i][5];
                 
                 
-                //compares operators if different writes the data and empties the variable
+                //operator changed flag
                 if( tasks[i][2] !== tasks[i+1][2]  )
                 {
-                    templateContent.querySelector(".TotalHours").innerHTML = operatorTotalHours;
-                    //increments total hours cost using the operator total before resetting the operatorTotalHours variable
-                    totalHoursCost += operatorTotalHours * Math.trunc(tasks[i][29]).toFixed(2);
-                    operatorTotalHours = 0;
+                    operatorChanged = true;
                 }
                 
             }
-            //arrived at last element writes current value int operator hors and inserts the last row with totals
+            
             else if( (i+1) === tasks.length ) 
             {
                 operatorTotalHours += tasks[i][5];
                 totalHoursCost += operatorTotalHours * Math.trunc(tasks[i][29]).toFixed(2);
-                templateContent.querySelector(".TotalHours").innerHTML = operatorTotalHours;
             }
         }
         
@@ -539,6 +538,33 @@ app.fillDetailedTasksTable = function(tasks)
 
         //adds rows to the table
         detailedTableBody.appendChild(templateContent); 
+        //each time the operator has changed and at the end of the table adds an operators row
+        if(operatorChanged || (i+1) === tasks.length){
+            let totalOperatorRow = document.createElement("tr");
+            let rowCells = app.user_role === "admin" ? 13 : 12;//row cells number
+            for( let j = 0; j < rowCells; j++)
+            {
+                let cell = document.createElement("td");
+
+                //fills cell if necessary
+                if( j === 9 )
+                    cell.innerHTML = "Totale Operatore";
+                else if( j === 11 )
+                    cell.innerHTML = operatorTotalHours;
+                else if(app.user_role === "admin" && j === 12 )
+                    cell.innerHTML = operatorTotalHours * Math.trunc(tasks[i][29]).toFixed(2);
+
+                //adds cell in the row
+                totalOperatorRow.appendChild(cell);
+                detailedTableBody.appendChild(totalOperatorRow);  
+                operatorChanged = false;
+            }
+
+            //templateContent.querySelector(".TotalHours").innerHTML = operatorTotalHours;
+            //increments total hours cost using the operator total before resetting the operatorTotalHours variable
+            totalHoursCost += operatorTotalHours * Math.trunc(tasks[i][29]).toFixed(2);
+            operatorTotalHours = 0;
+        }
     }
     
     //total row for operators
@@ -574,7 +600,7 @@ app.fillDetailedTasksTable = function(tasks)
         let lastRow = document.createElement("tr");
 
 
-        let rowCells = 18;//row cells number
+        let rowCells = 19;//row cells number
 
         //adds cells and contents in the last row
         for( var i = 0; i < rowCells; i++)
@@ -586,19 +612,19 @@ app.fillDetailedTasksTable = function(tasks)
                 cell.innerHTML = "Totale";
             else if( i === 10 )
                 cell.innerHTML = totalHours;
-            else if( i === 11 )
-                cell.innerHTML = totalHoursCost.toFixed(2);
             else if( i === 12 )
-                cell.innerHTML = Math.trunc(totalTranslationsCost).toFixed(2);     
+                cell.innerHTML = totalHoursCost.toFixed(2);
             else if( i === 13 )
-                cell.innerHTML = Math.trunc(totalTranslationsPrice).toFixed(2); 
+                cell.innerHTML = Math.trunc(totalTranslationsCost).toFixed(2);     
             else if( i === 14 )
-                cell.innerHTML = Math.trunc(totalExternalJobsHours).toFixed(2); 
+                cell.innerHTML = Math.trunc(totalTranslationsPrice).toFixed(2); 
             else if( i === 15 )
-                cell.innerHTML = Math.trunc(totalExternalJobsCost).toFixed(2); 
+                cell.innerHTML = Math.trunc(totalExternalJobsHours).toFixed(2); 
             else if( i === 16 )
-                cell.innerHTML = Math.trunc(totalMaterialCost).toFixed(2); 
+                cell.innerHTML = Math.trunc(totalExternalJobsCost).toFixed(2); 
             else if( i === 17 )
+                cell.innerHTML = Math.trunc(totalMaterialCost).toFixed(2); 
+            else if( i === 18 )
                 cell.innerHTML = Math.trunc(totalTransfertCost).toFixed(2); 
 
             //adds cell in the row
