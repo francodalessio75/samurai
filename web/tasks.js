@@ -539,7 +539,7 @@ app.fillDetailedTasksTable = function(tasks)
         //adds rows to the table
         detailedTableBody.appendChild(templateContent); 
         //each time the operator has changed and at the end of the table adds an operators row
-        if(operatorChanged || (i+1) === tasks.length){
+        if(( operatorChanged || (i+1) === tasks.length ) && app.user_role !== "operator" ){
             let totalOperatorRow = document.createElement("tr");
             let rowCells = app.user_role === "admin" ? 13 : 12;//row cells number
             for( let j = 0; j < rowCells; j++)
