@@ -509,7 +509,7 @@ app.fillDetailedTasksTable = function(tasks)
                 templateContent.querySelector(".TotalHours").innerHTML = tasks[i][5];
                 //increases operator hours variable
                 operatorTotalHours += tasks[i][5];
-                totalHoursCost += operatorTotalHours * Math.trunc(tasks[i][29]).toFixed(2);
+                totalHoursCost += Number((operatorTotalHours * tasks[i][29]).toFixed(2));
             }
 
             else if( (i+1) <  tasks.length  )
@@ -529,7 +529,7 @@ app.fillDetailedTasksTable = function(tasks)
             else if( (i+1) === tasks.length ) 
             {
                 operatorTotalHours += tasks[i][5];
-                totalHoursCost += operatorTotalHours * Math.trunc(tasks[i][29]).toFixed(2);
+                //totalHoursCost += Number((operatorTotalHours * tasks[i][29]).toFixed(2));
             }
         }
         
@@ -549,10 +549,10 @@ app.fillDetailedTasksTable = function(tasks)
                 //fills cell if necessary
                 if( j === 9 )
                     cell.innerHTML = "Totale Operatore";
-                else if( j === 11 )
+                else if( j === 10 )
                     cell.innerHTML = operatorTotalHours;
                 else if(app.user_role === "admin" && j === 12 )
-                    cell.innerHTML = operatorTotalHours * Math.trunc(tasks[i][29]).toFixed(2);
+                    cell.innerHTML = Number((operatorTotalHours * tasks[i][29]).toFixed(2));
 
                 //adds cell in the row
                 totalOperatorRow.appendChild(cell);
@@ -562,7 +562,7 @@ app.fillDetailedTasksTable = function(tasks)
 
             //templateContent.querySelector(".TotalHours").innerHTML = operatorTotalHours;
             //increments total hours cost using the operator total before resetting the operatorTotalHours variable
-            totalHoursCost += operatorTotalHours * Math.trunc(tasks[i][29]).toFixed(2);
+            totalHoursCost += Number((operatorTotalHours * tasks[i][29]).toFixed(2));
             operatorTotalHours = 0;
         }
     }
