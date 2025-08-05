@@ -615,17 +615,17 @@ app.fillDetailedTasksTable = function(tasks)
             else if( i === 12 )
                 cell.innerHTML = totalHoursCost.toFixed(2);
             else if( i === 13 )
-                cell.innerHTML = Math.trunc(totalTranslationsCost).toFixed(2);     
+                cell.innerHTML = Number(totalTranslationsCost).toFixed(2);     
             else if( i === 14 )
                 cell.innerHTML = Math.trunc(totalTranslationsPrice).toFixed(2); 
             else if( i === 15 )
                 cell.innerHTML = Math.trunc(totalExternalJobsHours).toFixed(2); 
             else if( i === 16 )
-                cell.innerHTML = Math.trunc(totalExternalJobsCost).toFixed(2); 
+                cell.innerHTML = Number(totalExternalJobsCost).toFixed(2); 
             else if( i === 17 )
-                cell.innerHTML = Math.trunc(totalMaterialCost).toFixed(2); 
+                cell.innerHTML = Number(totalMaterialCost).toFixed(2); 
             else if( i === 18 )
-                cell.innerHTML = Math.trunc(totalTransfertCost).toFixed(2); 
+                cell.innerHTML = Number(totalTransfertCost).toFixed(2); 
 
             //adds cell in the row
             lastRow.appendChild(cell);
