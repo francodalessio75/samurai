@@ -1614,6 +1614,28 @@ app.updateInvoiceDate = function (date, number, year, successCallback, failCallb
             });
 };
 
+app.setDeliveryNoteRowAsInvoiced = function (deliveryNoteRowId, successCallback, failCallback)
+{
+    document.getElementById("modal").style.display = "block";
+    document.getElementById("loader").style.display = "block";
+    var url = encodeURI('/Samurai/gate?&op=set_delivery_note_row_as_invoiced' + '&deliveryNoteRowId=' + deliveryNoteRowId );
+
+    fetch(url, {credentials: 'same-origin'})
+            .then(response => response.json())
+            .then(jsonResponse =>
+            {
+                if (jsonResponse.success)
+                    successCallback();
+                else
+                    failCallback(jsonResponse.message);
+            })
+            .catch(error => alert(error))
+            .finally(() => {
+                document.getElementById("modal").style.display = "none";
+                document.getElementById("loader").style.display = "none";
+            });
+};
+
 
 
 // QUOTES

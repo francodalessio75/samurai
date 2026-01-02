@@ -1778,7 +1778,14 @@ public class DataAccessObject {
                 .go();
     }
 
-    private void setDeliveryNoteRowInvoiced(Long deliveryNoteRow_id, Boolean invoiced) throws SQLException {
+    /**
+     * it was private but has been settes as public because of new action in invoice template
+     * to make the user able to set a suggested delivery notes row as already invoiced
+     * @param deliveryNoteRow_id
+     * @param invoiced
+     * @throws SQLException 
+     */
+    public void setDeliveryNoteRowInvoiced(Long deliveryNoteRow_id, Boolean invoiced) throws SQLException {
         Integer state = invoiced ? 1 : 0;
 
         dbi.update("dyn_DeliveryNotesRows")

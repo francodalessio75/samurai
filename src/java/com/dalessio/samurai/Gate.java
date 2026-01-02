@@ -241,6 +241,9 @@ public class Gate extends HttpServlet implements HttpSessionListener {
                     case "create_all_new_pdf_files":
                         createAllNewPdfFiles(request, jsonResponse);
                         break;
+                    case "set_delivery_note_row_as_invoiced":
+                        setDeliveryNoteRowAsInvoiced(request, jsonResponse);
+                        break;
 
                     //INVOICES
                     case "get_suggested_delivery_notes_rows":
@@ -3277,6 +3280,31 @@ public class Gate extends HttpServlet implements HttpSessionListener {
                     jsonResponse.addProperty("success", false);
                 }
             }
+        } else {
+            jsonResponse.addProperty("success", false);
+            jsonResponse.addProperty("message", "not authenticated");
+        }
+    }
+    
+    private void setDeliveryNoteRowAsInvoiced(HttpServletRequest request, JsonObject jsonResponse) throws SQLException {
+
+        HttpSession session = request.getSession(false);
+
+        if (session != null && session.getAttribute("user_id") != null) {
+            // reads session data
+            DataAccessObject dao = (DataAccessObject) session.getAttribute("dao");
+
+            // reads operation parameters
+            Long deliveryNoteRowId = Long.parseLong(request.getParameter("deliveryNoteRowId"));
+
+            //intialize and call pdf printer that puts the pdf file in the destination folder 
+            try {
+                dao.setDeliveryNoteRowInvoiced(deliveryNoteRowId, Boolean.TRUE);
+                jsonResponse.addProperty("success", true);
+            } catch (Exception ex) {
+                jsonResponse.addProperty("success", false);
+            }
+
         } else {
             jsonResponse.addProperty("success", false);
             jsonResponse.addProperty("message", "not authenticated");
