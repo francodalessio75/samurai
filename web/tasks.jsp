@@ -48,6 +48,8 @@
     DbResult dbr_jobTypes = dao.readJobTypes(null);
 
     DbResult dbr_jobSubtypes = dao.readJobSubtypes(null);
+
+    DbResult dbr_customers = dao.readAllCustomers();
 %>
 
 <html>
@@ -151,6 +153,14 @@
             <script>
                     document.getElementById("completionState_select_options").value = <%= filter != null ? filter.get("completionState_id").getAsLong() : ""%>;
             </script>
+            
+            <!--input id="customer_denomination_Hint" placeholder="NOME CLIENTE"-->
+            <select id="customer_select_options" <!--onchange="app.getCustomerMachinaries( 'machinary_model_select_options' )"--> >
+                <option value="" >CLIENTE</option>
+                <%for (int i = 0; i < dbr_customers.rowsCount(); i++) {%>
+                <option value="<%=dbr_customers.getLong(i, "customer_id")%>"><%=dbr_customers.getString(i, "denomination")%></option>
+                <%}%>
+            </select>
 
             <div id="refresh" class="Button" onclick="app.filterTasks('<%=user_id%>', '<%=user_role%>');"><i  id="searchIcon" class="fa fa-search" aria-hidden="true"></i>RICERCA</div>
         </div>     

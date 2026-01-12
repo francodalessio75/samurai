@@ -333,7 +333,6 @@ app.orderCodeChanged = function()
     );
 };
 
-
 /* when the user presses the "RICERCA" button on task_details page, tasks page must be shown.
  * depending on filtering criteria all tasks satisfying them are put in the 
  * list. Only tasks related to the logged user will be shown, unless he's administrator.
@@ -377,6 +376,8 @@ app.getFiltersValues = function()
     
     app.filter.completionState_id = document.getElementById("completionState_select_options").value;
     
+    app.filter.customer_id = document.getElementById("customer_select_options").value;
+    
 };
 
    
@@ -400,7 +401,7 @@ app.filterTasks = function( user_id, user_role )
         app.filter.order_serial_number,//orderSerialNumber
         app.filter.jobType_id,//jobType_id
         app.filter.jobSubtype_id,//jbSubtype_id
-        null,//customer_id
+        app.filter.customer_id,//customer_id
         null,//order_creator_id
         app.filter.from_date,//fromDate
         app.filter.to_date,//toDate

@@ -100,6 +100,7 @@
     DbResult dbr_jobTypes = dao.readJobTypes(null);
     DbResult dbr_jobSubtypes = dao.readJobSubtypes(null);
     DbResult dbr_translationsCenters = dao.readTranslationsCenters(null);
+    DbResult dbr_customers = dao.readAllCustomers();
     if (dbr_task == null) {
         operatorFirstName = dbr_user.getString("firstName");
         operatorLastName = dbr_user.getString("lastName");
@@ -188,6 +189,14 @@
                 <option value="<%= dbr_jobSubtypes.getLong(i, "jobSubtype_id")%>"><%= dbr_jobSubtypes.getString(i, "name")%></option>
                 <%}%>
             </select> 
+            
+            <!--input id="customer_denomination_Hint" placeholder="NOME CLIENTE"-->
+            <select id="customer_select_options" <!--onchange="app.getCustomerMachinaries( 'machinary_model_select_options' )"--> >
+                <option value="" >CLIENTE</option>
+                <%for (int i = 0; i < dbr_customers.rowsCount(); i++) {%>
+                <option value="<%=dbr_customers.getLong(i, "customer_id")%>"><%=dbr_customers.getString(i, "denomination")%></option>
+                <%}%>
+            </select>
 
             <div class="Filters_period_label">PERIODO</div>
 
