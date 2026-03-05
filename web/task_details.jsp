@@ -191,7 +191,7 @@
             </select> 
             
             <!--input id="customer_denomination_Hint" placeholder="NOME CLIENTE"-->
-            <select id="customer_select_options" <!--onchange="app.getCustomerMachinaries( 'machinary_model_select_options' )"--> >
+            <select id="customer_select_options">
                 <option value="" >CLIENTE</option>
                 <%for (int i = 0; i < dbr_customers.rowsCount(); i++) {%>
                 <option value="<%=dbr_customers.getLong(i, "customer_id")%>"><%=dbr_customers.getString(i, "denomination")%></option>

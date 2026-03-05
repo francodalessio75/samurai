@@ -377,6 +377,7 @@ app.getFiltersValues = function()
     app.filter.completionState_id = document.getElementById("completionState_select_options").value;
     
     app.filter.customer_id = document.getElementById("customer_select_options").value;
+    console.log("app.filters", app.filter);
     
 };
 

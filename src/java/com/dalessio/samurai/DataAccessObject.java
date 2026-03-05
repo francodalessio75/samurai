@@ -2043,7 +2043,7 @@ public class DataAccessObject {
                 .andWhere(number != null && !number.equals(""), "year = " + year)
                 .andWhere(" date >= '" + fromDateString + "'")
                 .andWhere(" date <= '" + toDateString + "'")
-                .order("year ASC, number ASC")
+                .order("year, number ASC")
                 .go();
 
         System.out.println("INVOICES READ [DataAccessObject.readInvoices] : elapsed msec " + (new Date().getTime() - start));

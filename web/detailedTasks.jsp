@@ -141,12 +141,13 @@
             <script>document.getElementById('jobSubtype_select_options').value = "<%= filter != null ? filter.get("jobSubtype_id").getAsString() : ""%>";</script>
             
             <!--input id="customer_denomination_Hint" placeholder="NOME CLIENTE"-->
-            <select id="customer_select_options" <!--onchange="app.getCustomerMachinaries( 'machinary_model_select_options' )"--> >
+            <select id="customer_select_options" >
                 <option value="" >CLIENTE</option>
                 <%for (int i = 0; i < dbr_customers.rowsCount(); i++) {%>
                 <option value="<%=dbr_customers.getLong(i, "customer_id")%>"><%=dbr_customers.getString(i, "denomination")%></option>
                 <%}%>
             </select>
+            <script>document.getElementById('customer_select_options').value = "<%= filter != null ? filter.get("customer_id").getAsString() : ""%>";</script>
 
             <table id="dates" style="border-collapse: collapse;">
                 <tr><td>Da:</td><td><input type="date" id="from_date" value="<%= ((filter != null && !filter.get("from_date").getAsString().equals("")) || (filter != null && !filter.get("order_code").getAsString().equals(""))) ? filter.get("from_date").getAsString() : oneMonthsLessString%>"></td></tr>

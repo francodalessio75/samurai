@@ -333,7 +333,6 @@ app.orderCodeChanged = function()
     );
 };
 
-
 /* when the user presses the "RICERCA" button on task_details page, tasks page must be shown.
  * depending on filtering criteria all tasks satisfying them are put in the 
  * list. Only tasks related to the logged user will be shown, unless he's administrator.
@@ -377,6 +376,9 @@ app.getFiltersValues = function()
     
     app.filter.completionState_id = document.getElementById("completionState_select_options").value;
     
+    app.filter.customer_id = document.getElementById("customer_select_options").value;
+    console.log("app.filters", app.filter);
+    
 };
 
    
@@ -400,7 +402,7 @@ app.filterTasks = function( user_id, user_role )
         app.filter.order_serial_number,//orderSerialNumber
         app.filter.jobType_id,//jobType_id
         app.filter.jobSubtype_id,//jbSubtype_id
-        null,//customer_id
+        app.filter.customer_id,//customer_id
         null,//order_creator_id
         app.filter.from_date,//fromDate
         app.filter.to_date,//toDate
@@ -509,7 +511,7 @@ app.fillDetailedTasksTable = function(tasks)
                 templateContent.querySelector(".TotalHours").innerHTML = tasks[i][5];
                 //increases operator hours variable
                 operatorTotalHours += tasks[i][5];
-                totalHoursCost += operatorTotalHours * Math.trunc(tasks[i][29]).toFixed(2);
+                totalHoursCost += Number((operatorTotalHours * tasks[i][29]).toFixed(2));
             }
 
             else if( (i+1) <  tasks.length  )
@@ -529,7 +531,7 @@ app.fillDetailedTasksTable = function(tasks)
             else if( (i+1) === tasks.length ) 
             {
                 operatorTotalHours += tasks[i][5];
-                totalHoursCost += operatorTotalHours * Math.trunc(tasks[i][29]).toFixed(2);
+                //totalHoursCost += Number((operatorTotalHours * tasks[i][29]).toFixed(2));
             }
         }
         
@@ -549,10 +551,10 @@ app.fillDetailedTasksTable = function(tasks)
                 //fills cell if necessary
                 if( j === 9 )
                     cell.innerHTML = "Totale Operatore";
-                else if( j === 11 )
+                else if( j === 10 )
                     cell.innerHTML = operatorTotalHours;
                 else if(app.user_role === "admin" && j === 12 )
-                    cell.innerHTML = operatorTotalHours * Math.trunc(tasks[i][29]).toFixed(2);
+                    cell.innerHTML = Number((operatorTotalHours * tasks[i][29]).toFixed(2));
 
                 //adds cell in the row
                 totalOperatorRow.appendChild(cell);
@@ -562,7 +564,7 @@ app.fillDetailedTasksTable = function(tasks)
 
             //templateContent.querySelector(".TotalHours").innerHTML = operatorTotalHours;
             //increments total hours cost using the operator total before resetting the operatorTotalHours variable
-            totalHoursCost += operatorTotalHours * Math.trunc(tasks[i][29]).toFixed(2);
+            totalHoursCost += Number((operatorTotalHours * tasks[i][29]).toFixed(2));
             operatorTotalHours = 0;
         }
     }
@@ -615,17 +617,17 @@ app.fillDetailedTasksTable = function(tasks)
             else if( i === 12 )
                 cell.innerHTML = totalHoursCost.toFixed(2);
             else if( i === 13 )
-                cell.innerHTML = Math.trunc(totalTranslationsCost).toFixed(2);     
+                cell.innerHTML = Number(totalTranslationsCost).toFixed(2);     
             else if( i === 14 )
                 cell.innerHTML = Math.trunc(totalTranslationsPrice).toFixed(2); 
             else if( i === 15 )
                 cell.innerHTML = Math.trunc(totalExternalJobsHours).toFixed(2); 
             else if( i === 16 )
-                cell.innerHTML = Math.trunc(totalExternalJobsCost).toFixed(2); 
+                cell.innerHTML = Number(totalExternalJobsCost).toFixed(2); 
             else if( i === 17 )
-                cell.innerHTML = Math.trunc(totalMaterialCost).toFixed(2); 
+                cell.innerHTML = Number(totalMaterialCost).toFixed(2); 
             else if( i === 18 )
-                cell.innerHTML = Math.trunc(totalTransfertCost).toFixed(2); 
+                cell.innerHTML = Number(totalTransfertCost).toFixed(2); 
 
             //adds cell in the row
             lastRow.appendChild(cell);
