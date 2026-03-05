@@ -45,6 +45,36 @@ app.deleteItemRow=(row)=>
     }
 };
 
+app.setRowAsInvoiced=(row)=>
+{
+    if(app.invoiceItemsTBody.rows.length > 1)
+    {
+        const deliveryNoteRow_id = row.getAttribute("data-delivery-note-row_id");
+         const confirmed = window.confirm(
+            "Vuoi davvero segnare questa riga come già fatturata?"
+          );
+        if(!confirmed){
+            return;
+        } else {
+            console.log("inside");
+            app.setDeliveryNoteRowAsInvoiced(
+                deliveryNoteRow_id,
+                function ()//successCallBack
+                {
+                    app.invoiceItemsTBody.removeChild(row);
+                    app.refreshAmounts();
+                    document.querySelector(".Footer_message").innerHTML = "Riga segnata come fatturata!";
+                },
+                function ()//failCallBack
+                {
+                    window.alert("Operazione fallita!");
+                    document.querySelector(".Footer_message").innerHTML = "Non riesco ad eseguire l'operazione!";
+                }
+            );
+        } 
+    }
+};
+
 app.invoiceItemsToJson=()=>
 {
     let jsonItems = [];

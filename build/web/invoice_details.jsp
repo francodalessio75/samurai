@@ -378,6 +378,7 @@
                     <span class="Button" onclick="app.moveItemRowUp(this.parentNode.parentNode.parentNode);">SPOSTA IN ALTO</span>
                     <span class="Button" onclick="app.moveItemRowDown(this.parentNode.parentNode.parentNode);">SPOSTA IN BASSO</span>
                     <span class="Button" onclick="app.deleteItemRow(this.parentNode.parentNode.parentNode);">ELIMINA RIGA</span>
+                    <span class="Button" onclick="app.setRowAsInvoiced(this.parentNode.parentNode.parentNode);">SEGNA COME FATTURATA</span>
                 </span>
             </td>
             <%}%>
