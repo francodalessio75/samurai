@@ -509,9 +509,8 @@ app.fillDetailedTasksTable = function(tasks)
             if( tasks.length === 1 )
             {
                 templateContent.querySelector(".TotalHours").innerHTML = tasks[i][5];
-                //increases operator hours variable
-                operatorTotalHours += tasks[i][5];
-                totalHoursCost += Number((operatorTotalHours * tasks[i][29]).toFixed(2));
+                operatorTotalHours = tasks[i][5];
+                totalHoursCost = Number((operatorTotalHours * tasks[i][29].toFixed(2)).toFixed(2));
             }
 
             else if( (i+1) <  tasks.length  )
@@ -540,8 +539,8 @@ app.fillDetailedTasksTable = function(tasks)
 
         //adds rows to the table
         detailedTableBody.appendChild(templateContent); 
-        //each time the operator has changed and at the end of the table adds an operators row
-        if(( operatorChanged || (i+1) === tasks.length ) && app.user_role !== "operator" ){
+        //each time the operator has changed and at the end of the table adds an operators row, not when there is only one task
+        if(( operatorChanged || ((i+1) === tasks.length && tasks.length > 1)) && app.user_role !== "operator" ){
             let totalOperatorRow = document.createElement("tr");
             let rowCells = app.user_role === "admin" ? 13 : 12;//row cells number
             for( let j = 0; j < rowCells; j++)
@@ -564,7 +563,7 @@ app.fillDetailedTasksTable = function(tasks)
 
             //templateContent.querySelector(".TotalHours").innerHTML = operatorTotalHours;
             //increments total hours cost using the operator total before resetting the operatorTotalHours variable
-            totalHoursCost += Number((operatorTotalHours * tasks[i][29]).toFixed(2));
+            totalHoursCost += Number((operatorTotalHours * tasks[i][29].toFixed(2)).toFixed(2));
             operatorTotalHours = 0;
         }
     }
